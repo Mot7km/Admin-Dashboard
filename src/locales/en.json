@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Home",
+    "mock": "Mock Page"
+  },
+  "layout": {
+    "brand": "Northstar Dashboard",
+    "brandLabel": "Scalable UI Foundation",
+    "tagline": "A polished starter for product teams.",
+    "theme": "Theme",
+    "language": "Language",
+    "footerText": "Built for modern React applications.",
+    "footerNote": "Routes, layouts, localization, and theming are ready to extend."
+  },
+  "home": {
+    "eyebrow": "Architecture-first starter",
+    "title": "A scalable dashboard foundation",
+    "description": "This app now includes organized folders, shared layout primitives, translations, theming, and a responsive route structure.",
+    "primaryAction": "Open mock page",
+    "secondaryAction": "See overview",
+    "cards": {
+      "scalable": {
+        "title": "Scalable structure",
+        "text": "Pages, contexts, and layout pieces are separated for easier growth."
+      },
+      "translation": {
+        "title": "Localized experience",
+        "text": "English and Arabic content can be extended without touching component logic."
+      },
+      "theme": {
+        "title": "Design system ready",
+        "text": "The palette is wired to CSS variables so the visual system stays consistent."
+      }
+    }
+  },
+  "mock": {
+    "eyebrow": "Sample route",
+    "title": "Mock content area",
+    "description": "Use this space to shape new dashboard views, widgets, or flows.",
+    "metricOne": {
+      "title": "Flexible layout",
+      "text": "The shell supports sidebar, footer, and content sections out of the box."
+    },
+    "metricTwo": {
+      "title": "Future-ready",
+      "text": "The project is ready for additional pages, APIs, and stateful features."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The route you requested does not exist yet.",
+    "action": "Go back home"
+  }
+}
