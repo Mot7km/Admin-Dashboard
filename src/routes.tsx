@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
@@ -18,49 +19,54 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <AppLayout />,
+    element: <ProtectedRoute />,
     errorElement: <NotFoundPage />,
     children: [
       {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'menu',
-        element: <MenuPage />,
-      },
-      {
-        path: 'reviews',
-        element: <Navigate to="/menu?tab=reviews" replace />,
-      },
-      {
-        path: 'qr-control',
-        element: <Navigate to="/menu?tab=qr" replace />,
-      },
-      {
-        path: 'branches',
-        element: <BranchesPage />,
-      },
-      {
-        path: 'orders',
-        element: <OrdersPage />,
-      },
-      {
-        path: 'employees',
-        element: <EmployeesPage />,
-      },
-      {
-        path: 'inventory',
-        element: <InventoryPage />,
-      },
-      {
-        path: 'settings',
-        element: <SettingsPage />,
-      },
-      {
-        path: '*',
-        element: <NotFoundPage />,
+        element: <AppLayout />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: 'menu',
+            element: <MenuPage />,
+          },
+          {
+            path: 'reviews',
+            element: <Navigate to="/menu?tab=reviews" replace />,
+          },
+          {
+            path: 'qr-control',
+            element: <Navigate to="/menu?tab=qr" replace />,
+          },
+          {
+            path: 'branches',
+            element: <BranchesPage />,
+          },
+          {
+            path: 'orders',
+            element: <OrdersPage />,
+          },
+          {
+            path: 'employees',
+            element: <EmployeesPage />,
+          },
+          {
+            path: 'inventory',
+            element: <InventoryPage />,
+          },
+          {
+            path: 'settings',
+            element: <SettingsPage />,
+          },
+        ],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);

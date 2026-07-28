@@ -154,11 +154,30 @@ const SettingsPage = () => {
 
       {/* TAB 2: Profile & Printers */}
       {activeTab === 'profile' && (
-        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
-          <h2 className="text-base font-bold text-[var(--text-primary)]">{t('settings.printerTitle')}</h2>
-          <form onSubmit={handleSavePrinter} className="space-y-4 text-xs">
-            <div>
-              <label className="font-semibold text-[var(--text-secondary)]">{t('settings.footerTextLabel')}</label>
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)]">Restaurant Identity & Primary Logo</h2>
+            <div className="flex items-center gap-4 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--surface)]">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[var(--primary)]/10 p-2 ring-1 ring-[var(--primary)]/20 shadow">
+                <img
+                  src="/assets/logo/Mot7km_Logo.png"
+                  alt="Mot7km Logo"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-bold text-sm text-[var(--text-primary)]">Mot7km ERP Official Logo</h3>
+                <p className="text-xs text-[var(--text-muted)]">assets/logo/Mot7km_Logo.png (PNG, 423 KB)</p>
+                <span className="inline-block rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-500">Active Primary Asset</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
+            <h2 className="text-base font-bold text-[var(--text-primary)]">{t('settings.printerTitle')}</h2>
+            <form onSubmit={handleSavePrinter} className="space-y-4 text-xs">
+              <div>
+                <label className="font-semibold text-[var(--text-secondary)]">{t('settings.footerTextLabel')}</label>
               <input
                 type="text"
                 value={printerFooter}
@@ -172,7 +191,8 @@ const SettingsPage = () => {
             >
               {t('settings.saveConfig')}
             </button>
-          </form>
+            </form>
+          </div>
         </div>
       )}
 

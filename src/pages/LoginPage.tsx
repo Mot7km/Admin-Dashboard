@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../components/common/Toast';
+import { useAuth } from '../context/AuthContext';
 import {
   Mail,
   Lock,
@@ -25,6 +26,7 @@ const LoginPage = () => {
   const { t, locale, toggleLocale } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { showToast } = useToast();
+  const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -33,6 +35,10 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +53,7 @@ const LoginPage = () => {
 
     setTimeout(() => {
       setIsLoading(false);
+      login(email);
       showToast(t('common.success'), 'success');
       navigate('/');
     }, 800);

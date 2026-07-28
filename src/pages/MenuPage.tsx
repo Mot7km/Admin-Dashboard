@@ -12,7 +12,6 @@ import {
   Eye,
   EyeOff,
   Sliders,
-  Image as ImageIcon,
   QrCode,
   Star,
   Download,
@@ -771,8 +770,9 @@ const MenuPage = () => {
               <div>
                 <label className="text-xs font-semibold text-[var(--text-secondary)]">{t('menu.qr.logoLabel')}</label>
                 <div className="mt-2 flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3">
-                  <ImageIcon className="h-5 w-5 text-[var(--text-muted)]" />
-                  <span className="text-xs text-[var(--text-muted)]">Mot7km_Logo.png</span>
+                  <img src="/assets/logo/Mot7km_Logo.png" alt="Mot7km Brand Logo" className="h-8 w-8 object-contain rounded-lg bg-[var(--primary)]/10 p-1 ring-1 ring-[var(--primary)]/20" />
+                  <span className="text-xs font-bold text-[var(--text-primary)]">Mot7km_Logo.png</span>
+                  <span className="ml-auto text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-md">Primary Logo</span>
                 </div>
               </div>
             </div>

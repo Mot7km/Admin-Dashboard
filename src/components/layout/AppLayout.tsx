@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from '../../context/LanguageContext';
 import { useToast } from '../common/Toast';
+import { useAuth } from '../../context/AuthContext';
 import Footer from './Footer';
 import {
   Menu as MenuIcon,
@@ -20,12 +21,14 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Bell,
+  LogOut,
 } from 'lucide-react';
 
 const AppLayout = () => {
   const { t, locale, toggleLocale } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { showToast } = useToast();
+  const { user, logout } = useAuth();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -185,7 +188,7 @@ const AppLayout = () => {
         </nav>
 
         {/* User Profile & Footer Controls */}
-        <div className="mt-auto border-t border-[var(--color-border)] pt-4 shrink-0">
+        <div className="mt-auto border-t border-[var(--color-border)] pt-4 shrink-0 space-y-2">
           <div
             className={`flex items-center gap-3 rounded-xl bg-[var(--elevated)]/50 p-2.5 ring-1 ring-[var(--color-border)] ${
               isCollapsed ? 'justify-center p-1.5' : ''
@@ -197,17 +200,30 @@ const AppLayout = () => {
               className="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-[var(--primary)]/30"
             />
             {!isCollapsed && (
-              <div className="flex flex-1 flex-col truncate">
-                <span className="truncate text-sm font-semibold text-[var(--text-primary)]">
-                  {t('layout.defaultUser')}
-                </span>
-                <span className="text-xs text-[var(--text-muted)]">{t('layout.admin')}</span>
+              <div className="flex flex-1 items-center justify-between overflow-hidden">
+                <div className="flex flex-col truncate">
+                  <span className="truncate text-sm font-semibold text-[var(--text-primary)]">
+                    {user?.name || t('layout.defaultUser')}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] truncate">{user?.role || t('layout.admin')}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    logout();
+                    showToast('Logged out successfully', 'info');
+                  }}
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-rose-500/10 hover:text-rose-500 transition"
+                  title="Logout"
+                  aria-label="Logout"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
               </div>
             )}
           </div>
 
           {!isCollapsed && (
-            <div className="mt-3 flex items-center justify-between px-1">
+            <div className="flex items-center justify-between px-1">
               <button
                 onClick={toggleTheme}
                 aria-label={t('layout.theme')}
