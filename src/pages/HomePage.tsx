@@ -475,6 +475,81 @@ const HomePage = () => {
               </div>
             ))}
           </div>
+
+          {/* Category Sales & AI Control Insights */}
+          <div className="mt-6 pt-5 border-t border-[var(--color-border)] space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold tracking-wide text-[var(--text-muted)] uppercase">
+                {t('dashboard.categorySales')}
+              </h3>
+              <span className="text-[11px] font-bold text-[var(--primary)]">$3,420 Total</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 space-y-1">
+                <div className="flex justify-between font-semibold">
+                  <span className="text-[var(--text-secondary)]">{t('dashboard.catBurgers')}</span>
+                  <span className="text-[var(--text-primary)] font-bold">42%</span>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                  <div className="h-full bg-blue-500 w-[42%]" />
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 space-y-1">
+                <div className="flex justify-between font-semibold">
+                  <span className="text-[var(--text-secondary)]">{t('dashboard.catDrinks')}</span>
+                  <span className="text-[var(--text-primary)] font-bold">28%</span>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                  <div className="h-full bg-teal-500 w-[28%]" />
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 space-y-1">
+                <div className="flex justify-between font-semibold">
+                  <span className="text-[var(--text-secondary)]">{t('dashboard.catDesserts')}</span>
+                  <span className="text-[var(--text-primary)] font-bold">18%</span>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                  <div className="h-full bg-amber-500 w-[18%]" />
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 space-y-1">
+                <div className="flex justify-between font-semibold">
+                  <span className="text-[var(--text-secondary)]">{t('dashboard.catSides')}</span>
+                  <span className="text-[var(--text-primary)] font-bold">12%</span>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                  <div className="h-full bg-sky-500 w-[12%]" />
+                </div>
+              </div>
+            </div>
+
+            {/* AI Control Card */}
+            <div className="flex items-start gap-3 rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/5 p-3 text-xs">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--primary)] text-white shadow">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div className="flex-1 space-y-1">
+                <div className="font-bold text-[var(--text-primary)]">{t('dashboard.aiRecommendation')}</div>
+                <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
+                  {t('dashboard.aiText')}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  showToast('Night Offer Banner Activated!', 'success');
+                  navigate('/menu?tab=sliders');
+                }}
+                className="shrink-0 rounded-lg bg-[var(--primary)] px-2.5 py-1.5 text-[11px] font-bold text-white shadow hover:bg-[var(--primary-dark)] transition"
+              >
+                {t('dashboard.activateOffer')}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Customer Feedback & Activity Feed */}

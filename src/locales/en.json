@@ -144,7 +144,15 @@
       "reviewSubmitted": "5★ Review received for Truffle Burger",
       "itemSoldOut": "Spanish Iced Latte marked as Sold Out",
       "newOrder": "New POS Order #ORD-2049 processed"
-    }
+    },
+    "categorySales": "Sales & Menu Category Distribution",
+    "catBurgers": "Burgers & Main Dishes",
+    "catDrinks": "Specialty Coffee & Beverages",
+    "catDesserts": "Desserts & Pastries",
+    "catSides": "Sides & Appetizers",
+    "aiRecommendation": "Smart Control AI Insights",
+    "aiText": "Truffle Burger views spiked by +35% between 8 PM - 11 PM. Suggest activating night promotion banner.",
+    "activateOffer": "Activate Offer"
   },
   "menu": {
     "title": "Menu & QR Management Hub",
