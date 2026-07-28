@@ -244,7 +244,7 @@ const HomePage = () => {
       </div>
 
       {/* Floating Quick Action Shortcuts Bar */}
-      <div className="flex items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar">
+      <div className="flex items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar mobile-scroll-snap">
         <button
           onClick={() => navigate('/menu')}
           className="flex items-center gap-2 shrink-0 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[var(--primary)]/20 hover:bg-[var(--primary-dark)] transition"
@@ -269,11 +269,11 @@ const HomePage = () => {
       </div>
 
       {/* KPI Cards Grid with Performance Halo Overlays */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((stat) => (
           <div
             key={stat.titleKey}
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg transition-all duration-300 hover:border-[var(--primary)]/40 hover:-translate-y-0.5"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-3.5 sm:p-5 shadow-lg transition-all duration-300 hover:border-[var(--primary)]/40 hover:-translate-y-0.5"
           >
             {/* Halo Glow Overlay */}
             <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${stat.haloColor} opacity-70 transition-opacity group-hover:opacity-100`} />
@@ -286,7 +286,7 @@ const HomePage = () => {
                 </div>
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+                <span className="text-xl font-bold tracking-tight text-[var(--text-primary)] sm:text-2xl lg:text-3xl">
                   {stat.value}
                 </span>
                 <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-[var(--primary)]">
@@ -355,7 +355,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="mt-4 h-64 w-full">
+          <div className="mt-4 h-48 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={trafficOverviewData}
@@ -416,7 +416,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="mt-4 h-64 w-full">
+          <div className="mt-4 h-48 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={branchComparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />

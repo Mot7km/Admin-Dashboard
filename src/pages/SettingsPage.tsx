@@ -186,10 +186,10 @@ const SettingsPage: React.FC = () => {
       </div>
 
       {/* 4 Main Sub-Tabs */}
-      <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-2 overflow-x-auto hide-scrollbar">
+      <div className="flex items-center gap-1.5 sm:gap-2 border-b border-[var(--color-border)] pb-2 overflow-x-auto hide-scrollbar mobile-scroll-snap">
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition whitespace-nowrap ${
+          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition whitespace-nowrap ${
             activeTab === 'profile'
               ? 'bg-[var(--primary)] text-white shadow-md'
               : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -201,7 +201,7 @@ const SettingsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('plans')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition whitespace-nowrap ${
+          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition whitespace-nowrap ${
             activeTab === 'plans'
               ? 'bg-[var(--primary)] text-white shadow-md'
               : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -213,7 +213,7 @@ const SettingsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('integrations')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition whitespace-nowrap ${
+          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition whitespace-nowrap ${
             activeTab === 'integrations'
               ? 'bg-[var(--primary)] text-white shadow-md'
               : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -225,7 +225,7 @@ const SettingsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('audit')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition whitespace-nowrap ${
+          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition whitespace-nowrap ${
             activeTab === 'audit'
               ? 'bg-[var(--primary)] text-white shadow-md'
               : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'

@@ -104,7 +104,7 @@ const AppLayout = () => {
         className={`fixed inset-y-0 z-50 flex flex-col border-e border-[var(--color-border)] bg-[var(--surface)] p-4 transition-all duration-300 ease-in-out lg:static lg:z-auto lg:h-screen lg:shrink-0 lg:overflow-y-auto hide-scrollbar ${
           locale === 'ar' ? 'right-0' : 'left-0'
         } ${
-          mobileSidebarOpen ? 'translate-x-0 w-[260px]' : (locale === 'ar' ? 'translate-x-full' : '-translate-x-full') + ' lg:translate-x-0'
+          mobileSidebarOpen ? 'translate-x-0 w-[85vw] max-w-[300px]' : (locale === 'ar' ? 'translate-x-full' : '-translate-x-full') + ' lg:translate-x-0'
         } ${isCollapsed ? 'lg:w-[76px] lg:px-2.5' : 'lg:w-[260px] lg:px-4'}`}
       >
         {/* Brand Area */}
@@ -245,8 +245,8 @@ const AppLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 h-screen overflow-y-auto flex flex-col scroll-smooth">
-        <main className="flex-1 p-4 sm:p-6 lg:p-7">
+      <div className="flex-1 h-screen overflow-y-auto flex flex-col scroll-smooth overflow-safe">
+        <main className="flex-1 p-3 sm:p-6 lg:p-7">
           <Outlet />
         </main>
         <Footer />

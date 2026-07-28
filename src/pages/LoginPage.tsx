@@ -219,7 +219,7 @@ const LoginPage = () => {
                   <span className="text-[11px] font-semibold text-[var(--text-muted)] block text-center">
                     {t('login.demoAccount')}
                   </span>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <button
                       type="button"
                       onClick={() => handleFillDemo('owner@mot7km.store', t('login.ownerDemo'))}

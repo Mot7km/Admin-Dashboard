@@ -81,7 +81,7 @@ const OrdersPage = () => {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+            <h1 className="text-xl font-bold tracking-tight text-[var(--text-primary)] sm:text-2xl lg:text-3xl">
               {t('orders.title')}
             </h1>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-500 ring-1 ring-blue-500/20">
@@ -95,10 +95,10 @@ const OrdersPage = () => {
         </div>
 
         {/* Order Type Filters */}
-        <div className="flex items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--card)] p-1">
+        <div className="flex items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--card)] p-1 overflow-x-auto hide-scrollbar">
           <button
             onClick={() => setTypeFilter('all')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
               typeFilter === 'all' ? 'bg-[var(--primary)] text-white' : 'text-[var(--text-muted)]'
             }`}
           >
@@ -106,7 +106,7 @@ const OrdersPage = () => {
           </button>
           <button
             onClick={() => setTypeFilter('dinein')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
               typeFilter === 'dinein' ? 'bg-[var(--primary)] text-white' : 'text-[var(--text-muted)]'
             }`}
           >
@@ -114,7 +114,7 @@ const OrdersPage = () => {
           </button>
           <button
             onClick={() => setTypeFilter('takeaway')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
               typeFilter === 'takeaway' ? 'bg-[var(--primary)] text-white' : 'text-[var(--text-muted)]'
             }`}
           >

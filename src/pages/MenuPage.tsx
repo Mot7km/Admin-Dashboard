@@ -79,10 +79,10 @@ const MenuPage = () => {
 
   // Sample Categories State with Out-of-Stock Status
   const [categories, setCategories] = useState([
-    { id: 'cat-1', nameKey: 'menu.categoriesList.burgers', count: 18, isSoldOut: false },
-    { id: 'cat-2', nameKey: 'menu.categoriesList.beverages', count: 24, isSoldOut: false },
-    { id: 'cat-3', nameKey: 'menu.categoriesList.pizza', count: 12, isSoldOut: false },
-    { id: 'cat-4', nameKey: 'menu.categoriesList.desserts', count: 15, isSoldOut: false },
+    { id: 'cat-1', nameKey: 'menu.categoriesList.burgers', count: 18, isSoldOut: false, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&auto=format&fit=crop&q=80' },
+    { id: 'cat-2', nameKey: 'menu.categoriesList.beverages', count: 24, isSoldOut: false, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&auto=format&fit=crop&q=80' },
+    { id: 'cat-3', nameKey: 'menu.categoriesList.pizza', count: 12, isSoldOut: false, image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=200&auto=format&fit=crop&q=80' },
+    { id: 'cat-4', nameKey: 'menu.categoriesList.desserts', count: 15, isSoldOut: false, image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&auto=format&fit=crop&q=80' },
   ]);
 
   // Sample Products State
@@ -198,7 +198,7 @@ const MenuPage = () => {
     if (!newCatName.trim()) return;
     setCategories([
       ...categories,
-      { id: `cat-${Date.now()}`, nameKey: newCatName, count: 0, isSoldOut: false },
+      { id: `cat-${Date.now()}`, nameKey: newCatName, count: 0, isSoldOut: false, image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&auto=format&fit=crop&q=80' },
     ]);
     setNewCatName('');
     setShowAddCategoryModal(false);
@@ -263,7 +263,7 @@ const MenuPage = () => {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+          <h1 className="text-xl font-bold tracking-tight text-[var(--text-primary)] sm:text-2xl lg:text-3xl">
             {t('menu.title')}
           </h1>
           <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
@@ -291,11 +291,11 @@ const MenuPage = () => {
       </div>
 
       {/* Main Sub-Tabs Navigation */}
-      <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
-        <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar">
+      <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2 gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto hide-scrollbar mobile-scroll-snap flex-1 min-w-0">
           <button
             onClick={() => handleTabChange('items')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition ${
               activeTab === 'items'
                 ? 'bg-[var(--primary)] text-white shadow-md'
                 : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -307,7 +307,7 @@ const MenuPage = () => {
 
           <button
             onClick={() => handleTabChange('sliders')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition ${
               activeTab === 'sliders'
                 ? 'bg-[var(--primary)] text-white shadow-md'
                 : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -319,7 +319,7 @@ const MenuPage = () => {
 
           <button
             onClick={() => handleTabChange('qr')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition ${
               activeTab === 'qr'
                 ? 'bg-[var(--primary)] text-white shadow-md'
                 : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -331,7 +331,7 @@ const MenuPage = () => {
 
           <button
             onClick={() => handleTabChange('simulator')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition ${
               activeTab === 'simulator'
                 ? 'bg-[var(--primary)] text-white shadow-md'
                 : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -343,7 +343,7 @@ const MenuPage = () => {
 
           <button
             onClick={() => handleTabChange('reviews')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 sm:gap-2 shrink-0 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold transition ${
               activeTab === 'reviews'
                 ? 'bg-[var(--primary)] text-white shadow-md'
                 : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
@@ -389,36 +389,72 @@ const MenuPage = () => {
       {activeTab === 'items' && (
         <div className="space-y-6">
           {/* Categories Bar & Add Category & Bulk Out-of-Stock */}
-          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg space-y-4">
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-5 shadow-lg space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Layers className="h-5 w-5 text-[var(--primary)]" />
-                <h2 className="text-base font-bold text-[var(--text-primary)]">{t('menu.categories.title')}</h2>
+                <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">{t('menu.categories.title')}</h2>
               </div>
               <button
                 onClick={() => setShowAddCategoryModal(true)}
-                className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-bold text-[var(--primary)] hover:bg-[var(--elevated)] transition"
+                className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-2.5 sm:px-3 py-1.5 text-xs font-bold text-[var(--primary)] hover:bg-[var(--elevated)] transition"
               >
                 <Plus className="h-4 w-4" />
-                <span>{t('menu.categories.add')}</span>
+                <span className="hidden sm:inline">{t('menu.categories.add')}</span>
+                <span className="sm:hidden">+</span>
               </button>
             </div>
 
-            <div className="flex items-center gap-3 overflow-x-auto pb-1 hide-scrollbar">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {categories.map((cat) => (
                 <div
                   key={cat.id}
-                  className={`flex items-center gap-2 shrink-0 rounded-xl border px-3.5 py-2 text-xs font-semibold transition ${
+                  className={`group relative flex flex-col items-center gap-2.5 rounded-2xl border p-3 sm:p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md cursor-pointer ${
                     cat.isSoldOut
-                      ? 'border-rose-500/30 bg-rose-500/10 text-rose-500'
-                      : 'border-[var(--color-border)] bg-[var(--surface)] text-[var(--text-primary)]'
+                      ? 'border-rose-500/30 bg-rose-500/5'
+                      : 'border-[var(--color-border)] bg-[var(--surface)] hover:border-[var(--primary)]/40'
                   }`}
                 >
-                  <span>{cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}</span>
+                  {/* Rounded Category Image */}
+                  <div className={`relative h-14 w-14 sm:h-16 sm:w-16 shrink-0 rounded-full overflow-hidden ring-2 transition-all duration-300 ${
+                    cat.isSoldOut
+                      ? 'ring-rose-500/30 grayscale'
+                      : 'ring-[var(--primary)]/20 group-hover:ring-[var(--primary)]/50 group-hover:scale-105'
+                  }`}>
+                    <img
+                      src={cat.image}
+                      alt={cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}
+                      className="h-full w-full object-cover"
+                    />
+                    {cat.isSoldOut && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-rose-500/60 backdrop-blur-sm">
+                        <EyeOff className="h-4 w-4 text-white" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Category Name & Count */}
+                  <div className="text-center min-w-0 w-full">
+                    <p className={`text-xs sm:text-sm font-bold truncate ${
+                      cat.isSoldOut ? 'text-rose-500' : 'text-[var(--text-primary)]'
+                    }`}>
+                      {cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}
+                    </p>
+                    <p className="text-[10px] sm:text-[11px] font-medium text-[var(--text-muted)] mt-0.5">
+                      {cat.count} {t('common.items') || 'items'}
+                    </p>
+                  </div>
+
+                  {/* Sold Out Toggle */}
                   <button
-                    onClick={() => handleToggleCategorySoldOut(cat.id)}
-                    className={`ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md transition ${
-                      cat.isSoldOut ? 'bg-rose-500 text-white' : 'bg-[var(--elevated)] text-[var(--text-muted)] hover:text-rose-500'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleToggleCategorySoldOut(cat.id);
+                    }}
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-lg transition ${
+                      cat.isSoldOut
+                        ? 'bg-rose-500 text-white hover:bg-rose-600'
+                        : 'bg-[var(--elevated)] text-[var(--text-muted)] hover:text-rose-500 hover:bg-rose-500/10'
                     }`}
                     title="Toggle Bulk Category Out-of-Stock"
                   >
@@ -530,8 +566,8 @@ const MenuPage = () => {
               </div>
             ) : (
               /* Table View Mode */
-              <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg">
-                <table className="w-full text-left text-xs">
+              <div className="overflow-x-auto rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg">
+                <table className="w-full text-left text-xs min-w-[600px]">
                   <thead className="border-b border-[var(--color-border)] bg-[var(--surface)] font-semibold text-[var(--text-muted)]">
                     <tr>
                       <th className="p-3">{t('menu.products.name')}</th>
