@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import AppLayout from './components/layout/AppLayout'
 import Loader from './components/common/Loader'
 
+const LoginPage = lazy(() => import('./pages/LoginPage'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 const MenuPage = lazy(() => import('./pages/MenuPage'))
 const ReviewsPage = lazy(() => import('./pages/ReviewsPage'))
@@ -15,6 +16,14 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: (
+      <Suspense fallback={<Loader />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
   {
     path: '/',
     element: <AppLayout />,

@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 
 const MenuPage = () => {
-  const { t, locale } = useTranslation();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'items' | 'sliders' | 'qr' | 'reviews'>('items');
 
   // Modals state
@@ -37,18 +37,18 @@ const MenuPage = () => {
 
   // Sample Categories State
   const [categories, setCategories] = useState([
-    { id: 'cat-1', name: locale === 'ar' ? 'البرجر والساندوتشات' : 'Burgers & Wraps', count: 18 },
-    { id: 'cat-2', name: locale === 'ar' ? 'المشروبات الباردة والقهوة' : 'Cold Beverages & Coffee', count: 24 },
-    { id: 'cat-3', name: locale === 'ar' ? 'البيتزا النابولية' : 'Neapolitan Pizza', count: 12 },
-    { id: 'cat-4', name: locale === 'ar' ? 'الحلويات والبان كيك' : 'Desserts & Sweets', count: 15 },
+    { id: 'cat-1', nameKey: 'menu.categoriesList.burgers', count: 18 },
+    { id: 'cat-2', nameKey: 'menu.categoriesList.beverages', count: 24 },
+    { id: 'cat-3', nameKey: 'menu.categoriesList.pizza', count: 12 },
+    { id: 'cat-4', nameKey: 'menu.categoriesList.desserts', count: 15 },
   ]);
 
   // Sample Products State
   const [products, setProducts] = useState([
     {
       id: 'prod-1',
-      name: locale === 'ar' ? 'برجر الترافل المدخن' : 'Smoked Truffle Burger',
-      category: locale === 'ar' ? 'البرجر والساندوتشات' : 'Burgers & Wraps',
+      nameKey: 'dashboard.products.truffleBurger',
+      categoryKey: 'menu.categoriesList.burgers',
       price: '$14.50',
       status: 'Active',
       badge: 'Bestseller',
@@ -56,8 +56,8 @@ const MenuPage = () => {
     },
     {
       id: 'prod-2',
-      name: locale === 'ar' ? 'سبانيش لاتيه بارد' : 'Spanish Iced Latte',
-      category: locale === 'ar' ? 'المشروبات الباردة والقهوة' : 'Cold Beverages & Coffee',
+      nameKey: 'dashboard.products.icedLatte',
+      categoryKey: 'menu.categoriesList.beverages',
       price: '$6.50',
       status: 'Sold Out',
       badge: 'Popular',
@@ -65,8 +65,8 @@ const MenuPage = () => {
     },
     {
       id: 'prod-3',
-      name: locale === 'ar' ? 'بيتزا مارجريتا نابولي' : 'Neapolitan Margherita',
-      category: locale === 'ar' ? 'البيتزا النابولية' : 'Neapolitan Pizza',
+      nameKey: 'dashboard.products.margheritaPizza',
+      categoryKey: 'menu.categoriesList.pizza',
       price: '$18.00',
       status: 'Active',
       badge: 'New',
@@ -78,17 +78,17 @@ const MenuPage = () => {
   const [sliders, setSliders] = useState([
     {
       id: 'slide-1',
-      title: locale === 'ar' ? 'عرض نهاية الأسبوع: خصم ٢٠٪ على البرجر' : 'Weekend Deal: 20% Off All Truffle Burgers',
-      subtitle: locale === 'ar' ? 'اطلب الآن مع بطاطس مجانية' : 'Valid until Sunday midnight',
-      target: 'Smoked Truffle Burger',
+      titleKey: 'menu.slidersList.s1Title',
+      subtitleKey: 'menu.slidersList.s1Subtitle',
+      targetKey: 'dashboard.products.truffleBurger',
       image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop&q=80',
       status: 'Active',
     },
     {
       id: 'slide-2',
-      title: locale === 'ar' ? 'تشكيلة القهوة المقطرة الباردة الجديدة' : 'New Summer Cold Brew Selection',
-      subtitle: locale === 'ar' ? 'من حبوب الأราบيكا الفاخرة' : '100% Premium Arabica Beans',
-      target: 'Spanish Iced Latte',
+      titleKey: 'menu.slidersList.s2Title',
+      subtitleKey: 'menu.slidersList.s2Subtitle',
+      targetKey: 'dashboard.products.icedLatte',
       image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format&fit=crop&q=80',
       status: 'Active',
     },
@@ -99,7 +99,7 @@ const MenuPage = () => {
     if (!newCatName.trim()) return;
     setCategories([
       ...categories,
-      { id: `cat-${Date.now()}`, name: newCatName, count: 0 },
+      { id: `cat-${Date.now()}`, nameKey: newCatName, count: 0 },
     ]);
     setNewCatName('');
     setShowAddCategoryModal(false);
@@ -111,8 +111,8 @@ const MenuPage = () => {
       ...products,
       {
         id: `prod-${Date.now()}`,
-        name: newProdName,
-        category: categories[0]?.name || 'General',
+        nameKey: newProdName,
+        categoryKey: 'menu.categoriesList.burgers',
         price: newProdPrice.startsWith('$') ? newProdPrice : `$${newProdPrice}`,
         status: 'Active',
         badge: 'New',
@@ -130,9 +130,9 @@ const MenuPage = () => {
       ...sliders,
       {
         id: `slide-${Date.now()}`,
-        title: newSlideTitle,
-        subtitle: newSlideSubtitle || 'Special Promotional Offer',
-        target: 'Featured Item',
+        titleKey: newSlideTitle,
+        subtitleKey: newSlideSubtitle || 'Special Promotional Offer',
+        targetKey: 'dashboard.products.truffleBurger',
         image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=80',
         status: 'Active',
       },
@@ -232,7 +232,7 @@ const MenuPage = () => {
                   key={cat.id}
                   className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)]"
                 >
-                  <span>{cat.name}</span>
+                  <span>{cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}</span>
                   <span className="rounded-md bg-[var(--elevated)] px-1.5 py-0.5 text-[10px] text-[var(--text-muted)]">
                     {cat.count}
                   </span>
@@ -278,8 +278,12 @@ const MenuPage = () => {
                 <tbody className="divide-y divide-[var(--color-border)]">
                   {products.map((item) => (
                     <tr key={item.id} className="hover:bg-[var(--elevated)]/40 transition">
-                      <td className="p-3 font-bold text-[var(--text-primary)]">{item.name}</td>
-                      <td className="p-3 text-[var(--text-secondary)]">{item.category}</td>
+                      <td className="p-3 font-bold text-[var(--text-primary)]">
+                        {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
+                      </td>
+                      <td className="p-3 text-[var(--text-secondary)]">
+                        {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey}
+                      </td>
                       <td className="p-3 font-semibold text-[var(--primary)]">{item.price}</td>
                       <td className="p-3">
                         <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-500">
@@ -338,19 +342,23 @@ const MenuPage = () => {
                 <div className="relative h-44 w-full overflow-hidden bg-slate-900">
                   <img
                     src={slide.image}
-                    alt={slide.title}
+                    alt="Banner"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 flex flex-col justify-end">
                     <span className="rounded-md bg-[var(--primary)] px-2 py-0.5 text-[10px] font-bold text-white w-max mb-1">
                       {slide.status}
                     </span>
-                    <h3 className="font-bold text-white text-sm leading-snug">{slide.title}</h3>
-                    <p className="text-xs text-slate-300">{slide.subtitle}</p>
+                    <h3 className="font-bold text-white text-sm leading-snug">
+                      {slide.titleKey.includes('.') ? t(slide.titleKey) : slide.titleKey}
+                    </h3>
+                    <p className="text-xs text-slate-300">
+                      {slide.subtitleKey.includes('.') ? t(slide.subtitleKey) : slide.subtitleKey}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between p-3.5 text-xs">
-                  <span className="text-[var(--text-muted)]">Target: <strong className="text-[var(--text-primary)]">{slide.target}</strong></span>
+                  <span className="text-[var(--text-muted)]">Target: <strong className="text-[var(--text-primary)]">{slide.targetKey.includes('.') ? t(slide.targetKey) : slide.targetKey}</strong></span>
                   <div className="flex items-center gap-2">
                     <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)]">
                       <Edit className="h-4 w-4" />

@@ -13,9 +13,26 @@
     "slogan": "Smart Restaurant Control",
     "theme": "Theme",
     "language": "Language",
+    "otherLanguage": "العربية",
     "expandSidebar": "Expand Sidebar",
     "collapseSidebar": "Collapse Sidebar",
     "admin": "Owner / Admin"
+  },
+  "login": {
+    "welcomeBack": "Welcome Back",
+    "subtitle": "Sign in to manage your restaurant, menu, and branches",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "owner@restaurant.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Remember me for 30 days",
+    "forgotPassword": "Forgot password?",
+    "submitButton": "Sign In to Dashboard",
+    "signingIn": "Signing in...",
+    "demoAccount": "Quick Demo Login:",
+    "fillRequired": "Please fill in both email and password.",
+    "ownerDemo": "Owner / Admin",
+    "managerDemo": "Branch Manager"
   },
   "dashboard": {
     "title": "Restaurant Overview",
@@ -31,7 +48,9 @@
       "totalMenuViews": "Total QR Menu Views",
       "activeProducts": "Active Products & Menu",
       "averageRating": "Customer Rating & Reviews",
-      "todaySales": "Today's Estimated Sales"
+      "todaySales": "Today's Estimated Sales",
+      "soldOutBadge": "12 Sold Out",
+      "reviewsBadge": "328 Reviews"
     },
     "trafficOverview": "QR Menu Traffic & Scans",
     "topProducts": "Most Popular Dishes & Products",
@@ -41,6 +60,25 @@
       "active": "Active",
       "soldOut": "Sold Out",
       "hidden": "Hidden"
+    },
+    "dates": {
+      "feb1": "Feb 1",
+      "feb8": "Feb 8",
+      "feb15": "Feb 15",
+      "feb25": "Feb 25",
+      "feb28": "Feb 28"
+    },
+    "timeAgo": {
+      "m10": "10m ago",
+      "m45": "45m ago",
+      "h1": "1h ago",
+      "h2": "2h ago",
+      "m2": "2m ago"
+    },
+    "reviewsList": {
+      "r1": "Best truffle burger in town! Amazing quality and smoked flavor.",
+      "r2": "Perfect sweetness and great espresso shot.",
+      "r3": "Fresh ingredients and authentic dough."
     },
     "products": {
       "truffleBurger": "Smoked Truffle Burger",
@@ -64,6 +102,18 @@
       "slidersAndBanners": "Sliders & Promotional Items",
       "qrControl": "QR Code & Branding",
       "reviews": "Product Reviews & Ratings"
+    },
+    "categoriesList": {
+      "burgers": "Burgers & Wraps",
+      "beverages": "Cold Beverages & Coffee",
+      "pizza": "Neapolitan Pizza",
+      "desserts": "Desserts & Sweets"
+    },
+    "slidersList": {
+      "s1Title": "Weekend Deal: 20% Off All Truffle Burgers",
+      "s1Subtitle": "Valid until Sunday midnight",
+      "s2Title": "New Summer Cold Brew Selection",
+      "s2Subtitle": "100% Premium Arabica Beans"
     },
     "categories": {
       "title": "Menu Categories",

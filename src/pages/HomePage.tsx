@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 const HomePage = () => {
-  const { t, locale } = useTranslation();
+  const { t } = useTranslation();
   const [timeFilter, setTimeFilter] = useState('thisMonth');
   const [productFilter, setProductFilter] = useState('byViews');
 
@@ -51,14 +51,14 @@ const HomePage = () => {
     {
       titleKey: 'dashboard.stats.activeProducts',
       value: '142',
-      change: locale === 'ar' ? '١٢ نفد/مخفي' : '12 Sold Out',
+      changeKey: 'dashboard.stats.soldOutBadge',
       icon: Utensils,
       data: sparklineData2,
     },
     {
       titleKey: 'dashboard.stats.averageRating',
       value: '4.9 ★',
-      change: locale === 'ar' ? '٣٢٨ تقييم' : '328 Reviews',
+      changeKey: 'dashboard.stats.reviewsBadge',
       icon: Star,
       data: sparklineData3,
     },
@@ -73,11 +73,11 @@ const HomePage = () => {
 
   // QR Traffic Chart Data
   const trafficOverviewData = [
-    { name: locale === 'ar' ? '١ فبراير' : 'Feb 1', views: 2400 },
-    { name: locale === 'ar' ? '٨ فبراير' : 'Feb 8', views: 4100 },
-    { name: locale === 'ar' ? '١٥ فبراير' : 'Feb 15', views: 3900 },
-    { name: locale === 'ar' ? '٢٥ فبراير' : 'Feb 25', views: 5800 },
-    { name: locale === 'ar' ? '٢٨ فبراير' : 'Feb 28', views: 8650 },
+    { name: t('dashboard.dates.feb1'), views: 2400 },
+    { name: t('dashboard.dates.feb8'), views: 4100 },
+    { name: t('dashboard.dates.feb15'), views: 3900 },
+    { name: t('dashboard.dates.feb25'), views: 5800 },
+    { name: t('dashboard.dates.feb28'), views: 8650 },
   ];
 
   // Top Products matching Mot7km Restaurant PRD
@@ -96,24 +96,24 @@ const HomePage = () => {
       customer: 'Sami Al-Mansoor',
       rating: 5,
       dishKey: 'dashboard.products.truffleBurger',
-      comment: locale === 'ar' ? 'الطعم ممتاز جداً واللحم مدخن بإتقان! التوصية 10/10' : 'Best truffle burger in town! Amazing quality.',
-      time: locale === 'ar' ? 'منذ ١٠ دقائق' : '10m ago',
+      commentKey: 'dashboard.reviewsList.r1',
+      timeKey: 'dashboard.timeAgo.m10',
     },
     {
       id: 2,
       customer: 'Laila H.',
       rating: 5,
       dishKey: 'dashboard.products.icedLatte',
-      comment: locale === 'ar' ? 'السبانيش لاتيه مظبوط جداً والسكر متوازن' : 'Perfect sweetness and great espresso shot.',
-      time: locale === 'ar' ? 'منذ ٤٥ دقيقة' : '45m ago',
+      commentKey: 'dashboard.reviewsList.r2',
+      timeKey: 'dashboard.timeAgo.m45',
     },
     {
       id: 3,
       customer: 'Tariq K.',
       rating: 4,
       dishKey: 'dashboard.products.margheritaPizza',
-      comment: locale === 'ar' ? 'البيتزا طازجة جداً والجبنة نابولية أصلية' : 'Fresh ingredients and authentic dough.',
-      time: locale === 'ar' ? 'منذ ساعتين' : '2h ago',
+      commentKey: 'dashboard.reviewsList.r3',
+      timeKey: 'dashboard.timeAgo.h2',
     },
   ];
 
@@ -123,25 +123,25 @@ const HomePage = () => {
       id: 1,
       icon: QrCode,
       titleKey: 'dashboard.activity.qrScanned',
-      time: locale === 'ar' ? 'منذ دقيقتين' : '2m ago',
+      timeKey: 'dashboard.timeAgo.m2',
     },
     {
       id: 2,
       icon: Star,
       titleKey: 'dashboard.activity.reviewSubmitted',
-      time: locale === 'ar' ? 'منذ ١٠ دقائق' : '10m ago',
+      timeKey: 'dashboard.timeAgo.m10',
     },
     {
       id: 3,
       icon: AlertCircle,
       titleKey: 'dashboard.activity.itemSoldOut',
-      time: locale === 'ar' ? 'منذ ساعة' : '1h ago',
+      timeKey: 'dashboard.timeAgo.h1',
     },
     {
       id: 4,
       icon: ShoppingBag,
       titleKey: 'dashboard.activity.newOrder',
-      time: locale === 'ar' ? 'منذ ساعتين' : '2h ago',
+      timeKey: 'dashboard.timeAgo.h2',
     },
   ];
 
@@ -184,7 +184,7 @@ const HomePage = () => {
                   {stat.value}
                 </span>
                 <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-[var(--primary)]">
-                  {stat.change}
+                  {stat.changeKey ? t(stat.changeKey) : stat.change}
                 </span>
               </div>
             </div>
@@ -343,9 +343,9 @@ const HomePage = () => {
                       ★ {rev.rating}.0
                     </span>
                   </div>
-                  <span className="text-[var(--text-muted)] text-[11px]">{rev.time}</span>
+                  <span className="text-[var(--text-muted)] text-[11px]">{t(rev.timeKey)}</span>
                 </div>
-                <p className="mt-1.5 font-medium text-[var(--text-secondary)]">"{rev.comment}"</p>
+                <p className="mt-1.5 font-medium text-[var(--text-secondary)]">"{t(rev.commentKey)}"</p>
                 <div className="mt-2 text-[11px] font-semibold text-[var(--primary)]">
                   {t(rev.dishKey)}
                 </div>
@@ -375,7 +375,7 @@ const HomePage = () => {
                   </span>
                 </div>
                 <span className="shrink-0 text-[var(--text-muted)]">
-                  {item.time}
+                  {t(item.timeKey)}
                 </span>
               </div>
             ))}
