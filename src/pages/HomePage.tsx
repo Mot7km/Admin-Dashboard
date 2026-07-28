@@ -41,18 +41,18 @@ const HomePage = () => {
   const [selectedBranch, setSelectedBranch] = useState('all');
   const [isChimeMuted, setIsChimeMuted] = useState(false);
 
-  // Sparkline mini data for KPI cards
+  // Sparkline mini data for KPI cards with day labels
   const sparklineData1 = [
-    { v: 1200 }, { v: 1800 }, { v: 1600 }, { v: 2400 }, { v: 2100 }, { v: 3100 }, { v: 3850 }
+    { day: 'Feb 22', v: 1200 }, { day: 'Feb 23', v: 1800 }, { day: 'Feb 24', v: 1600 }, { day: 'Feb 25', v: 2400 }, { day: 'Feb 26', v: 2100 }, { day: 'Feb 27', v: 3100 }, { day: 'Feb 28', v: 3850 }
   ];
   const sparklineData2 = [
-    { v: 120 }, { v: 125 }, { v: 130 }, { v: 135 }, { v: 138 }, { v: 140 }, { v: 142 }
+    { day: 'Feb 22', v: 120 }, { day: 'Feb 23', v: 125 }, { day: 'Feb 24', v: 130 }, { day: 'Feb 25', v: 135 }, { day: 'Feb 26', v: 138 }, { day: 'Feb 27', v: 140 }, { day: 'Feb 28', v: 142 }
   ];
   const sparklineData3 = [
-    { v: 4.5 }, { v: 4.6 }, { v: 4.7 }, { v: 4.8 }, { v: 4.8 }, { v: 4.9 }, { v: 4.9 }
+    { day: 'Feb 22', v: 4.5 }, { day: 'Feb 23', v: 4.6 }, { day: 'Feb 24', v: 4.7 }, { day: 'Feb 25', v: 4.8 }, { day: 'Feb 26', v: 4.8 }, { day: 'Feb 27', v: 4.9 }, { day: 'Feb 28', v: 4.9 }
   ];
   const sparklineData4 = [
-    { v: 2100 }, { v: 2400 }, { v: 2800 }, { v: 2600 }, { v: 3100 }, { v: 3300 }, { v: 3420 }
+    { day: 'Feb 22', v: 2100 }, { day: 'Feb 23', v: 2400 }, { day: 'Feb 24', v: 2800 }, { day: 'Feb 25', v: 2600 }, { day: 'Feb 26', v: 3100 }, { day: 'Feb 27', v: 3300 }, { day: 'Feb 28', v: 3420 }
   ];
 
   // Stats definition matching Mot7km PRD for Restaurant Business Owner
@@ -64,6 +64,7 @@ const HomePage = () => {
       icon: QrCode,
       haloColor: 'from-blue-500/10 to-cyan-500/5',
       data: sparklineData1,
+      formatVal: (val: number) => `${val.toLocaleString()} views`,
     },
     {
       titleKey: 'dashboard.stats.activeProducts',
@@ -72,6 +73,7 @@ const HomePage = () => {
       icon: Utensils,
       haloColor: 'from-emerald-500/10 to-teal-500/5',
       data: sparklineData2,
+      formatVal: (val: number) => `${val} products`,
     },
     {
       titleKey: 'dashboard.stats.averageRating',
@@ -80,6 +82,7 @@ const HomePage = () => {
       icon: Star,
       haloColor: 'from-amber-500/10 to-yellow-500/5',
       data: sparklineData3,
+      formatVal: (val: number) => `${val} ★`,
     },
     {
       titleKey: 'dashboard.stats.todaySales',
@@ -88,6 +91,7 @@ const HomePage = () => {
       icon: TrendingUp,
       haloColor: 'from-sky-500/10 to-blue-500/5',
       data: sparklineData4,
+      formatVal: (val: number) => `$${val.toLocaleString()}`,
     },
   ];
 
@@ -291,16 +295,30 @@ const HomePage = () => {
               </div>
             </div>
 
-            {/* Sparkline Wave Chart */}
-            <div className="relative z-10 mt-4 h-11 w-full">
+            {/* Sparkline Wave Chart with Hover Tooltip */}
+            <div className="relative z-10 mt-4 h-14 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={stat.data} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
+                <AreaChart data={stat.data} margin={{ top: 4, right: 4, left: 4, bottom: 2 }}>
                   <defs>
                     <linearGradient id={`grad-${stat.titleKey}`} x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.4} />
                       <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'var(--surface)',
+                      borderColor: 'var(--color-border)',
+                      borderRadius: '8px',
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      color: 'var(--text-primary)',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    }}
+                    labelStyle={{ color: 'var(--text-muted)', fontSize: '10px' }}
+                    formatter={(val: any) => [stat.formatVal(Number(val)), t(stat.titleKey)]}
+                  />
                   <Area
                     type="monotone"
                     dataKey="v"
@@ -308,6 +326,7 @@ const HomePage = () => {
                     strokeWidth={2.5}
                     fillOpacity={1}
                     fill={`url(#grad-${stat.titleKey})`}
+                    activeDot={{ r: 5, fill: 'var(--primary)', stroke: '#FFFFFF', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
