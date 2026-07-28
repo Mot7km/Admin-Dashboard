@@ -44,8 +44,8 @@ const SettingsPage: React.FC = () => {
     name: 'Mot7km Restaurant & Cafe',
     tagline: 'Authentic Gourmet & Specialty Coffee',
     phone: '+966 50 123 4567',
-    email: 'contact@mot7km.com',
-    website: 'https://www.mot7km.com',
+    email: 'contact@mot7km.store',
+    website: 'https://www.mot7km.store',
     address: 'King Fahd Road, Olaya District, Building 402',
     cityCountry: 'Riyadh, Saudi Arabia',
     timezone: 'Asia/Riyadh (UTC+3)',
@@ -103,7 +103,7 @@ const SettingsPage: React.FC = () => {
     name: 'Main Kitchen Thermal POS Printer #1',
     ipPort: '192.168.1.150 : 9100',
     paperWidth: '80mm',
-    footerText: 'Thank you for visiting Mot7km Restaurant! www.mot7km.com',
+    footerText: 'Thank you for visiting Mot7km Restaurant! www.mot7km.store',
   });
 
   const [notifications, setNotifications] = useState({
@@ -114,7 +114,7 @@ const SettingsPage: React.FC = () => {
   });
 
   const [apiKey] = useState('sk_live_mot7km_9f8a3c4b5e6d7e8f9a0b1c2d3e4f5a6b');
-  const [webhookUrl, setWebhookUrl] = useState('https://api.mot7km.com/v1/webhooks/orders');
+  const [webhookUrl, setWebhookUrl] = useState('https://api.mot7km.store/v1/webhooks/orders');
 
   // --- TAB 4: Audit Logs State ---
   const [auditQuery, setAuditQuery] = useState('');

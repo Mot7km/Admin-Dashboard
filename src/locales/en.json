@@ -11,15 +11,17 @@
     "qrControl": "QR Control"
   },
   "layout": {
-    "brand": "Mot7km ERP",
-    "slogan": "Smart Restaurant Control",
+    "brand": "Mot7km",
+    "slogan": "Smart Business Control",
     "theme": "Theme",
     "language": "Language",
     "otherLanguage": "العربية",
     "expandSidebar": "Expand Sidebar",
     "collapseSidebar": "Collapse Sidebar",
     "admin": "Owner / Admin",
-    "defaultUser": "Alex Morgan"
+    "defaultUser": "Alex Morgan",
+    "footerText": "© 2025 Mot7km — Smart Business Control",
+    "officialWebsite": "www.mot7km.store"
   },
   "common": {
     "cancel": "Cancel",
@@ -374,7 +376,7 @@
       "printerIp": "Network IP Address & Port",
       "paperWidth": "Receipt Paper Width",
       "footerTextLabel": "Thermal Receipt Footer Text",
-      "footerTextDefault": "Thank you for visiting Mot7km Restaurant! www.mot7km.com",
+      "footerTextDefault": "Thank you for visiting Mot7km Restaurant! www.mot7km.store",
       "testPrint": "Send Test Receipt",
       "savePrinter": "Save Printer Setup",
       "notifTitle": "Alerts & Notifications Preferences",

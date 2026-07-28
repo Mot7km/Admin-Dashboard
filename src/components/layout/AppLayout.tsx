@@ -62,7 +62,7 @@ const AppLayout = () => {
             className="h-7 w-auto object-contain"
           />
           <span className="text-base font-bold tracking-tight text-[var(--text-primary)]">
-            Mot7km <span className="text-[var(--primary)] font-semibold">ERP</span>
+            {t('layout.brand')}
           </span>
         </div>
         <div className="flex items-center gap-1">
@@ -108,9 +108,9 @@ const AppLayout = () => {
         } ${isCollapsed ? 'lg:w-[76px] lg:px-2.5' : 'lg:w-[260px] lg:px-4'}`}
       >
         {/* Brand Area */}
-        <div className="flex items-center justify-between pb-5 pt-1 shrink-0">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)]/10 p-1.5 ring-1 ring-[var(--primary)]/20">
+        <div className={`flex items-center pb-5 pt-1 shrink-0 ${isCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'}`}>
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)]/10 p-1.5 ring-1 ring-[var(--primary)]/20 shadow-sm">
               <img
                 src="/assets/logo/Mot7km_Logo.png"
                 alt="Mot7km Logo"
@@ -120,7 +120,7 @@ const AppLayout = () => {
             {!isCollapsed && (
               <div className="flex flex-col truncate">
                 <span className="text-base font-bold tracking-tight text-[var(--text-primary)]">
-                  Mot7km <span className="text-[var(--primary)] font-semibold">ERP</span>
+                  {t('layout.brand')}
                 </span>
                 <span className="text-[10px] font-medium text-[var(--text-muted)] truncate">
                   {t('layout.slogan')}
@@ -132,7 +132,7 @@ const AppLayout = () => {
           {/* Collapse Toggle Button (Desktop) */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden rounded-lg p-1.5 text-[var(--text-muted)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] lg:flex"
+            className="hidden rounded-lg p-1.5 text-[var(--text-muted)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] lg:flex shrink-0"
             title={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
             aria-label={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
           >
@@ -142,7 +142,6 @@ const AppLayout = () => {
               <PanelLeftClose className={`h-5 w-5 ${locale === 'ar' ? 'rotate-180' : ''}`} />
             )}
           </button>
-
           {/* Close Mobile Sidebar */}
           <button
             onClick={closeMobileSidebar}

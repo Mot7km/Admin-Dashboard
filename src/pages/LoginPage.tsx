@@ -80,7 +80,7 @@ const LoginPage = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold tracking-tight text-[var(--text-primary)]">
-              Mot7km <span className="text-[var(--primary)] font-semibold">ERP</span>
+              {t('layout.brand')}
             </span>
             <span className="text-[10px] font-medium text-[var(--text-muted)]">
               {t('layout.slogan')}
@@ -222,17 +222,19 @@ const LoginPage = () => {
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => handleFillDemo('owner@mot7km.com', t('login.ownerDemo'))}
-                      className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-[11px] font-semibold text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition text-center"
+                      onClick={() => handleFillDemo('owner@mot7km.store', t('login.ownerDemo'))}
+                      className="rounded-lg border border-[var(--color-border)] bg-[var(--card)] p-2 text-left transition hover:border-[var(--primary)] hover:bg-[var(--elevated)]"
                     >
-                      {t('login.ownerDemo')}
+                      <div className="font-bold text-[var(--text-primary)]">{t('login.ownerDemo')}</div>
+                      <div className="text-[10px] text-[var(--text-muted)] font-mono">owner@mot7km.store</div>
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleFillDemo('manager@mot7km.com', t('login.managerDemo'))}
-                      className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-[11px] font-semibold text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition text-center"
+                      onClick={() => handleFillDemo('manager@mot7km.store', t('login.managerDemo'))}
+                      className="rounded-lg border border-[var(--color-border)] bg-[var(--card)] p-2 text-left transition hover:border-[var(--primary)] hover:bg-[var(--elevated)]"
                     >
-                      {t('login.managerDemo')}
+                      <div className="font-bold text-[var(--text-primary)]">{t('login.managerDemo')}</div>
+                      <div className="text-[10px] text-[var(--text-muted)] font-mono">manager@mot7km.store</div>
                     </button>
                   </div>
                 </div>

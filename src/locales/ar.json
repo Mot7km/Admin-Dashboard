@@ -11,15 +11,17 @@
     "qrControl": "كود الـ QR"
   },
   "layout": {
-    "brand": "متحكم ERP",
-    "slogan": "تتحكم في مطعمك بذكاء",
+    "brand": "متحكم",
+    "slogan": "التحكم الذكي بالأعمال — Smart Business Control",
     "theme": "السمة",
     "language": "اللغة",
     "otherLanguage": "English",
     "expandSidebar": "توسيع القائمة",
     "collapseSidebar": "طي القائمة",
     "admin": "صاحب المطعم / مدير",
-    "defaultUser": "أليكس مورجان"
+    "defaultUser": "أليكس مورجان",
+    "footerText": "© ٢٠٢٥ متحكم — التحكم الذكي بالأعمال",
+    "officialWebsite": "الموقع الرسمي لمتحكم (mot7km.store)"
   },
   "common": {
     "cancel": "إلغاء",
@@ -374,7 +376,7 @@
       "printerIp": "عنوان الشبكة (IP) والمنفذ",
       "paperWidth": "عرض ورق الإيصال",
       "footerTextLabel": "نص الترويسة السفلية للإيصال",
-      "footerTextDefault": "شكراً لزيارتكم مطعم متحكم! www.mot7km.com",
+      "footerTextDefault": "شكراً لزيارتكم مطعم متحكم! www.mot7km.store",
       "testPrint": "إرسال إيصال تجريبي",
       "savePrinter": "حفظ إعدادات الطابعة",
       "notifTitle": "تفضيل التنبيهات والإشعارات",
