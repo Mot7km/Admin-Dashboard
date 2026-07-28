@@ -14,7 +14,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const storedTheme = window.localStorage.getItem('app-theme') as Theme | null
-    const initialTheme = storedTheme ?? 'light'
+    const initialTheme = storedTheme ?? 'dark'
     setTheme(initialTheme)
     document.documentElement.classList.toggle('dark', initialTheme === 'dark')
   }, [])

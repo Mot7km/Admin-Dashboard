@@ -1,54 +1,93 @@
 {
   "nav": {
-    "home": "Home",
-    "mock": "Mock Page"
+    "dashboard": "Dashboard",
+    "menu": "Menu & QR Management",
+    "branches": "Branches",
+    "orders": "Orders & Sales",
+    "employees": "Employees & Staff",
+    "inventory": "Inventory",
+    "settings": "Settings"
   },
   "layout": {
-    "brand": "Northstar Dashboard",
-    "brandLabel": "Scalable UI Foundation",
-    "tagline": "A polished starter for product teams.",
+    "brand": "Mot7km ERP",
+    "slogan": "Smart Restaurant Control",
     "theme": "Theme",
     "language": "Language",
-    "footerText": "Built for modern React applications.",
-    "footerNote": "Routes, layouts, localization, and theming are ready to extend."
+    "expandSidebar": "Expand Sidebar",
+    "collapseSidebar": "Collapse Sidebar",
+    "admin": "Owner / Admin"
   },
-  "home": {
-    "eyebrow": "Architecture-first starter",
-    "title": "A scalable dashboard foundation",
-    "description": "This app now includes organized folders, shared layout primitives, translations, theming, and a responsive route structure.",
-    "primaryAction": "Open mock page",
-    "secondaryAction": "See overview",
-    "cards": {
-      "scalable": {
-        "title": "Scalable structure",
-        "text": "Pages, contexts, and layout pieces are separated for easier growth."
-      },
-      "translation": {
-        "title": "Localized experience",
-        "text": "English and Arabic content can be extended without touching component logic."
-      },
-      "theme": {
-        "title": "Design system ready",
-        "text": "The palette is wired to CSS variables so the visual system stays consistent."
-      }
-    }
-  },
-  "mock": {
-    "eyebrow": "Sample route",
-    "title": "Mock content area",
-    "description": "Use this space to shape new dashboard views, widgets, or flows.",
-    "metricOne": {
-      "title": "Flexible layout",
-      "text": "The shell supports sidebar, footer, and content sections out of the box."
+  "dashboard": {
+    "title": "Restaurant Overview",
+    "subtitle": "Real-time analytics for menu views, customer feedback, and branch operations",
+    "dateRange": "Feb 1 - Feb 28, 2025",
+    "viewAll": "View all",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisYear": "This Year",
+    "byViews": "By Menu Views",
+    "byRating": "By Rating",
+    "stats": {
+      "totalMenuViews": "Total QR Menu Views",
+      "activeProducts": "Active Products & Menu",
+      "averageRating": "Customer Rating & Reviews",
+      "todaySales": "Today's Estimated Sales"
     },
-    "metricTwo": {
-      "title": "Future-ready",
-      "text": "The project is ready for additional pages, APIs, and stateful features."
+    "trafficOverview": "QR Menu Traffic & Scans",
+    "topProducts": "Most Popular Dishes & Products",
+    "recentReviews": "Recent Customer Feedback",
+    "systemActivity": "System & Branch Activity",
+    "status": {
+      "active": "Active",
+      "soldOut": "Sold Out",
+      "hidden": "Hidden"
+    },
+    "products": {
+      "truffleBurger": "Smoked Truffle Burger",
+      "icedLatte": "Spanish Iced Latte",
+      "margheritaPizza": "Neapolitan Margherita",
+      "crispyChicken": "Crispy Chicken Wrap",
+      "pistachioPancake": "Pistachio Pancakes"
+    },
+    "activity": {
+      "qrScanned": "QR Menu scanned 48 times in Main Branch",
+      "reviewSubmitted": "5★ Review received for Truffle Burger",
+      "itemSoldOut": "Spanish Iced Latte marked as Sold Out",
+      "newOrder": "New POS Order #ORD-2049 processed"
     }
   },
-  "notFound": {
-    "title": "Page not found",
-    "description": "The route you requested does not exist yet.",
-    "action": "Go back home"
+  "menu": {
+    "title": "Menu & QR Management Hub",
+    "subtitle": "Full control over Categories, Dishes, Sliders, QR Codes, and Product Feedback",
+    "tabs": {
+      "categoriesAndProducts": "Categories & Products",
+      "slidersAndBanners": "Sliders & Promotional Items",
+      "qrControl": "QR Code & Branding",
+      "reviews": "Product Reviews & Ratings"
+    },
+    "categories": {
+      "title": "Menu Categories",
+      "add": "Add Category",
+      "name": "Category Name",
+      "count": "Dishes Count"
+    },
+    "products": {
+      "title": "Dishes & Products",
+      "add": "Add New Dish",
+      "name": "Dish Name",
+      "price": "Price",
+      "category": "Category",
+      "badge": "Badge",
+      "status": "Status"
+    },
+    "sliders": {
+      "title": "Header Sliders & Banners",
+      "add": "Add New Slider",
+      "addItem": "Add Slider Slide / Item",
+      "slideTitle": "Slide Title",
+      "slideSubtitle": "Slide Subtitle",
+      "targetDish": "Featured Dish / Offer",
+      "image": "Banner Image"
+    }
   }
 }

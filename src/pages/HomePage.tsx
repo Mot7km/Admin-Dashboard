@@ -1,257 +1,384 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useTranslation } from '../context/LanguageContext';
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import {
-  TrendingUp,
-  DollarSign,
+  Calendar,
+  ChevronDown,
+  QrCode,
+  Star,
   ShoppingBag,
-  Users,
-  Download,
+  Utensils,
+  AlertCircle,
+  TrendingUp,
 } from 'lucide-react';
 
 const HomePage = () => {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const [timeFilter, setTimeFilter] = useState('thisMonth');
+  const [productFilter, setProductFilter] = useState('byViews');
 
-  // Mock data for the chart
-  const chartData = [
-    { month: 'Jan', revenue: 4200, orders: 240 },
-    { month: 'Feb', revenue: 3800, orders: 210 },
-    { month: 'Mar', revenue: 5100, orders: 290 },
-    { month: 'Apr', revenue: 4600, orders: 270 },
-    { month: 'May', revenue: 5400, orders: 310 },
-    { month: 'Jun', revenue: 6000, orders: 350 },
+  // Sparkline mini data for KPI cards
+  const sparklineData1 = [
+    { v: 1200 }, { v: 1800 }, { v: 1600 }, { v: 2400 }, { v: 2100 }, { v: 3100 }, { v: 3850 }
+  ];
+  const sparklineData2 = [
+    { v: 120 }, { v: 125 }, { v: 130 }, { v: 135 }, { v: 138 }, { v: 140 }, { v: 142 }
+  ];
+  const sparklineData3 = [
+    { v: 4.5 }, { v: 4.6 }, { v: 4.7 }, { v: 4.8 }, { v: 4.8 }, { v: 4.9 }, { v: 4.9 }
+  ];
+  const sparklineData4 = [
+    { v: 2100 }, { v: 2400 }, { v: 2800 }, { v: 2600 }, { v: 3100 }, { v: 3300 }, { v: 3420 }
   ];
 
-  // Stats data
+  // Stats definition matching Mot7km PRD for Restaurant Business Owner
   const stats = [
     {
-      label: t('dashboard.stats.revenue'),
-      value: '$48,295',
-      change: '+12.5%',
-      icon: DollarSign,
+      titleKey: 'dashboard.stats.totalMenuViews',
+      value: '24,850',
+      change: '↑ 14.2%',
+      icon: QrCode,
+      data: sparklineData1,
     },
     {
-      label: t('dashboard.stats.orders'),
-      value: '1,284',
-      change: '+8.2%',
-      icon: ShoppingBag,
+      titleKey: 'dashboard.stats.activeProducts',
+      value: '142',
+      change: locale === 'ar' ? '١٢ نفد/مخفي' : '12 Sold Out',
+      icon: Utensils,
+      data: sparklineData2,
     },
     {
-      label: t('dashboard.stats.users'),
-      value: '3,240',
-      change: '+5.4%',
-      icon: Users,
+      titleKey: 'dashboard.stats.averageRating',
+      value: '4.9 ★',
+      change: locale === 'ar' ? '٣٢٨ تقييم' : '328 Reviews',
+      icon: Star,
+      data: sparklineData3,
     },
     {
-      label: t('dashboard.stats.trend'),
-      value: '24.7%',
-      change: '+2.1%',
+      titleKey: 'dashboard.stats.todaySales',
+      value: '$3,420',
+      change: '↑ 8.6%',
       icon: TrendingUp,
+      data: sparklineData4,
     },
   ];
 
-  // Recent activity items
-  const activities = [
-    { id: 1, title: t('dashboard.activity.1.title'), time: t('dashboard.activity.1.time') },
-    { id: 2, title: t('dashboard.activity.2.title'), time: t('dashboard.activity.2.time') },
-    { id: 3, title: t('dashboard.activity.3.title'), time: t('dashboard.activity.3.time') },
-    { id: 4, title: t('dashboard.activity.4.title'), time: t('dashboard.activity.4.time') },
+  // QR Traffic Chart Data
+  const trafficOverviewData = [
+    { name: locale === 'ar' ? '١ فبراير' : 'Feb 1', views: 2400 },
+    { name: locale === 'ar' ? '٨ فبراير' : 'Feb 8', views: 4100 },
+    { name: locale === 'ar' ? '١٥ فبراير' : 'Feb 15', views: 3900 },
+    { name: locale === 'ar' ? '٢٥ فبراير' : 'Feb 25', views: 5800 },
+    { name: locale === 'ar' ? '٢٨ فبراير' : 'Feb 28', views: 8650 },
   ];
 
-  // Recent orders mock
-  const orders = [
-    { id: '#ORD-001', customer: 'Alice Johnson', total: 249.99, status: 'Completed' },
-    { id: '#ORD-002', customer: 'Bob Smith', total: 129.50, status: 'Processing' },
-    { id: '#ORD-003', customer: 'Carol White', total: 89.75, status: 'Shipped' },
+  // Top Products matching Mot7km Restaurant PRD
+  const topProducts = [
+    { nameKey: 'dashboard.products.truffleBurger', views: '4,820', percentage: 92 },
+    { nameKey: 'dashboard.products.icedLatte', views: '3,950', percentage: 78 },
+    { nameKey: 'dashboard.products.margheritaPizza', views: '3,120', percentage: 62 },
+    { nameKey: 'dashboard.products.crispyChicken', views: '2,640', percentage: 50 },
+    { nameKey: 'dashboard.products.pistachioPancake', views: '1,980', percentage: 38 },
+  ];
+
+  // Recent Customer Feedback matching PRD
+  const recentReviews = [
+    {
+      id: 1,
+      customer: 'Sami Al-Mansoor',
+      rating: 5,
+      dishKey: 'dashboard.products.truffleBurger',
+      comment: locale === 'ar' ? 'الطعم ممتاز جداً واللحم مدخن بإتقان! التوصية 10/10' : 'Best truffle burger in town! Amazing quality.',
+      time: locale === 'ar' ? 'منذ ١٠ دقائق' : '10m ago',
+    },
+    {
+      id: 2,
+      customer: 'Laila H.',
+      rating: 5,
+      dishKey: 'dashboard.products.icedLatte',
+      comment: locale === 'ar' ? 'السبانيش لاتيه مظبوط جداً والسكر متوازن' : 'Perfect sweetness and great espresso shot.',
+      time: locale === 'ar' ? 'منذ ٤٥ دقيقة' : '45m ago',
+    },
+    {
+      id: 3,
+      customer: 'Tariq K.',
+      rating: 4,
+      dishKey: 'dashboard.products.margheritaPizza',
+      comment: locale === 'ar' ? 'البيتزا طازجة جداً والجبنة نابولية أصلية' : 'Fresh ingredients and authentic dough.',
+      time: locale === 'ar' ? 'منذ ساعتين' : '2h ago',
+    },
+  ];
+
+  // Activity Feed matching Mot7km PRD
+  const activityFeed = [
+    {
+      id: 1,
+      icon: QrCode,
+      titleKey: 'dashboard.activity.qrScanned',
+      time: locale === 'ar' ? 'منذ دقيقتين' : '2m ago',
+    },
+    {
+      id: 2,
+      icon: Star,
+      titleKey: 'dashboard.activity.reviewSubmitted',
+      time: locale === 'ar' ? 'منذ ١٠ دقائق' : '10m ago',
+    },
+    {
+      id: 3,
+      icon: AlertCircle,
+      titleKey: 'dashboard.activity.itemSoldOut',
+      time: locale === 'ar' ? 'منذ ساعة' : '1h ago',
+    },
+    {
+      id: 4,
+      icon: ShoppingBag,
+      titleKey: 'dashboard.activity.newOrder',
+      time: locale === 'ar' ? 'منذ ساعتين' : '2h ago',
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] p-4 sm:p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
-        {/* Header with welcome and action */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-[var(--color-text-primary)] sm:text-3xl">
-              {t('dashboard.welcome')}
-            </h1>
-            <p className="text-sm text-[var(--color-text-secondary)] sm:text-base">
-              {t('dashboard.subtitle')}
-            </p>
-          </div>
-          <div className="mt-4 flex items-center gap-3 sm:mt-0">
-            <Link
-              to="/mock"
-              className="inline-flex items-center rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-[var(--color-text-on-primary)] transition hover:opacity-90"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              {t('dashboard.exportButton')}
-            </Link>
-          </div>
+    <div className="space-y-6 text-[var(--text-primary)]">
+      {/* Top Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+            {t('dashboard.title')}
+          </h1>
+          <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
+            {t('dashboard.subtitle')}
+          </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="card-premium rounded-xl p-5 transition-all hover:border-[var(--color-primary)]"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-[var(--color-text-muted)]">
-                  {stat.label}
-                </span>
-                <stat.icon className="h-5 w-5 text-[var(--color-primary)]" />
+        <div className="flex items-center gap-3">
+          <button className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--primary)] hover:text-[var(--text-primary)]">
+            <Calendar className="h-4 w-4 text-[var(--text-muted)]" />
+            <span>{t('dashboard.dateRange')}</span>
+            <ChevronDown className="h-3.5 w-3.5 text-[var(--text-muted)]" />
+          </button>
+        </div>
+      </div>
+
+      {/* KPI Cards Grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <div
+            key={stat.titleKey}
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg transition-all duration-200 hover:border-[var(--primary)]/40"
+          >
+            <div>
+              <div className="flex items-center justify-between text-xs font-medium text-[var(--text-muted)]">
+                <span>{t(stat.titleKey)}</span>
+                <stat.icon className="h-4 w-4 text-[var(--primary)]" />
               </div>
-              <div className="mt-2 flex items-baseline justify-between">
-                <span className="text-2xl font-bold text-[var(--color-text-primary)]">
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
                   {stat.value}
                 </span>
-                <span className="text-sm font-medium text-[var(--color-success)]">
+                <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-[var(--primary)]">
                   {stat.change}
                 </span>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Chart and Activity Feed */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* Chart */}
-          <div className="card-premium rounded-xl p-5 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-              {t('dashboard.revenueChart')}
-            </h2>
-            <div className="mt-4 h-64">
+            {/* Sparkline Wave Chart */}
+            <div className="mt-4 h-11 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="var(--color-border)"
-                  />
-                  <XAxis dataKey="month" stroke="var(--color-text-muted)" />
-                  <YAxis stroke="var(--color-text-muted)" />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'var(--color-surface)',
-                      borderColor: 'var(--color-border)',
-                      borderRadius: '8px',
-                      boxShadow: 'var(--shadow-md)',
-                    }}
-                    labelStyle={{ color: 'var(--color-text-primary)' }}
-                  />
-                  <Legend
-                    wrapperStyle={{ color: 'var(--color-text-secondary)' }}
-                  />
-                  <Line
+                <AreaChart data={stat.data} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id={`grad-${stat.titleKey}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.0} />
+                    </linearGradient>
+                  </defs>
+                  <Area
                     type="monotone"
-                    dataKey="revenue"
-                    stroke="#1683C7" // --color-primary
+                    dataKey="v"
+                    stroke="var(--primary)"
                     strokeWidth={2}
-                    dot={{ r: 4 }}
-                    activeDot={{ r: 6 }}
+                    fillOpacity={1}
+                    fill={`url(#grad-${stat.titleKey})`}
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="orders"
-                    stroke="#0F766E" // --color-secondary
-                    strokeWidth={2}
-                    dot={{ r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </div>
           </div>
+        ))}
+      </div>
 
-          {/* Activity Feed */}
-          <div className="card-premium rounded-xl p-5">
-            <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-              {t('dashboard.recentActivity')}
-            </h2>
-            <div className="mt-4 space-y-4">
-              {activities.map((activity) => (
-                <div
-                  key={activity.id}
-                  className="flex items-center gap-3 border-b border-[var(--color-border)] pb-3 last:border-0"
-                >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-primary-50)] text-xs font-bold text-[var(--color-primary)]">
-                    {activity.id}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-[var(--color-text-primary)]">
-                      {activity.title}
-                    </p>
-                    <p className="text-xs text-[var(--color-text-muted)]">
-                      {activity.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
+      {/* Middle Section: QR Traffic & Top Products */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        {/* QR Menu Traffic */}
+        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-7 xl:col-span-8">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.trafficOverview')}</h2>
+            <div className="relative">
+              <select
+                value={timeFilter}
+                onChange={(e) => setTimeFilter(e.target.value)}
+                className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none"
+              >
+                <option value="thisMonth">{t('dashboard.thisMonth')}</option>
+                <option value="lastMonth">{t('dashboard.lastMonth')}</option>
+                <option value="thisYear">{t('dashboard.thisYear')}</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
             </div>
+          </div>
+
+          <div className="mt-4 h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={trafficOverviewData}
+                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="trafficGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  stroke="var(--text-muted)"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  stroke="var(--text-muted)"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--surface)',
+                    borderColor: 'var(--color-border)',
+                    borderRadius: '12px',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+                  }}
+                  formatter={(value: any) => [`${Number(value || 0).toLocaleString()} Views`, t('dashboard.trafficOverview')]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="views"
+                  stroke="var(--primary)"
+                  strokeWidth={2.5}
+                  fillOpacity={1}
+                  fill="url(#trafficGrad)"
+                  dot={{ r: 4, fill: 'var(--primary)', stroke: 'var(--surface)', strokeWidth: 2 }}
+                  activeDot={{ r: 6, fill: 'var(--accent)', stroke: '#FFFFFF', strokeWidth: 2 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Recent Orders Table */}
-        <div className="card-premium rounded-xl p-5">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-            {t('dashboard.recentOrders')}
-          </h2>
-          <div className="mt-4 overflow-x-auto">
-            <table className="min-w-full divide-y divide-[var(--color-border)]">
-              <thead>
-                <tr>
-                  <th className="py-2 text-left text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
-                    {t('dashboard.order.id')}
-                  </th>
-                  <th className="py-2 text-left text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
-                    {t('dashboard.order.customer')}
-                  </th>
-                  <th className="py-2 text-left text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
-                    {t('dashboard.order.total')}
-                  </th>
-                  <th className="py-2 text-left text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
-                    {t('dashboard.order.status')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--color-border)]">
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td className="py-3 text-sm text-[var(--color-text-secondary)]">
-                      {order.id}
-                    </td>
-                    <td className="py-3 text-sm text-[var(--color-text-primary)]">
-                      {order.customer}
-                    </td>
-                    <td className="py-3 text-sm text-[var(--color-text-secondary)]">
-                      ${order.total.toFixed(2)}
-                    </td>
-                    <td className="py-3">
-                      <span
-                        className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${
-                          order.status === 'Completed'
-                            ? 'bg-[var(--color-success)]/10 text-[var(--color-success)]'
-                            : order.status === 'Processing'
-                            ? 'bg-[var(--color-warning)]/10 text-[var(--color-warning)]'
-                            : 'bg-[var(--color-primary-50)] text-[var(--color-primary)]'
-                        }`}
-                      >
-                        {order.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Popular Dishes */}
+        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-5 xl:col-span-4">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.topProducts')}</h2>
+            <div className="relative">
+              <select
+                value={productFilter}
+                onChange={(e) => setProductFilter(e.target.value)}
+                className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none"
+              >
+                <option value="byViews">{t('dashboard.byViews')}</option>
+                <option value="byRating">{t('dashboard.byRating')}</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
+            </div>
+          </div>
+
+          <div className="mt-4 flex-1 space-y-4">
+            {topProducts.map((prod) => (
+              <div key={prod.nameKey} className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-medium">
+                  <span className="text-[var(--text-secondary)]">{t(prod.nameKey)}</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{prod.views} views</span>
+                </div>
+                <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                  <div
+                    className="h-full rounded-full bg-[var(--primary)] transition-all duration-500"
+                    style={{ width: `${prod.percentage}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section: Customer Reviews & Activity Feed */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Customer Feedback */}
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.recentReviews')}</h2>
+            <button className="text-xs font-medium text-[var(--primary)] hover:underline">
+              {t('dashboard.viewAll')}
+            </button>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {recentReviews.map((rev) => (
+              <div key={rev.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3.5 text-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[var(--text-primary)]">{rev.customer}</span>
+                    <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 font-semibold text-amber-500">
+                      ★ {rev.rating}.0
+                    </span>
+                  </div>
+                  <span className="text-[var(--text-muted)] text-[11px]">{rev.time}</span>
+                </div>
+                <p className="mt-1.5 font-medium text-[var(--text-secondary)]">"{rev.comment}"</p>
+                <div className="mt-2 text-[11px] font-semibold text-[var(--primary)]">
+                  {t(rev.dishKey)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* System Activity */}
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.systemActivity')}</h2>
+            <button className="text-xs font-medium text-[var(--primary)] hover:underline">
+              {t('dashboard.viewAll')}
+            </button>
+          </div>
+
+          <div className="mt-4 space-y-4">
+            {activityFeed.map((item) => (
+              <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] ring-1 ring-[var(--primary)]/20">
+                    <item.icon className="h-4 w-4" />
+                  </div>
+                  <span className="font-medium text-[var(--text-primary)]">
+                    {t(item.titleKey)}
+                  </span>
+                </div>
+                <span className="shrink-0 text-[var(--text-muted)]">
+                  {item.time}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
