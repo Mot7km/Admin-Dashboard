@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from '../context/LanguageContext';
+import { useToast } from '../components/common/Toast';
+import EmptyState from '../components/common/EmptyState';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import {
   Utensils,
   Plus,
@@ -27,9 +31,28 @@ import {
 
 const MenuPage = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'items' | 'sliders' | 'qr' | 'reviews' | 'simulator'>('items');
+  const { showToast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryTab = searchParams.get('tab');
+  const validTabs = ['items', 'sliders', 'qr', 'reviews', 'simulator'];
+  const initialTab = (queryTab && validTabs.includes(queryTab) ? queryTab : 'items') as 'items' | 'sliders' | 'qr' | 'reviews' | 'simulator';
+
+  const [activeTab, setActiveTab] = useState<'items' | 'sliders' | 'qr' | 'reviews' | 'simulator'>(initialTab);
+
+  useEffect(() => {
+    if (queryTab && validTabs.includes(queryTab) && queryTab !== activeTab) {
+      setActiveTab(queryTab as any);
+    }
+  }, [queryTab]);
+
+  const handleTabChange = (tab: 'items' | 'sliders' | 'qr' | 'reviews' | 'simulator') => {
+    setActiveTab(tab);
+    setSearchParams({ tab }, { replace: true });
+  };
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [isPeakHourMode, setIsPeakHourMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Modals state
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
@@ -37,6 +60,13 @@ const MenuPage = () => {
   const [showAddSliderItemModal, setShowAddSliderItemModal] = useState(false);
   const [showVariantModal, setShowVariantModal] = useState(false);
   const [selectedDishForVariant, setSelectedDishForVariant] = useState<any>(null);
+
+  // Confirm delete state
+  const [deleteItem, setDeleteItem] = useState<{ id: string; type: 'product' | 'slider'; name: string } | null>(null);
+
+  // Editable Variant Form State
+  const [newVariantInput, setNewVariantInput] = useState('');
+  const [newExtraInput, setNewExtraInput] = useState('');
 
   // Simulator Language Toggle State
   const [simulatorLang, setSimulatorLang] = useState<'ar' | 'en'>('ar');
@@ -116,14 +146,53 @@ const MenuPage = () => {
     },
   ]);
 
+  // Filtered Products
+  const filteredProducts = products.filter((p) => {
+    const name = p.nameKey.includes('.') ? t(p.nameKey) : p.nameKey;
+    const cat = p.categoryKey.includes('.') ? t(p.categoryKey) : p.categoryKey;
+    return name.toLowerCase().includes(searchQuery.toLowerCase()) || cat.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   // Handlers
   const handleToggleCategorySoldOut = (catId: string) => {
-    setCategories(categories.map(c => c.id === catId ? { ...c, isSoldOut: !c.isSoldOut } : c));
+    setCategories(categories.map((c) => (c.id === catId ? { ...c, isSoldOut: !c.isSoldOut } : c)));
+    showToast(t('common.success'), 'info');
+  };
+
+  const handleToggleProductStatus = (prodId: string) => {
+    setProducts(
+      products.map((p) => (p.id === prodId ? { ...p, status: p.status === 'Active' ? 'Sold Out' : 'Active' } : p))
+    );
+    showToast(t('common.success'), 'info');
   };
 
   const handleOpenVariantBuilder = (dish: any) => {
-    setSelectedDishForVariant(dish);
+    setSelectedDishForVariant(JSON.parse(JSON.stringify(dish)));
     setShowVariantModal(true);
+  };
+
+  const handleAddVariantToDish = () => {
+    if (!newVariantInput.trim() || !selectedDishForVariant) return;
+    const updated = {
+      ...selectedDishForVariant,
+      variants: [...selectedDishForVariant.variants, newVariantInput.trim()],
+    };
+    setSelectedDishForVariant(updated);
+    setProducts(products.map((p) => (p.id === updated.id ? updated : p)));
+    setNewVariantInput('');
+    showToast(t('common.success'), 'success');
+  };
+
+  const handleAddExtraToDish = () => {
+    if (!newExtraInput.trim() || !selectedDishForVariant) return;
+    const updated = {
+      ...selectedDishForVariant,
+      extras: [...selectedDishForVariant.extras, newExtraInput.trim()],
+    };
+    setSelectedDishForVariant(updated);
+    setProducts(products.map((p) => (p.id === updated.id ? updated : p)));
+    setNewExtraInput('');
+    showToast(t('common.success'), 'success');
   };
 
   const handleAddCategory = () => {
@@ -134,6 +203,7 @@ const MenuPage = () => {
     ]);
     setNewCatName('');
     setShowAddCategoryModal(false);
+    showToast(t('common.success'), 'success');
   };
 
   const handleAddProduct = () => {
@@ -156,6 +226,7 @@ const MenuPage = () => {
     setNewProdName('');
     setNewProdPrice('');
     setShowAddProductModal(false);
+    showToast(t('common.success'), 'success');
   };
 
   const handleAddSliderItem = () => {
@@ -174,6 +245,18 @@ const MenuPage = () => {
     setNewSlideTitle('');
     setNewSlideSubtitle('');
     setShowAddSliderItemModal(false);
+    showToast(t('common.success'), 'success');
+  };
+
+  const handleConfirmDelete = () => {
+    if (!deleteItem) return;
+    if (deleteItem.type === 'product') {
+      setProducts(products.filter((p) => p.id !== deleteItem.id));
+    } else {
+      setSliders(sliders.filter((s) => s.id !== deleteItem.id));
+    }
+    showToast(`${deleteItem.name} ${t('common.delete').toLowerCase()}d`, 'info');
+    setDeleteItem(null);
   };
 
   return (
@@ -192,10 +275,13 @@ const MenuPage = () => {
         {/* Peak Hour Mode & Controls */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setIsPeakHourMode(!isPeakHourMode)}
+            onClick={() => {
+              setIsPeakHourMode(!isPeakHourMode);
+              showToast(`${t('menu.peakHourMode')}: ${!isPeakHourMode ? 'ON' : 'OFF'}`, 'info');
+            }}
             className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition shadow-sm ${
               isPeakHourMode
-                ? 'bg-amber-500 text-white animate-pulse'
+                ? 'bg-amber-500 text-white ring-2 ring-amber-500/30'
                 : 'border border-[var(--color-border)] bg-[var(--card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -209,7 +295,7 @@ const MenuPage = () => {
       <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
         <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar">
           <button
-            onClick={() => setActiveTab('items')}
+            onClick={() => handleTabChange('items')}
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               activeTab === 'items'
                 ? 'bg-[var(--primary)] text-white shadow-md'
@@ -221,7 +307,7 @@ const MenuPage = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('sliders')}
+            onClick={() => handleTabChange('sliders')}
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               activeTab === 'sliders'
                 ? 'bg-[var(--primary)] text-white shadow-md'
@@ -233,7 +319,7 @@ const MenuPage = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('qr')}
+            onClick={() => handleTabChange('qr')}
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               activeTab === 'qr'
                 ? 'bg-[var(--primary)] text-white shadow-md'
@@ -245,7 +331,7 @@ const MenuPage = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('simulator')}
+            onClick={() => handleTabChange('simulator')}
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               activeTab === 'simulator'
                 ? 'bg-[var(--primary)] text-white shadow-md'
@@ -257,7 +343,7 @@ const MenuPage = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('reviews')}
+            onClick={() => handleTabChange('reviews')}
             className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               activeTab === 'reviews'
                 ? 'bg-[var(--primary)] text-white shadow-md'
@@ -271,7 +357,7 @@ const MenuPage = () => {
 
         {/* View Mode Switcher (Grid / Table) */}
         {activeTab === 'items' && (
-          <div className="hidden sm:flex items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--card)] p-1">
+          <div className="flex items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--card)] p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-lg text-xs font-semibold transition ${
@@ -280,6 +366,7 @@ const MenuPage = () => {
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
               title={t('menu.viewGrid')}
+              aria-label={t('menu.viewGrid')}
             >
               <LayoutGrid className="h-4 w-4" />
             </button>
@@ -291,6 +378,7 @@ const MenuPage = () => {
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
               title={t('menu.viewTable')}
+              aria-label={t('menu.viewTable')}
             >
               <List className="h-4 w-4" />
             </button>
@@ -330,12 +418,12 @@ const MenuPage = () => {
                   <span>{cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}</span>
                   <button
                     onClick={() => handleToggleCategorySoldOut(cat.id)}
-                    className={`ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                    className={`ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md transition ${
                       cat.isSoldOut ? 'bg-rose-500 text-white' : 'bg-[var(--elevated)] text-[var(--text-muted)] hover:text-rose-500'
                     }`}
                     title="Toggle Bulk Category Out-of-Stock"
                   >
-                    {cat.isSoldOut ? 'Sold Out' : 'Active'}
+                    {cat.isSoldOut ? t('menu.categories.bulkSoldOut') : t('menu.categories.bulkActive')}
                   </button>
                 </div>
               ))}
@@ -359,54 +447,82 @@ const MenuPage = () => {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
               <input
                 type="text"
-                placeholder="Search dishes, drinks, ingredients..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t('common.searchPlaceholder')}
                 className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--card)] py-2.5 pl-9 pr-4 text-xs font-medium text-[var(--text-primary)] focus:border-[var(--primary)] focus:outline-none shadow-sm"
               />
             </div>
 
-            {/* Grid View Mode */}
-            {viewMode === 'grid' ? (
+            {/* Empty State Check */}
+            {filteredProducts.length === 0 ? (
+              <EmptyState
+                icon={Utensils}
+                titleKey="common.noResults"
+                actionLabelKey="menu.products.add"
+                onAction={() => setShowAddProductModal(true)}
+              />
+            ) : viewMode === 'grid' ? (
+              /* Grid View Mode */
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {products.map((item) => (
-                  <div key={item.id} className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg group transition hover:border-[var(--primary)]/40">
-                    <div className="relative h-40 w-full overflow-hidden bg-slate-900">
-                      <img src={item.image} alt={item.nameKey} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                        <span className="rounded-md bg-amber-500/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white shadow">
-                          {item.badge}
-                        </span>
+                {filteredProducts.map((item) => (
+                  <div key={item.id} className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg group transition hover:border-[var(--primary)]/40 flex flex-col justify-between">
+                    <div>
+                      <div className="relative h-40 w-full overflow-hidden bg-slate-900">
+                        <img src={item.image} alt={item.nameKey} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                          <span className="rounded-md bg-amber-500/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white shadow">
+                            {item.badge}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-sm text-[var(--text-primary)]">
+                            {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
+                          </h3>
+                          <span className="font-extrabold text-sm text-[var(--primary)]">{item.price}</span>
+                        </div>
+                        <p className="text-xs text-[var(--text-muted)]">
+                          {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey} • {item.views} {t('common.views')}
+                        </p>
+
+                        {/* Variants & Extras Preview */}
+                        <div className="pt-1 flex flex-wrap gap-1 text-[10px]">
+                          {item.variants.map((v, i) => (
+                            <span key={i} className="rounded-md bg-[var(--surface)] border border-[var(--color-border)] px-1.5 py-0.5 font-medium text-[var(--text-secondary)]">
+                              {v}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                    <div className="p-4 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-sm text-[var(--text-primary)]">
-                          {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
-                        </h3>
-                        <span className="font-extrabold text-sm text-[var(--primary)]">{item.price}</span>
-                      </div>
-                      <p className="text-xs text-[var(--text-muted)]">
-                        {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey} • {item.views} views
-                      </p>
 
-                      {/* Variants & Extras Preview */}
-                      <div className="pt-1 flex flex-wrap gap-1 text-[10px]">
-                        {item.variants.map((v, i) => (
-                          <span key={i} className="rounded-md bg-[var(--surface)] border border-[var(--color-border)] px-1.5 py-0.5 font-medium text-[var(--text-secondary)]">
-                            {v}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="p-4 pt-0 flex items-center justify-between border-t border-[var(--color-border)] text-xs mt-2">
+                      <button
+                        onClick={() => handleOpenVariantBuilder(item)}
+                        className="flex items-center gap-1 text-[11px] font-semibold text-[var(--primary)] hover:underline pt-2"
+                      >
+                        <Settings2 className="h-3.5 w-3.5" />
+                        <span>{t('menu.products.variantsAndExtras')}</span>
+                      </button>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-[var(--color-border)] text-xs">
+                      <div className="flex items-center gap-1 pt-2">
                         <button
-                          onClick={() => handleOpenVariantBuilder(item)}
-                          className="flex items-center gap-1 text-[11px] font-semibold text-[var(--primary)] hover:underline"
+                          onClick={() => handleToggleProductStatus(item.id)}
+                          className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+                          title="Toggle Status"
+                          aria-label="Toggle Status"
                         >
-                          <Settings2 className="h-3.5 w-3.5" />
-                          <span>Variants & Extras</span>
+                          {item.status === 'Active' ? <Eye className="h-4 w-4 text-emerald-500" /> : <EyeOff className="h-4 w-4 text-rose-500" />}
                         </button>
-                        <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]">
-                          {item.status === 'Active' ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        <button
+                          onClick={() => setDeleteItem({ id: item.id, type: 'product', name: item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey })}
+                          className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500"
+                          title={t('common.delete')}
+                          aria-label={t('common.delete')}
+                        >
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     </div>
@@ -424,11 +540,11 @@ const MenuPage = () => {
                       <th className="p-3">{t('menu.products.price')}</th>
                       <th className="p-3">{t('menu.products.badge')}</th>
                       <th className="p-3">{t('menu.products.status')}</th>
-                      <th className="p-3 text-right">Actions</th>
+                      <th className="p-3 text-right">{t('common.actions')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--color-border)]">
-                    {products.map((item) => (
+                    {filteredProducts.map((item) => (
                       <tr key={item.id} className="hover:bg-[var(--elevated)]/40 transition">
                         <td className="p-3 font-bold text-[var(--text-primary)]">
                           {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
@@ -455,9 +571,22 @@ const MenuPage = () => {
                           </span>
                         </td>
                         <td className="p-3 text-right">
-                          <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]">
-                            {item.status === 'Active' ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                          </button>
+                          <div className="flex items-center justify-end gap-1">
+                            <button
+                              onClick={() => handleToggleProductStatus(item.id)}
+                              className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+                              aria-label="Toggle Status"
+                            >
+                              {item.status === 'Active' ? <Eye className="h-4 w-4 text-emerald-500" /> : <EyeOff className="h-4 w-4 text-rose-500" />}
+                            </button>
+                            <button
+                              onClick={() => setDeleteItem({ id: item.id, type: 'product', name: item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey })}
+                              className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500"
+                              aria-label={t('common.delete')}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -473,18 +602,18 @@ const MenuPage = () => {
       {activeTab === 'simulator' && (
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-[var(--text-muted)]">Simulator Language:</span>
+            <span className="text-xs font-semibold text-[var(--text-muted)]">{t('menu.simulator.langLabel')}</span>
             <button
               onClick={() => setSimulatorLang('ar')}
               className={`px-3 py-1 text-xs font-bold rounded-lg ${simulatorLang === 'ar' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card)] text-[var(--text-secondary)]'}`}
             >
-              العربية (Arabic)
+              {t('menu.simulator.arabic')}
             </button>
             <button
               onClick={() => setSimulatorLang('en')}
               className={`px-3 py-1 text-xs font-bold rounded-lg ${simulatorLang === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card)] text-[var(--text-secondary)]'}`}
             >
-              English
+              {t('menu.simulator.english')}
             </button>
           </div>
 
@@ -500,22 +629,22 @@ const MenuPage = () => {
               <img src="/assets/logo/Mot7km_Logo.png" alt="Logo" className="h-8 w-8 object-contain" />
               <div>
                 <h4 className="font-bold text-xs text-[var(--text-primary)]">
-                  {simulatorLang === 'ar' ? 'مطعم متحكم الرئيسي' : 'Mot7km Main Branch'}
+                  {t('menu.simulator.branchName')}
                 </h4>
-                <p className="text-[10px] text-[var(--text-muted)]">Scan to Order • Table #4</p>
+                <p className="text-[10px] text-[var(--text-muted)]">{t('menu.simulator.subText')}</p>
               </div>
             </div>
 
             {/* Mobile Body Content */}
             <div className="flex-1 p-3 overflow-y-auto space-y-3 hide-scrollbar">
               <div className="rounded-xl bg-gradient-to-r from-[var(--primary)] to-cyan-600 p-3 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-wider">Promo Offer</span>
-                <h5 className="font-extrabold text-xs">20% Off Truffle Burgers Today!</h5>
+                <span className="text-[10px] font-bold uppercase tracking-wider">{t('menu.simulator.promoBadge')}</span>
+                <h5 className="font-extrabold text-xs">{t('menu.simulator.promoTitle')}</h5>
               </div>
 
               <div className="space-y-2">
                 <h6 className="text-[11px] font-bold text-[var(--text-primary)]">
-                  {simulatorLang === 'ar' ? 'الأصناف الأكثر طلباً' : 'Popular Dishes'}
+                  {t('menu.simulator.popularHeader')}
                 </h6>
 
                 {products.map((p) => (
@@ -523,7 +652,7 @@ const MenuPage = () => {
                     <img src={p.image} alt="Dish" className="h-12 w-12 rounded-lg object-cover" />
                     <div className="flex-1 text-[11px]">
                       <h6 className="font-bold text-[var(--text-primary)]">
-                        {simulatorLang === 'ar' ? (p.nameKey === 'dashboard.products.truffleBurger' ? 'برجر الترافل المدخن' : 'سبانيش لاتيه بارد') : (p.nameKey === 'dashboard.products.truffleBurger' ? 'Smoked Truffle Burger' : 'Spanish Iced Latte')}
+                        {p.nameKey.includes('.') ? t(p.nameKey) : p.nameKey}
                       </h6>
                       <span className="font-bold text-[var(--primary)]">{p.price}</span>
                     </div>
@@ -542,7 +671,7 @@ const MenuPage = () => {
             <div>
               <h2 className="text-base font-bold text-[var(--text-primary)]">{t('menu.sliders.title')}</h2>
               <p className="text-xs text-[var(--text-muted)] mt-0.5">
-                Manage promotional banners, offers, and featured sliders displayed at the top of customer QR menu.
+                {t('menu.sliders.sub')}
               </p>
             </div>
             <button
@@ -576,12 +705,16 @@ const MenuPage = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between p-3.5 text-xs">
-                  <span className="text-[var(--text-muted)]">Target: <strong className="text-[var(--text-primary)]">{slide.targetKey.includes('.') ? t(slide.targetKey) : slide.targetKey}</strong></span>
+                  <span className="text-[var(--text-muted)]">{t('menu.sliders.targetLabel')} <strong className="text-[var(--text-primary)]">{slide.targetKey.includes('.') ? t(slide.targetKey) : slide.targetKey}</strong></span>
                   <div className="flex items-center gap-2">
-                    <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)]">
+                    <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)]" aria-label={t('common.edit')}>
                       <Edit className="h-4 w-4" />
                     </button>
-                    <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500">
+                    <button
+                      onClick={() => setDeleteItem({ id: slide.id, type: 'slider', name: slide.titleKey.includes('.') ? t(slide.titleKey) : slide.titleKey })}
+                      className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500"
+                      aria-label={t('common.delete')}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -602,25 +735,31 @@ const MenuPage = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-bold text-base text-[var(--text-primary)]">Mot7km Smart QR Menu</h3>
-              <p className="text-xs text-[var(--text-muted)] mt-1">/m/mot7km-restaurant/main-branch</p>
+              <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.qr.title')}</h3>
+              <p className="text-xs text-[var(--text-muted)] mt-1">{t('menu.qr.url')}</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[var(--primary-dark)] transition">
-                <Download className="h-4 w-4" /> Download SVG / PNG
+              <button
+                onClick={() => showToast(t('menu.qr.downloadBtn'), 'info')}
+                className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[var(--primary-dark)] transition"
+              >
+                <Download className="h-4 w-4" /> {t('menu.qr.downloadBtn')}
               </button>
-              <button className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
-                <Share2 className="h-4 w-4" /> Share Link
+              <button
+                onClick={() => showToast(t('menu.qr.shareBtn'), 'info')}
+                className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+              >
+                <Share2 className="h-4 w-4" /> {t('menu.qr.shareBtn')}
               </button>
             </div>
           </div>
 
           <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-5">
-            <h2 className="text-base font-bold text-[var(--text-primary)]">Restaurant Branding Settings</h2>
+            <h2 className="text-base font-bold text-[var(--text-primary)]">{t('menu.qr.brandingTitle')}</h2>
             
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-[var(--text-secondary)]">Primary Theme Color</label>
+                <label className="text-xs font-semibold text-[var(--text-secondary)]">{t('menu.qr.themeColor')}</label>
                 <div className="mt-2 flex items-center gap-3">
                   <div className="h-8 w-8 rounded-full bg-[#1683C7] ring-2 ring-white cursor-pointer" />
                   <div className="h-8 w-8 rounded-full bg-[#0F766E] cursor-pointer" />
@@ -630,7 +769,7 @@ const MenuPage = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[var(--text-secondary)]">Restaurant Logo</label>
+                <label className="text-xs font-semibold text-[var(--text-secondary)]">{t('menu.qr.logoLabel')}</label>
                 <div className="mt-2 flex items-center gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3">
                   <ImageIcon className="h-5 w-5 text-[var(--text-muted)]" />
                   <span className="text-xs text-[var(--text-muted)]">Mot7km_Logo.png</span>
@@ -646,27 +785,27 @@ const MenuPage = () => {
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-sm">
-              <span className="text-xs text-[var(--text-muted)]">Average Product Rating</span>
+              <span className="text-xs text-[var(--text-muted)]">{t('menu.reviews.avgRating')}</span>
               <div className="mt-2 flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-[var(--text-primary)]">4.9</span>
                 <span className="text-amber-500 font-semibold text-sm">★★★★★</span>
               </div>
             </div>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-sm">
-              <span className="text-xs text-[var(--text-muted)]">Total Feedback Submitted</span>
+              <span className="text-xs text-[var(--text-muted)]">{t('menu.reviews.totalFeedback')}</span>
               <div className="mt-2 text-3xl font-bold text-[var(--text-primary)]">328</div>
             </div>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-sm">
-              <span className="text-xs text-[var(--text-muted)]">Pending Moderation</span>
+              <span className="text-xs text-[var(--text-muted)]">{t('menu.reviews.pendingModeration')}</span>
               <div className="mt-2 text-3xl font-bold text-emerald-500">0</div>
             </div>
           </div>
         </div>
       )}
 
-      {/* MODAL 4: Dish Variants & Add-ons Builder Modal */}
+      {/* MODAL 4: Dish Variants & Add-ons Builder Modal (NOW EDITABLE) */}
       {showVariantModal && selectedDishForVariant && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.variantsBuilder')}</h3>
@@ -674,11 +813,11 @@ const MenuPage = () => {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="space-y-3 text-xs">
-              <h4 className="font-bold text-[var(--primary)]">{selectedDishForVariant.nameKey.includes('.') ? t(selectedDishForVariant.nameKey) : selectedDishForVariant.nameKey}</h4>
+            <div className="space-y-4 text-xs">
+              <h4 className="font-bold text-[var(--primary)] text-sm">{selectedDishForVariant.nameKey.includes('.') ? t(selectedDishForVariant.nameKey) : selectedDishForVariant.nameKey}</h4>
               
               <div>
-                <label className="font-semibold text-[var(--text-secondary)]">Dish Size Variants</label>
+                <label className="font-semibold text-[var(--text-secondary)]">{t('menu.products.sizes')}</label>
                 <div className="mt-1 space-y-1.5">
                   {selectedDishForVariant.variants.map((v: string, idx: number) => (
                     <div key={idx} className="flex items-center justify-between rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2">
@@ -687,10 +826,22 @@ const MenuPage = () => {
                     </div>
                   ))}
                 </div>
+                <div className="flex gap-2 mt-2">
+                  <input
+                    type="text"
+                    value={newVariantInput}
+                    onChange={(e) => setNewVariantInput(e.target.value)}
+                    placeholder="e.g. Large ($16.00)"
+                    className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-xs font-medium focus:outline-none"
+                  />
+                  <button onClick={handleAddVariantToDish} className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow">
+                    + Add
+                  </button>
+                </div>
               </div>
 
               <div>
-                <label className="font-semibold text-[var(--text-secondary)]">Extras & Add-ons</label>
+                <label className="font-semibold text-[var(--text-secondary)]">{t('menu.products.extras')}</label>
                 <div className="mt-1 space-y-1.5">
                   {selectedDishForVariant.extras.map((e: string, idx: number) => (
                     <div key={idx} className="flex items-center justify-between rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2">
@@ -699,11 +850,23 @@ const MenuPage = () => {
                     </div>
                   ))}
                 </div>
+                <div className="flex gap-2 mt-2">
+                  <input
+                    type="text"
+                    value={newExtraInput}
+                    onChange={(e) => setNewExtraInput(e.target.value)}
+                    placeholder="e.g. Extra Sauce (+$1.00)"
+                    className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-xs font-medium focus:outline-none"
+                  />
+                  <button onClick={handleAddExtraToDish} className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow">
+                    + Add
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-2 pt-2 border-t border-[var(--color-border)]">
               <button onClick={() => setShowVariantModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
-                Close
+                {t('common.close')}
               </button>
             </div>
           </div>
@@ -712,7 +875,7 @@ const MenuPage = () => {
 
       {/* MODALS 1, 2, 3 */}
       {showAddCategoryModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.categories.add')}</h3>
@@ -732,10 +895,10 @@ const MenuPage = () => {
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button onClick={() => setShowAddCategoryModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
-                Cancel
+                {t('common.cancel')}
               </button>
               <button onClick={handleAddCategory} className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow">
-                Save Category
+                {t('common.save')}
               </button>
             </div>
           </div>
@@ -743,7 +906,7 @@ const MenuPage = () => {
       )}
 
       {showAddProductModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.products.add')}</h3>
@@ -775,10 +938,10 @@ const MenuPage = () => {
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button onClick={() => setShowAddProductModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
-                Cancel
+                {t('common.cancel')}
               </button>
               <button onClick={handleAddProduct} className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow">
-                Save Dish
+                {t('common.save')}
               </button>
             </div>
           </div>
@@ -786,7 +949,7 @@ const MenuPage = () => {
       )}
 
       {showAddSliderItemModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.sliders.addItem')}</h3>
@@ -818,15 +981,24 @@ const MenuPage = () => {
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button onClick={() => setShowAddSliderItemModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
-                Cancel
+                {t('common.cancel')}
               </button>
               <button onClick={handleAddSliderItem} className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow">
-                Save Banner Slide
+                {t('common.save')}
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={!!deleteItem}
+        title={t('common.delete')}
+        message={`Are you sure you want to delete "${deleteItem?.name}"?`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteItem(null)}
+      />
     </div>
   );
 };

@@ -6,7 +6,9 @@
     "orders": "Orders & Sales",
     "employees": "Employees & Staff",
     "inventory": "Inventory",
-    "settings": "Settings"
+    "settings": "Settings",
+    "reviews": "Product Reviews",
+    "qrControl": "QR Control"
   },
   "layout": {
     "brand": "Mot7km ERP",
@@ -16,7 +18,28 @@
     "otherLanguage": "العربية",
     "expandSidebar": "Expand Sidebar",
     "collapseSidebar": "Collapse Sidebar",
-    "admin": "Owner / Admin"
+    "admin": "Owner / Admin",
+    "defaultUser": "Alex Morgan"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "actions": "Actions",
+    "active": "Active",
+    "soldOut": "Sold Out",
+    "hidden": "Hidden",
+    "edit": "Edit",
+    "delete": "Delete",
+    "views": "views",
+    "searchPlaceholder": "Search dishes, ingredients, employees...",
+    "noResults": "No results found",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "saveChanges": "Save Changes",
+    "success": "Success",
+    "error": "Error"
   },
   "login": {
     "welcomeBack": "Welcome Back",
@@ -34,7 +57,17 @@
     "ownerDemo": "Owner / Admin",
     "managerDemo": "Branch Manager",
     "featureTitle": "Smart Restaurant Control Platform",
-    "featureSub": "Centralized web dashboard for menu, QR analytics, branch operations, and customer reviews."
+    "featureSub": "Centralized web dashboard for menu, QR analytics, branch operations, and customer reviews.",
+    "showcase": {
+      "badge": "Mot7km Restaurant Control",
+      "qrViewsTitle": "QR Menu Views",
+      "qrViewsGrowth": "↑ +14.2% this week",
+      "ratingTitle": "Customer Rating",
+      "ratingBadge": "328 Reviews Approved",
+      "kitchenTitle": "Real-time Kitchen Orders",
+      "kitchenSub": "Live status tracking across all branches",
+      "kitchenBadge": "● 12 Active Orders"
+    }
   },
   "dashboard": {
     "title": "Restaurant Overview",
@@ -51,6 +84,8 @@
     "byRating": "By Rating",
     "branchComparison": "Branch Performance Comparison",
     "salesVsViews": "Sales ($) vs QR Views Side-by-Side",
+    "mainBranchSales": "Downtown Sales ($)",
+    "mallBranchSales": "Mall Branch Sales ($)",
     "soundChimeOn": "Chime On",
     "soundChimeMute": "Chime Muted",
     "quickActions": {
@@ -140,7 +175,9 @@
       "title": "Menu Categories",
       "add": "Add Category",
       "name": "Category Name",
-      "count": "Dishes Count"
+      "count": "Dishes Count",
+      "bulkSoldOut": "Sold Out",
+      "bulkActive": "Active"
     },
     "products": {
       "title": "Dishes & Products",
@@ -149,33 +186,88 @@
       "price": "Price",
       "category": "Category",
       "badge": "Badge",
-      "status": "Status"
+      "status": "Status",
+      "variantsAndExtras": "Variants & Extras",
+      "actionsHeader": "Actions",
+      "sizes": "Dish Size Variants",
+      "extras": "Extras & Add-ons"
     },
     "sliders": {
       "title": "Header Sliders & Banners",
+      "sub": "Manage promotional banners, offers, and featured sliders displayed at the top of customer QR menu.",
       "add": "Add New Slider",
       "addItem": "Add Slider Slide / Item",
       "slideTitle": "Slide Title",
       "slideSubtitle": "Slide Subtitle",
       "targetDish": "Featured Dish / Offer",
-      "image": "Banner Image"
+      "image": "Banner Image",
+      "targetLabel": "Target:"
+    },
+    "qr": {
+      "title": "Mot7km Smart QR Menu",
+      "url": "/m/mot7km-restaurant/main-branch",
+      "downloadBtn": "Download SVG / PNG",
+      "shareBtn": "Share Link",
+      "brandingTitle": "Restaurant Branding Settings",
+      "themeColor": "Primary Theme Color",
+      "logoLabel": "Restaurant Logo"
+    },
+    "reviews": {
+      "avgRating": "Average Product Rating",
+      "totalFeedback": "Total Feedback Submitted",
+      "pendingModeration": "Pending Moderation"
+    },
+    "simulator": {
+      "langLabel": "Simulator Language:",
+      "arabic": "العربية (Arabic)",
+      "english": "English",
+      "branchName": "Mot7km Main Branch",
+      "subText": "Scan to Order • Table #4",
+      "promoBadge": "Promo Offer",
+      "promoTitle": "20% Off Truffle Burgers Today!",
+      "popularHeader": "Popular Dishes"
     }
   },
   "branches": {
     "title": "Branch Operations & Availability Matrix",
     "subtitle": "Configure branch profiles, working hours, and dish availability per location",
+    "addBtn": "Add New Branch",
+    "addModalTitle": "Add New Restaurant Branch",
     "tabs": {
       "locations": "Branch Locations",
       "availabilityMatrix": "Branch Dish Availability Matrix",
       "workingHours": "Working Hours & Shifts"
     },
+    "card": {
+      "todaySales": "Today Sales",
+      "activePos": "Active POS",
+      "topDish": "Top Dish",
+      "cashiers": "Cashiers"
+    },
     "matrixTitle": "Per-Branch Item Availability Matrix",
     "matrixSubtitle": "Toggle which dishes are served in Main Branch vs Mall Branch",
-    "scheduleTitle": "Weekly Branch Operational Schedule"
+    "headers": {
+      "dish": "Dish / Menu Item",
+      "mainBranch": "Main Branch (Downtown)",
+      "mallBranch": "Mall Branch (Sheikh Zayed)"
+    },
+    "scheduleTitle": "Weekly Branch Operational Schedule",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "shiftStatus": "10:00 AM — 02:00 AM (Midnight Shift Active)",
+    "openBadge": "Open"
   },
   "employees": {
     "title": "Staff Management & Role Permissions",
     "subtitle": "Clock-in status, attendance QR codes, and granular role permission matrix",
+    "addStaff": "Add New Staff Member",
     "tabs": {
       "staffList": "Staff & Clocked-In Status",
       "permissionsMatrix": "Role Permission Matrix",
@@ -183,18 +275,48 @@
     },
     "qrAttendance": "Generate Attendance QR Code",
     "permissionsTitle": "Granular Page & Action Permissions",
-    "permissionsSubtitle": "Check or uncheck accessible features per role"
+    "permissionsSubtitle": "Check or uncheck accessible features per role",
+    "table": {
+      "name": "Staff Name",
+      "role": "Role",
+      "branch": "Assigned Branch",
+      "status": "Attendance Status",
+      "shift": "Today Shift"
+    },
+    "statusClockedIn": "Clocked In",
+    "statusClockedOut": "Clocked Out",
+    "headers": {
+      "feature": "Dashboard Feature / Module",
+      "owner": "Owner / Admin",
+      "manager": "Branch Manager",
+      "cashier": "Cashier",
+      "kitchen": "Kitchen Staff"
+    },
+    "qrModalTitle": "Branch Tablet Clock-In QR Code",
+    "qrModalSub": "Scan this QR on branch tablet for employee attendance"
   },
   "inventory": {
     "title": "Inventory & Recipe Ingredients",
     "subtitle": "Raw ingredients, threshold alerts, dish recipes, and supplier restock orders",
+    "addIngredient": "Add New Raw Ingredient",
     "tabs": {
       "stockLevels": "Ingredient Stock Levels",
       "recipeLink": "Dish Recipe Builder",
       "restockPo": "Supplier Restock Orders"
     },
     "exportPo": "Export Supplier Restock PO",
-    "lowStockAlert": "Low Stock Threshold Warning (<15%)"
+    "lowStockAlert": "Low Stock Threshold Warning (<15%)",
+    "table": {
+      "ingredient": "Ingredient",
+      "category": "Category",
+      "supplierTag": "Supplier Tag",
+      "stockGauge": "Stock Threshold Gauge",
+      "currentStock": "Current Stock"
+    },
+    "stockRemaining": "Stock Remaining",
+    "recipeTitle": "Automatic Dish Recipe Ingredient Deductions",
+    "linkRecipe": "Link Recipe",
+    "deductsHeader": "1x Smoked Truffle Burger automatically deducts:"
   },
   "settings": {
     "title": "Settings & SaaS Subscription",
@@ -207,11 +329,26 @@
     "plansTitle": "Mot7km SaaS Subscription Tiers",
     "currentPlan": "Active Plan",
     "upgradeBtn": "Upgrade Tier",
-    "auditTitle": "Team Action & Security Audit Trail"
+    "auditTitle": "Team Action & Security Audit Trail",
+    "printerTitle": "Thermal Receipt Printer Configuration",
+    "footerTextLabel": "Thermal Receipt Footer Text",
+    "footerTextDefault": "Thank you for visiting Mot7km Restaurant! www.mot7km.com",
+    "saveConfig": "Save Printer Config"
   },
   "orders": {
     "title": "Live Orders & KDS Display",
     "subtitle": "Real-time kitchen display system and order tracking board",
+    "kdsBadge": "KDS Display",
+    "delayed": "Delayed",
+    "filterAll": "All Orders",
+    "filterDineIn": "Dine-In Only",
+    "filterTakeaway": "Takeaway Only",
+    "actions": {
+      "markPreparing": "Mark Preparing",
+      "markReady": "Mark Ready",
+      "complete": "Complete Order",
+      "moveBack": "Move Back"
+    },
     "kanban": {
       "new": "New Orders",
       "preparing": "In Kitchen",

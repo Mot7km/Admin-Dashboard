@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from '../../context/LanguageContext';
+import { useToast } from '../common/Toast';
 import Footer from './Footer';
 import {
   Menu as MenuIcon,
@@ -18,11 +19,13 @@ import {
   Globe,
   PanelLeftClose,
   PanelLeftOpen,
+  Bell,
 } from 'lucide-react';
 
 const AppLayout = () => {
   const { t, locale, toggleLocale } = useTranslation();
   const { theme, toggleTheme } = useTheme();
+  const { showToast } = useToast();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -39,7 +42,7 @@ const AppLayout = () => {
   const closeMobileSidebar = () => setMobileSidebarOpen(false);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[var(--background)] text-[var(--text-primary)] flex flex-col lg:flex-row">
+    <div className="h-screen w-screen overflow-hidden bg-[var(--background)] text-[var(--text-primary)] flex flex-col lg:flex-row font-sans">
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--surface)]/90 px-4 py-3 backdrop-blur-md lg:hidden shrink-0">
         <button
@@ -61,18 +64,26 @@ const AppLayout = () => {
         </div>
         <div className="flex items-center gap-1">
           <button
+            onClick={() => showToast('2 New Notifications', 'info')}
+            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] relative"
+            aria-label="Notifications"
+          >
+            <Bell className="h-4 w-4" />
+            <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500"></span>
+          </button>
+          <button
             onClick={toggleTheme}
             className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
-            title={t('layout.theme')}
+            aria-label={t('layout.theme')}
           >
-            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4" />}
           </button>
           <button
             onClick={toggleLocale}
             className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
-            title={t('layout.language')}
+            aria-label={t('layout.language')}
           >
-            <Globe className="h-4 w-4" />
+            <Globe className="h-4 w-4 text-[var(--primary)]" />
           </button>
         </div>
       </header>
@@ -120,6 +131,7 @@ const AppLayout = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="hidden rounded-lg p-1.5 text-[var(--text-muted)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] lg:flex"
             title={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
+            aria-label={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
           >
             {isCollapsed ? (
               <PanelLeftOpen className={`h-5 w-5 ${locale === 'ar' ? 'rotate-180' : ''}`} />
@@ -132,6 +144,7 @@ const AppLayout = () => {
           <button
             onClick={closeMobileSidebar}
             className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] lg:hidden"
+            aria-label="Close menu"
           >
             <X className="h-5 w-5" />
           </button>
@@ -152,7 +165,7 @@ const AppLayout = () => {
                     isCollapsed ? 'justify-center px-0' : ''
                   } ${
                     isActive
-                      ? 'bg-[var(--elevated)] text-[var(--text-primary)] shadow-sm ring-1 ring-[var(--color-border)]'
+                      ? 'bg-[var(--elevated)] text-[var(--text-primary)] shadow-sm ring-1 ring-[var(--color-border)] font-bold'
                       : 'text-[var(--text-secondary)] hover:bg-[var(--elevated)]/60 hover:text-[var(--text-primary)]'
                   }`
                 }
@@ -160,7 +173,7 @@ const AppLayout = () => {
                 <item.icon className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105" />
                 {!isCollapsed && <span className="truncate">{label}</span>}
                 {isCollapsed && (
-                  <div className={`pointer-events-none absolute hidden rounded-md bg-[var(--card)] px-2.5 py-1 text-xs font-semibold text-[var(--text-primary)] shadow-lg ring-1 ring-[var(--color-border)] group-hover:block ${
+                  <div className={`pointer-events-none absolute hidden rounded-md bg-[var(--card)] px-2.5 py-1 text-xs font-semibold text-[var(--text-primary)] shadow-lg ring-1 ring-[var(--color-border)] group-hover:block z-50 ${
                     locale === 'ar' ? 'right-full mr-3' : 'left-full ml-3'
                   }`}>
                     {label}
@@ -180,13 +193,13 @@ const AppLayout = () => {
           >
             <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-              alt="Alex Morgan"
+              alt="User Avatar"
               className="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-[var(--primary)]/30"
             />
             {!isCollapsed && (
               <div className="flex flex-1 flex-col truncate">
                 <span className="truncate text-sm font-semibold text-[var(--text-primary)]">
-                  Alex Morgan
+                  {t('layout.defaultUser')}
                 </span>
                 <span className="text-xs text-[var(--text-muted)]">{t('layout.admin')}</span>
               </div>
@@ -197,17 +210,19 @@ const AppLayout = () => {
             <div className="mt-3 flex items-center justify-between px-1">
               <button
                 onClick={toggleTheme}
+                aria-label={t('layout.theme')}
                 className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
               >
-                {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+                {theme === 'dark' ? <Sun className="h-3.5 w-3.5 text-amber-400" /> : <Moon className="h-3.5 w-3.5" />}
                 <span>{t('layout.theme')}</span>
               </button>
               <button
                 onClick={toggleLocale}
+                aria-label={t('layout.language')}
                 className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
               >
-                <Globe className="h-3.5 w-3.5" />
-                <span>{locale === 'ar' ? 'English' : 'العربية'}</span>
+                <Globe className="h-3.5 w-3.5 text-[var(--primary)]" />
+                <span>{t('layout.otherLanguage')}</span>
               </button>
             </div>
           )}

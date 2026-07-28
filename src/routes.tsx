@@ -1,28 +1,20 @@
-import { lazy, Suspense } from 'react'
-import { createBrowserRouter } from 'react-router-dom'
-import AppLayout from './components/layout/AppLayout'
-import Loader from './components/common/Loader'
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
 
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const HomePage = lazy(() => import('./pages/HomePage'))
-const MenuPage = lazy(() => import('./pages/MenuPage'))
-const ReviewsPage = lazy(() => import('./pages/ReviewsPage'))
-const QrControlPage = lazy(() => import('./pages/QrControlPage'))
-const BranchesPage = lazy(() => import('./pages/BranchesPage'))
-const OrdersPage = lazy(() => import('./pages/OrdersPage'))
-const EmployeesPage = lazy(() => import('./pages/EmployeesPage'))
-const InventoryPage = lazy(() => import('./pages/InventoryPage'))
-const SettingsPage = lazy(() => import('./pages/SettingsPage'))
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import MenuPage from './pages/MenuPage';
+import BranchesPage from './pages/BranchesPage';
+import OrdersPage from './pages/OrdersPage';
+import EmployeesPage from './pages/EmployeesPage';
+import InventoryPage from './pages/InventoryPage';
+import SettingsPage from './pages/SettingsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export const router = createBrowserRouter([
   {
     path: '/login',
-    element: (
-      <Suspense fallback={<Loader />}>
-        <LoginPage />
-      </Suspense>
-    ),
+    element: <LoginPage />,
   },
   {
     path: '/',
@@ -31,84 +23,44 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <HomePage />
-          </Suspense>
-        ),
+        element: <HomePage />,
       },
       {
         path: 'menu',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <MenuPage />
-          </Suspense>
-        ),
+        element: <MenuPage />,
       },
       {
         path: 'reviews',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ReviewsPage />
-          </Suspense>
-        ),
+        element: <Navigate to="/menu?tab=reviews" replace />,
       },
       {
         path: 'qr-control',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <QrControlPage />
-          </Suspense>
-        ),
+        element: <Navigate to="/menu?tab=qr" replace />,
       },
       {
         path: 'branches',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <BranchesPage />
-          </Suspense>
-        ),
+        element: <BranchesPage />,
       },
       {
         path: 'orders',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <OrdersPage />
-          </Suspense>
-        ),
+        element: <OrdersPage />,
       },
       {
         path: 'employees',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <EmployeesPage />
-          </Suspense>
-        ),
+        element: <EmployeesPage />,
       },
       {
         path: 'inventory',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <InventoryPage />
-          </Suspense>
-        ),
+        element: <InventoryPage />,
       },
       {
         path: 'settings',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SettingsPage />
-          </Suspense>
-        ),
+        element: <SettingsPage />,
       },
       {
         path: '*',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <NotFoundPage />
-          </Suspense>
-        ),
+        element: <NotFoundPage />,
       },
     ],
   },
-])
+]);

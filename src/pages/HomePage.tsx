@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../context/LanguageContext';
+import { useToast } from '../components/common/Toast';
 import {
   AreaChart,
   Area,
@@ -31,6 +33,9 @@ import {
 
 const HomePage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
+
   const [timeFilter, setTimeFilter] = useState('thisMonth');
   const [productFilter, setProductFilter] = useState('byViews');
   const [selectedBranch, setSelectedBranch] = useState('all');
@@ -168,6 +173,11 @@ const HomePage = () => {
     },
   ];
 
+  const handleBranchFilter = (val: string) => {
+    setSelectedBranch(val);
+    showToast(`${t('dashboard.title')}: Filtered by branch`, 'info');
+  };
+
   return (
     <div className="space-y-6 text-[var(--text-primary)]">
       {/* Top Header & Quick Toolbar */}
@@ -183,9 +193,13 @@ const HomePage = () => {
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>{t('dashboard.liveKitchen')}</span>
               <button
-                onClick={() => setIsChimeMuted(!isChimeMuted)}
+                onClick={() => {
+                  setIsChimeMuted(!isChimeMuted);
+                  showToast(isChimeMuted ? t('dashboard.soundChimeOn') : t('dashboard.soundChimeMute'), 'info');
+                }}
                 className="ml-1 text-slate-400 hover:text-emerald-400 transition"
                 title={isChimeMuted ? t('dashboard.soundChimeMute') : t('dashboard.soundChimeOn')}
+                aria-label="Toggle chime sound"
               >
                 {isChimeMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5 text-emerald-500" />}
               </button>
@@ -202,7 +216,7 @@ const HomePage = () => {
           <div className="relative">
             <select
               value={selectedBranch}
-              onChange={(e) => setSelectedBranch(e.target.value)}
+              onChange={(e) => handleBranchFilter(e.target.value)}
               className="appearance-none rounded-xl border border-[var(--color-border)] bg-[var(--card)] py-2 pl-9 pr-8 text-xs font-semibold text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none shadow-sm cursor-pointer"
             >
               <option value="all">{t('dashboard.allBranches')}</option>
@@ -214,7 +228,10 @@ const HomePage = () => {
           </div>
 
           {/* Date Picker Button */}
-          <button className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--primary)] hover:text-[var(--text-primary)]">
+          <button
+            onClick={() => showToast(t('dashboard.dateRange'), 'info')}
+            className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--primary)] hover:text-[var(--text-primary)]"
+          >
             <Calendar className="h-4 w-4 text-[var(--text-muted)]" />
             <span>{t('dashboard.dateRange')}</span>
             <ChevronDown className="h-3.5 w-3.5 text-[var(--text-muted)]" />
@@ -224,15 +241,24 @@ const HomePage = () => {
 
       {/* Floating Quick Action Shortcuts Bar */}
       <div className="flex items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar">
-        <button className="flex items-center gap-2 shrink-0 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[var(--primary)]/20 hover:bg-[var(--primary-dark)] transition">
+        <button
+          onClick={() => navigate('/menu')}
+          className="flex items-center gap-2 shrink-0 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[var(--primary)]/20 hover:bg-[var(--primary-dark)] transition"
+        >
           <Plus className="h-4 w-4" />
           <span>{t('dashboard.quickActions.addDish')}</span>
         </button>
-        <button className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition">
+        <button
+          onClick={() => navigate('/menu')}
+          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+        >
           <Sparkles className="h-4 w-4 text-amber-500" />
           <span>{t('dashboard.quickActions.addBanner')}</span>
         </button>
-        <button className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition">
+        <button
+          onClick={() => navigate('/menu')}
+          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+        >
           <Printer className="h-4 w-4 text-[var(--primary)]" />
           <span>{t('dashboard.quickActions.downloadQr')}</span>
         </button>
@@ -387,8 +413,8 @@ const HomePage = () => {
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', color: 'var(--text-muted)' }} />
-                <Bar dataKey="mainBranchSales" name="Downtown Sales ($)" fill="#1683C7" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="mallBranchSales" name="Mall Branch Sales ($)" fill="#0F766E" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="mainBranchSales" name={t('dashboard.mainBranchSales')} fill="#1683C7" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="mallBranchSales" name={t('dashboard.mallBranchSales')} fill="#0F766E" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -419,7 +445,7 @@ const HomePage = () => {
               <div key={prod.nameKey} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-medium">
                   <span className="text-[var(--text-secondary)]">{t(prod.nameKey)}</span>
-                  <span className="font-semibold text-[var(--text-primary)]">{prod.views} views</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{prod.views} {t('common.views')}</span>
                 </div>
                 <div className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
                   <div
@@ -437,7 +463,10 @@ const HomePage = () => {
           <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
             <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
               <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.recentReviews')}</h2>
-              <button className="text-xs font-medium text-[var(--primary)] hover:underline">
+              <button
+                onClick={() => navigate('/menu')}
+                className="text-xs font-medium text-[var(--primary)] hover:underline bg-transparent border-0 p-0"
+              >
                 {t('dashboard.viewAll')}
               </button>
             </div>
