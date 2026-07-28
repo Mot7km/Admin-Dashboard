@@ -3,11 +3,14 @@ import { useTranslation } from '../context/LanguageContext';
 import {
   AreaChart,
   Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from 'recharts';
 import {
   Calendar,
@@ -22,6 +25,8 @@ import {
   Printer,
   Store,
   Sparkles,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 
 const HomePage = () => {
@@ -29,6 +34,7 @@ const HomePage = () => {
   const [timeFilter, setTimeFilter] = useState('thisMonth');
   const [productFilter, setProductFilter] = useState('byViews');
   const [selectedBranch, setSelectedBranch] = useState('all');
+  const [isChimeMuted, setIsChimeMuted] = useState(false);
 
   // Sparkline mini data for KPI cards
   const sparklineData1 = [
@@ -87,6 +93,14 @@ const HomePage = () => {
     { name: t('dashboard.dates.feb15'), views: 3900 },
     { name: t('dashboard.dates.feb25'), views: 5800 },
     { name: t('dashboard.dates.feb28'), views: 8650 },
+  ];
+
+  // Side-by-Side Branch Performance Bar Chart Data
+  const branchComparisonData = [
+    { name: 'Week 1', mainBranchSales: 4200, mallBranchSales: 2800, mainBranchViews: 5400, mallBranchViews: 3200 },
+    { name: 'Week 2', mainBranchSales: 5100, mallBranchSales: 3400, mainBranchViews: 6800, mallBranchViews: 4100 },
+    { name: 'Week 3', mainBranchSales: 4900, mallBranchSales: 3900, mainBranchViews: 6200, mallBranchViews: 4800 },
+    { name: 'Week 4', mainBranchSales: 6300, mallBranchSales: 4500, mainBranchViews: 8100, mallBranchViews: 5600 },
   ];
 
   // Top Products matching Mot7km Restaurant PRD
@@ -163,10 +177,19 @@ const HomePage = () => {
             <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
               {t('dashboard.title')}
             </h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-500 ring-1 ring-emerald-500/20 animate-pulse">
-              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-              {t('dashboard.liveKitchen')}
-            </span>
+            
+            {/* Live Kitchen Badge with Chime Toggle */}
+            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-500 ring-1 ring-emerald-500/20">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{t('dashboard.liveKitchen')}</span>
+              <button
+                onClick={() => setIsChimeMuted(!isChimeMuted)}
+                className="ml-1 text-slate-400 hover:text-emerald-400 transition"
+                title={isChimeMuted ? t('dashboard.soundChimeMute') : t('dashboard.soundChimeOn')}
+              >
+                {isChimeMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5 text-emerald-500" />}
+              </button>
+            </div>
           </div>
           <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
             {t('dashboard.subtitle')}
@@ -267,10 +290,10 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* Middle Section: QR Traffic & Top Products */}
+      {/* Middle Section: QR Traffic & Branch Comparison */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* QR Menu Traffic */}
-        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-7 xl:col-span-8">
+        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-7 xl:col-span-7">
           <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
             <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.trafficOverview')}</h2>
             <div className="relative">
@@ -339,8 +362,43 @@ const HomePage = () => {
           </div>
         </div>
 
+        {/* Branch Performance Comparison Widget */}
+        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-5 xl:col-span-5">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+            <div>
+              <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.branchComparison')}</h2>
+              <p className="text-[11px] text-[var(--text-muted)]">{t('dashboard.salesVsViews')}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={branchComparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--surface)',
+                    borderColor: 'var(--color-border)',
+                    borderRadius: '12px',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                  }}
+                />
+                <Legend wrapperStyle={{ fontSize: '11px', color: 'var(--text-muted)' }} />
+                <Bar dataKey="mainBranchSales" name="Downtown Sales ($)" fill="#1683C7" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="mallBranchSales" name="Mall Branch Sales ($)" fill="#0F766E" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section: Popular Dishes & Recent Reviews & Activity Feed */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Popular Dishes */}
-        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-5 xl:col-span-4">
+        <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-6">
           <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
             <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.topProducts')}</h2>
             <div className="relative">
@@ -373,65 +431,60 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Bottom Section: Customer Reviews & Activity Feed */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Customer Feedback */}
-        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
-          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
-            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.recentReviews')}</h2>
-            <button className="text-xs font-medium text-[var(--primary)] hover:underline">
-              {t('dashboard.viewAll')}
-            </button>
+        {/* Customer Feedback & Activity Feed */}
+        <div className="grid grid-cols-1 gap-6 lg:col-span-6">
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+              <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.recentReviews')}</h2>
+              <button className="text-xs font-medium text-[var(--primary)] hover:underline">
+                {t('dashboard.viewAll')}
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              {recentReviews.map((rev) => (
+                <div key={rev.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3.5 text-xs">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-[var(--text-primary)]">{rev.customer}</span>
+                      <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 font-semibold text-amber-500">
+                        ★ {rev.rating}.0
+                      </span>
+                    </div>
+                    <span className="text-[var(--text-muted)] text-[11px]">{t(rev.timeKey)}</span>
+                  </div>
+                  <p className="mt-1.5 font-medium text-[var(--text-secondary)]">"{t(rev.commentKey)}"</p>
+                  <div className="mt-2 text-[11px] font-semibold text-[var(--primary)]">
+                    {t(rev.dishKey)}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-4 space-y-3">
-            {recentReviews.map((rev) => (
-              <div key={rev.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3.5 text-xs">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-[var(--text-primary)]">{rev.customer}</span>
-                    <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 font-semibold text-amber-500">
-                      ★ {rev.rating}.0
+          {/* System Activity */}
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
+              <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.systemActivity')}</h2>
+            </div>
+            <div className="mt-4 space-y-3">
+              {activityFeed.map((item) => (
+                <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] ring-1 ring-[var(--primary)]/20">
+                      <item.icon className="h-4 w-4" />
+                    </div>
+                    <span className="font-medium text-[var(--text-primary)]">
+                      {t(item.titleKey)}
                     </span>
                   </div>
-                  <span className="text-[var(--text-muted)] text-[11px]">{t(rev.timeKey)}</span>
-                </div>
-                <p className="mt-1.5 font-medium text-[var(--text-secondary)]">"{t(rev.commentKey)}"</p>
-                <div className="mt-2 text-[11px] font-semibold text-[var(--primary)]">
-                  {t(rev.dishKey)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* System Activity */}
-        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg">
-          <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
-            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.systemActivity')}</h2>
-            <button className="text-xs font-medium text-[var(--primary)] hover:underline">
-              {t('dashboard.viewAll')}
-            </button>
-          </div>
-
-          <div className="mt-4 space-y-4">
-            {activityFeed.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] ring-1 ring-[var(--primary)]/20">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <span className="font-medium text-[var(--text-primary)]">
-                    {t(item.titleKey)}
+                  <span className="shrink-0 text-[var(--text-muted)]">
+                    {t(item.timeKey)}
                   </span>
                 </div>
-                <span className="shrink-0 text-[var(--text-muted)]">
-                  {t(item.timeKey)}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -49,6 +49,10 @@
     "thisYear": "This Year",
     "byViews": "By Menu Views",
     "byRating": "By Rating",
+    "branchComparison": "Branch Performance Comparison",
+    "salesVsViews": "Sales ($) vs QR Views Side-by-Side",
+    "soundChimeOn": "Chime On",
+    "soundChimeMute": "Chime Muted",
     "quickActions": {
       "addDish": "+ Add Special Dish",
       "addBanner": "+ Offer Banner",
@@ -111,11 +115,14 @@
     "viewGrid": "Grid View",
     "viewTable": "Table View",
     "peakHourMode": "Peak Hour Mode",
+    "variantsBuilder": "Dish Variants & Add-ons Builder",
+    "phoneSimulator": "Bilingual Customer Menu Simulator",
     "tabs": {
       "categoriesAndProducts": "Categories & Products",
       "slidersAndBanners": "Sliders & Promotional Items",
       "qrControl": "QR Code & Branding",
-      "reviews": "Product Reviews & Ratings"
+      "reviews": "Product Reviews & Ratings",
+      "simulator": "Live Menu Phone Preview"
     },
     "categoriesList": {
       "burgers": "Burgers & Wraps",
@@ -153,6 +160,54 @@
       "targetDish": "Featured Dish / Offer",
       "image": "Banner Image"
     }
+  },
+  "branches": {
+    "title": "Branch Operations & Availability Matrix",
+    "subtitle": "Configure branch profiles, working hours, and dish availability per location",
+    "tabs": {
+      "locations": "Branch Locations",
+      "availabilityMatrix": "Branch Dish Availability Matrix",
+      "workingHours": "Working Hours & Shifts"
+    },
+    "matrixTitle": "Per-Branch Item Availability Matrix",
+    "matrixSubtitle": "Toggle which dishes are served in Main Branch vs Mall Branch",
+    "scheduleTitle": "Weekly Branch Operational Schedule"
+  },
+  "employees": {
+    "title": "Staff Management & Role Permissions",
+    "subtitle": "Clock-in status, attendance QR codes, and granular role permission matrix",
+    "tabs": {
+      "staffList": "Staff & Clocked-In Status",
+      "permissionsMatrix": "Role Permission Matrix",
+      "shiftGrid": "Shift Timeline Grid"
+    },
+    "qrAttendance": "Generate Attendance QR Code",
+    "permissionsTitle": "Granular Page & Action Permissions",
+    "permissionsSubtitle": "Check or uncheck accessible features per role"
+  },
+  "inventory": {
+    "title": "Inventory & Recipe Ingredients",
+    "subtitle": "Raw ingredients, threshold alerts, dish recipes, and supplier restock orders",
+    "tabs": {
+      "stockLevels": "Ingredient Stock Levels",
+      "recipeLink": "Dish Recipe Builder",
+      "restockPo": "Supplier Restock Orders"
+    },
+    "exportPo": "Export Supplier Restock PO",
+    "lowStockAlert": "Low Stock Threshold Warning (<15%)"
+  },
+  "settings": {
+    "title": "Settings & SaaS Subscription",
+    "subtitle": "Manage subscription tier, restaurant profile, printers, and team audit logs",
+    "tabs": {
+      "plans": "SaaS Subscription Plans",
+      "profile": "Restaurant Profile & Printers",
+      "auditLog": "Security Audit Log"
+    },
+    "plansTitle": "Mot7km SaaS Subscription Tiers",
+    "currentPlan": "Active Plan",
+    "upgradeBtn": "Upgrade Tier",
+    "auditTitle": "Team Action & Security Audit Trail"
   },
   "orders": {
     "title": "Live Orders & KDS Display",
