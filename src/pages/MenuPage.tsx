@@ -17,11 +17,16 @@ import {
   Edit,
   X,
   Layers,
+  LayoutGrid,
+  List,
+  Zap,
 } from 'lucide-react';
 
 const MenuPage = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'items' | 'sliders' | 'qr' | 'reviews'>('items');
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
+  const [isPeakHourMode, setIsPeakHourMode] = useState(false);
 
   // Modals state
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
@@ -53,6 +58,7 @@ const MenuPage = () => {
       status: 'Active',
       badge: 'Bestseller',
       views: '4,820',
+      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80',
     },
     {
       id: 'prod-2',
@@ -62,6 +68,7 @@ const MenuPage = () => {
       status: 'Sold Out',
       badge: 'Popular',
       views: '3,950',
+      image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&auto=format&fit=crop&q=80',
     },
     {
       id: 'prod-3',
@@ -71,6 +78,7 @@ const MenuPage = () => {
       status: 'Active',
       badge: 'New',
       views: '3,120',
+      image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&auto=format&fit=crop&q=80',
     },
   ]);
 
@@ -117,6 +125,7 @@ const MenuPage = () => {
         status: 'Active',
         badge: 'New',
         views: '0',
+        image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop&q=80',
       },
     ]);
     setNewProdName('');
@@ -154,57 +163,102 @@ const MenuPage = () => {
             {t('menu.subtitle')}
           </p>
         </div>
+
+        {/* Peak Hour Mode & Controls */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsPeakHourMode(!isPeakHourMode)}
+            className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition shadow-sm ${
+              isPeakHourMode
+                ? 'bg-amber-500 text-white animate-pulse'
+                : 'border border-[var(--color-border)] bg-[var(--card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            <Zap className="h-4 w-4" />
+            <span>{t('menu.peakHourMode')}</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Sub-Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-2 overflow-x-auto hide-scrollbar">
-        <button
-          onClick={() => setActiveTab('items')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-            activeTab === 'items'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <Utensils className="h-4 w-4" />
-          <span>{t('menu.tabs.categoriesAndProducts')}</span>
-        </button>
+      <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+        <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar">
+          <button
+            onClick={() => setActiveTab('items')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+              activeTab === 'items'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <Utensils className="h-4 w-4" />
+            <span>{t('menu.tabs.categoriesAndProducts')}</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('sliders')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-            activeTab === 'sliders'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <Sliders className="h-4 w-4" />
-          <span>{t('menu.tabs.slidersAndBanners')}</span>
-        </button>
+          <button
+            onClick={() => setActiveTab('sliders')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+              activeTab === 'sliders'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <Sliders className="h-4 w-4" />
+            <span>{t('menu.tabs.slidersAndBanners')}</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('qr')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-            activeTab === 'qr'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <QrCode className="h-4 w-4" />
-          <span>{t('menu.tabs.qrControl')}</span>
-        </button>
+          <button
+            onClick={() => setActiveTab('qr')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+              activeTab === 'qr'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <QrCode className="h-4 w-4" />
+            <span>{t('menu.tabs.qrControl')}</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('reviews')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
-            activeTab === 'reviews'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <Star className="h-4 w-4" />
-          <span>{t('menu.tabs.reviews')}</span>
-        </button>
+          <button
+            onClick={() => setActiveTab('reviews')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+              activeTab === 'reviews'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <Star className="h-4 w-4" />
+            <span>{t('menu.tabs.reviews')}</span>
+          </button>
+        </div>
+
+        {/* View Mode Switcher (Grid / Table) */}
+        {activeTab === 'items' && (
+          <div className="hidden sm:flex items-center gap-1 rounded-xl border border-[var(--color-border)] bg-[var(--card)] p-1">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-lg text-xs font-semibold transition ${
+                viewMode === 'grid'
+                  ? 'bg-[var(--primary)] text-white'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+              }`}
+              title={t('menu.viewGrid')}
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('table')}
+              className={`p-1.5 rounded-lg text-xs font-semibold transition ${
+                viewMode === 'table'
+                  ? 'bg-[var(--primary)] text-white'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+              }`}
+              title={t('menu.viewTable')}
+            >
+              <List className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* TAB 1: Categories & Products */}
@@ -242,7 +296,7 @@ const MenuPage = () => {
           </div>
 
           {/* Products Header & Add Product */}
-          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg space-y-4">
+          <div className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-base font-bold text-[var(--text-primary)]">{t('menu.products.title')}</h2>
               <button
@@ -259,59 +313,99 @@ const MenuPage = () => {
               <input
                 type="text"
                 placeholder="Search dishes, drinks, ingredients..."
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] py-2 pl-9 pr-4 text-xs font-medium text-[var(--text-primary)] focus:border-[var(--primary)] focus:outline-none"
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--card)] py-2.5 pl-9 pr-4 text-xs font-medium text-[var(--text-primary)] focus:border-[var(--primary)] focus:outline-none shadow-sm"
               />
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="border-b border-[var(--color-border)] bg-[var(--surface)] font-semibold text-[var(--text-muted)]">
-                  <tr>
-                    <th className="p-3">{t('menu.products.name')}</th>
-                    <th className="p-3">{t('menu.products.category')}</th>
-                    <th className="p-3">{t('menu.products.price')}</th>
-                    <th className="p-3">{t('menu.products.badge')}</th>
-                    <th className="p-3">{t('menu.products.status')}</th>
-                    <th className="p-3 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[var(--color-border)]">
-                  {products.map((item) => (
-                    <tr key={item.id} className="hover:bg-[var(--elevated)]/40 transition">
-                      <td className="p-3 font-bold text-[var(--text-primary)]">
-                        {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
-                      </td>
-                      <td className="p-3 text-[var(--text-secondary)]">
-                        {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey}
-                      </td>
-                      <td className="p-3 font-semibold text-[var(--primary)]">{item.price}</td>
-                      <td className="p-3">
-                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-500">
-                          <Tag className="h-3 w-3" />
+            {/* Grid View Mode */}
+            {viewMode === 'grid' ? (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {products.map((item) => (
+                  <div key={item.id} className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg group transition hover:border-[var(--primary)]/40">
+                    <div className="relative h-40 w-full overflow-hidden bg-slate-900">
+                      <img src={item.image} alt={item.nameKey} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                        <span className="rounded-md bg-amber-500/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white shadow">
                           {item.badge}
                         </span>
-                      </td>
-                      <td className="p-3">
-                        <span
-                          className={`inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold ${
-                            item.status === 'Active'
-                              ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20'
-                              : 'bg-rose-500/10 text-rose-500 ring-1 ring-rose-500/20'
-                          }`}
-                        >
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-sm text-[var(--text-primary)]">
+                          {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
+                        </h3>
+                        <span className="font-extrabold text-sm text-[var(--primary)]">{item.price}</span>
+                      </div>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey} • {item.views} views
+                      </p>
+                      <div className="flex items-center justify-between pt-2 border-t border-[var(--color-border)] text-xs">
+                        <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${
+                          item.status === 'Active' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'
+                        }`}>
                           {item.status}
                         </span>
-                      </td>
-                      <td className="p-3 text-right">
                         <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]">
                           {item.status === 'Active' ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
-                      </td>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Table View Mode */
+              <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg">
+                <table className="w-full text-left text-xs">
+                  <thead className="border-b border-[var(--color-border)] bg-[var(--surface)] font-semibold text-[var(--text-muted)]">
+                    <tr>
+                      <th className="p-3">{t('menu.products.name')}</th>
+                      <th className="p-3">{t('menu.products.category')}</th>
+                      <th className="p-3">{t('menu.products.price')}</th>
+                      <th className="p-3">{t('menu.products.badge')}</th>
+                      <th className="p-3">{t('menu.products.status')}</th>
+                      <th className="p-3 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--color-border)]">
+                    {products.map((item) => (
+                      <tr key={item.id} className="hover:bg-[var(--elevated)]/40 transition">
+                        <td className="p-3 font-bold text-[var(--text-primary)]">
+                          {item.nameKey.includes('.') ? t(item.nameKey) : item.nameKey}
+                        </td>
+                        <td className="p-3 text-[var(--text-secondary)]">
+                          {item.categoryKey.includes('.') ? t(item.categoryKey) : item.categoryKey}
+                        </td>
+                        <td className="p-3 font-semibold text-[var(--primary)]">{item.price}</td>
+                        <td className="p-3">
+                          <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-500">
+                            <Tag className="h-3 w-3" />
+                            {item.badge}
+                          </span>
+                        </td>
+                        <td className="p-3">
+                          <span
+                            className={`inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold ${
+                              item.status === 'Active'
+                                ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20'
+                                : 'bg-rose-500/10 text-rose-500 ring-1 ring-rose-500/20'
+                            }`}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td className="p-3 text-right">
+                          <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]">
+                            {item.status === 'Active' ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -335,7 +429,6 @@ const MenuPage = () => {
             </button>
           </div>
 
-          {/* Sliders Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {sliders.map((slide) => (
               <div key={slide.id} className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg group">
@@ -446,7 +539,7 @@ const MenuPage = () => {
         </div>
       )}
 
-      {/* MODAL 1: Add Category Modal */}
+      {/* MODALS */}
       {showAddCategoryModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
@@ -478,7 +571,6 @@ const MenuPage = () => {
         </div>
       )}
 
-      {/* MODAL 2: Add Product Modal */}
       {showAddProductModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
@@ -522,7 +614,6 @@ const MenuPage = () => {
         </div>
       )}
 
-      {/* MODAL 3: Add Slider / Banner Item Modal */}
       {showAddSliderItemModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">

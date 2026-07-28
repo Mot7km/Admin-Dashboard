@@ -1,41 +1,117 @@
 import { useTranslation } from '../context/LanguageContext';
-import { ShoppingBag } from 'lucide-react';
+import { Clock, AlertCircle, ChefHat } from 'lucide-react';
 
 const OrdersPage = () => {
   const { t } = useTranslation();
 
-  const orders = [
-    { id: '#ORD-2049', type: 'Dine-In (Table 4)', total: '$34.50', status: 'Completed', time: '10m ago' },
-    { id: '#ORD-2048', type: 'Takeaway', total: '$18.00', status: 'In Kitchen', time: '15m ago' },
-    { id: '#ORD-2047', type: 'Dine-In (Table 12)', total: '$62.00', status: 'Completed', time: '35m ago' },
+  const kanbanColumns = [
+    {
+      id: 'new',
+      titleKey: 'orders.kanban.new',
+      borderColor: 'border-blue-500/40',
+      badgeColor: 'bg-blue-500/10 text-blue-500 ring-blue-500/20',
+      orders: [
+        { id: '#ORD-2049', type: 'Dine-In (Table 4)', items: ['2x Smoked Truffle Burger', '2x Spanish Iced Latte'], total: '$42.00', time: '3m ago', isUrgent: false },
+        { id: '#ORD-2050', type: 'Takeaway', items: ['1x Margherita Pizza', '1x Iced Tea'], total: '$21.50', time: '1m ago', isUrgent: false },
+      ]
+    },
+    {
+      id: 'preparing',
+      titleKey: 'orders.kanban.preparing',
+      borderColor: 'border-amber-500/40',
+      badgeColor: 'bg-amber-500/10 text-amber-500 ring-amber-500/20',
+      orders: [
+        { id: '#ORD-2048', type: 'Takeaway', items: ['1x Crispy Chicken Wrap', '1x Pistachio Pancake'], total: '$24.00', time: '14m ago', isUrgent: false },
+        { id: '#ORD-2045', type: 'Dine-In (Table 8)', items: ['3x Smoked Truffle Burger'], total: '$43.50', time: '18m ago', isUrgent: true },
+      ]
+    },
+    {
+      id: 'ready',
+      titleKey: 'orders.kanban.ready',
+      borderColor: 'border-emerald-500/40',
+      badgeColor: 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20',
+      orders: [
+        { id: '#ORD-2046', type: 'Dine-In (Table 2)', items: ['2x Spanish Iced Latte'], total: '$13.00', time: '22m ago', isUrgent: false },
+      ]
+    },
+    {
+      id: 'completed',
+      titleKey: 'orders.kanban.completed',
+      borderColor: 'border-[var(--color-border)]',
+      badgeColor: 'bg-[var(--elevated)] text-[var(--text-secondary)] ring-[var(--color-border)]',
+      orders: [
+        { id: '#ORD-2044', type: 'Takeaway', items: ['1x Margherita Pizza'], total: '$18.00', time: '40m ago', isUrgent: false },
+      ]
+    }
   ];
 
   return (
     <div className="space-y-6 text-[var(--text-primary)]">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
-          {t('nav.orders')}
-        </h1>
-        <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
-          Live POS & QR menu orders, kitchen tickets, and sales logs.
-        </p>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+              {t('orders.title')}
+            </h1>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-500 ring-1 ring-blue-500/20">
+              <ChefHat className="h-3.5 w-3.5" />
+              KDS Display
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">
+            {t('orders.subtitle')}
+          </p>
+        </div>
       </div>
 
-      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg space-y-4">
-        {orders.map((ord) => (
-          <div key={ord.id} className="flex items-center justify-between border-b border-[var(--color-border)] pb-3 last:border-0 text-xs">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--primary)]/10 text-[var(--primary)] font-bold">
-                <ShoppingBag className="h-4 w-4" />
-              </div>
-              <div>
-                <span className="font-bold text-[var(--text-primary)]">{ord.id}</span>
-                <p className="text-[var(--text-muted)]">{ord.type}</p>
-              </div>
+      {/* KDS Kanban Board Grid */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {kanbanColumns.map((col) => (
+          <div key={col.id} className="flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 shadow-lg h-full">
+            {/* Column Header */}
+            <div className={`flex items-center justify-between pb-3 border-b border-[var(--color-border)] mb-4`}>
+              <h3 className="font-bold text-sm text-[var(--text-primary)]">{t(col.titleKey)}</h3>
+              <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ring-1 ${col.badgeColor}`}>
+                {col.orders.length}
+              </span>
             </div>
-            <div className="text-right">
-              <span className="font-bold text-[var(--text-primary)]">{ord.total}</span>
-              <p className="text-emerald-500 font-medium">{ord.status}</p>
+
+            {/* Orders Stack */}
+            <div className="space-y-3.5 flex-1 overflow-y-auto hide-scrollbar">
+              {col.orders.map((ord) => (
+                <div
+                  key={ord.id}
+                  className={`rounded-xl border ${col.borderColor} bg-[var(--surface)] p-4 shadow-md space-y-3 relative group transition hover:border-[var(--primary)]`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-sm text-[var(--text-primary)]">{ord.id}</span>
+                    <span className="flex items-center gap-1 text-[var(--text-muted)] text-[11px]">
+                      <Clock className="h-3 w-3" />
+                      {ord.time}
+                    </span>
+                  </div>
+
+                  <div className="text-xs font-semibold text-[var(--primary)] bg-[var(--primary)]/10 px-2 py-1 rounded-md w-max">
+                    {ord.type}
+                  </div>
+
+                  <ul className="text-xs text-[var(--text-secondary)] space-y-1 pt-1 border-t border-[var(--color-border)]">
+                    {ord.items.map((item, idx) => (
+                      <li key={idx} className="font-medium">• {item}</li>
+                    ))}
+                  </ul>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-[var(--color-border)] text-xs">
+                    <span className="font-bold text-[var(--text-primary)]">{ord.total}</span>
+                    {ord.isUrgent && (
+                      <span className="flex items-center gap-1 text-[11px] font-bold text-rose-500 animate-pulse">
+                        <AlertCircle className="h-3 w-3" /> Delayed
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ))}

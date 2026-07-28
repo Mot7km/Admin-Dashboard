@@ -32,18 +32,29 @@
     "demoAccount": "Quick Demo Login:",
     "fillRequired": "Please fill in both email and password.",
     "ownerDemo": "Owner / Admin",
-    "managerDemo": "Branch Manager"
+    "managerDemo": "Branch Manager",
+    "featureTitle": "Smart Restaurant Control Platform",
+    "featureSub": "Centralized web dashboard for menu, QR analytics, branch operations, and customer reviews."
   },
   "dashboard": {
     "title": "Restaurant Overview",
     "subtitle": "Real-time analytics for menu views, customer feedback, and branch operations",
     "dateRange": "Feb 1 - Feb 28, 2025",
+    "allBranches": "All Branches",
+    "mainBranch": "Main Branch — Downtown",
+    "mallBranch": "Mall Branch — West Side",
     "viewAll": "View all",
     "thisMonth": "This Month",
     "lastMonth": "Last Month",
     "thisYear": "This Year",
     "byViews": "By Menu Views",
     "byRating": "By Rating",
+    "quickActions": {
+      "addDish": "+ Add Special Dish",
+      "addBanner": "+ Offer Banner",
+      "downloadQr": "🖨️ Branch QR"
+    },
+    "liveKitchen": "12 Active Kitchen Orders",
     "stats": {
       "totalMenuViews": "Total QR Menu Views",
       "activeProducts": "Active Products & Menu",
@@ -97,6 +108,9 @@
   "menu": {
     "title": "Menu & QR Management Hub",
     "subtitle": "Full control over Categories, Dishes, Sliders, QR Codes, and Product Feedback",
+    "viewGrid": "Grid View",
+    "viewTable": "Table View",
+    "peakHourMode": "Peak Hour Mode",
     "tabs": {
       "categoriesAndProducts": "Categories & Products",
       "slidersAndBanners": "Sliders & Promotional Items",
@@ -138,6 +152,16 @@
       "slideSubtitle": "Slide Subtitle",
       "targetDish": "Featured Dish / Offer",
       "image": "Banner Image"
+    }
+  },
+  "orders": {
+    "title": "Live Orders & KDS Display",
+    "subtitle": "Real-time kitchen display system and order tracking board",
+    "kanban": {
+      "new": "New Orders",
+      "preparing": "In Kitchen",
+      "ready": "Ready for Pickup",
+      "completed": "Completed"
     }
   }
 }
