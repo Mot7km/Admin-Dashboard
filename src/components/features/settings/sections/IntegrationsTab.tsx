@@ -63,7 +63,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="text"
               value={printerConfig.name}
               onChange={(e) => setPrinterConfig({ ...printerConfig, name: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-text"
             />
           </div>
 
@@ -77,7 +77,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
                 type="text"
                 value={printerConfig.ipPort}
                 onChange={(e) => setPrinterConfig({ ...printerConfig, ipPort: e.target.value })}
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] py-2.5 pl-9 pr-3 text-xs font-mono font-medium focus:border-[var(--primary)] focus:outline-none"
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] py-2.5 pl-9 pr-3 text-xs font-mono font-medium focus:border-[var(--primary)] focus:outline-none cursor-text"
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
             <select
               value={printerConfig.paperWidth}
               onChange={(e) => setPrinterConfig({ ...printerConfig, paperWidth: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
             >
               <option value="80mm">80mm (Standard POS Thermal)</option>
               <option value="58mm">58mm (Compact Portable Thermal)</option>
@@ -104,7 +104,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="text"
               value={printerConfig.footerText}
               onChange={(e) => setPrinterConfig({ ...printerConfig, footerText: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-text"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
           <button
             type="button"
             onClick={onTestPrint}
-            className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+            className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition cursor-pointer"
           >
             <Send className="h-3.5 w-3.5 text-[var(--primary)]" />
             <span>{t('settings.integrations.testPrint')}</span>
@@ -121,7 +121,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
 
           <button
             type="submit"
-            className="flex items-center gap-1.5 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-xs font-bold text-white shadow hover:bg-[var(--primary-dark)] transition"
+            className="flex items-center gap-1.5 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-xs font-bold text-white shadow hover:bg-[var(--primary-dark)] transition cursor-pointer"
           >
             <Save className="h-3.5 w-3.5" />
             <span>{t('settings.integrations.savePrinter')}</span>
@@ -147,7 +147,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="checkbox"
               checked={notifications.emailNotif}
               onChange={(e) => setNotifications({ ...notifications, emailNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
             />
           </div>
 
@@ -159,7 +159,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="checkbox"
               checked={notifications.smsNotif}
               onChange={(e) => setNotifications({ ...notifications, smsNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
             />
           </div>
 
@@ -171,7 +171,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="checkbox"
               checked={notifications.pushNotif}
               onChange={(e) => setNotifications({ ...notifications, pushNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
             />
           </div>
 
@@ -183,7 +183,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="checkbox"
               checked={notifications.dailySummary}
               onChange={(e) => setNotifications({ ...notifications, dailySummary: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
             />
           </div>
         </div>
@@ -208,12 +208,12 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
                 type="password"
                 readOnly
                 value={apiKey}
-                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-mono text-xs text-[var(--text-primary)] focus:outline-none"
+                className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-mono text-xs text-[var(--text-primary)] focus:outline-none cursor-text"
               />
               <button
                 type="button"
                 onClick={onCopyApiKey}
-                className="flex items-center gap-1 shrink-0 rounded-xl bg-[var(--primary)]/10 px-3 py-2.5 text-xs font-bold text-[var(--primary)] hover:bg-[var(--primary)]/20 transition"
+                className="flex items-center gap-1 shrink-0 rounded-xl bg-[var(--primary)]/10 px-3 py-2.5 text-xs font-bold text-[var(--primary)] hover:bg-[var(--primary)]/20 transition cursor-pointer"
               >
                 <Copy className="h-3.5 w-3.5" />
                 <span>{t('settings.integrations.copyKey')}</span>
@@ -229,7 +229,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
               type="text"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-mono text-xs text-[var(--text-primary)] focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-mono text-xs text-[var(--text-primary)] focus:border-[var(--primary)] focus:outline-none cursor-text"
             />
           </div>
         </div>

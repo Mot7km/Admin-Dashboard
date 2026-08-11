@@ -18,7 +18,7 @@ const EmployeesTabs = ({ activeTab, onTabChange, staffLabel, permissionsLabel, s
     { key: 'shifts' as const, label: shiftsLabel, icon: Clock },
   ];
 
-  return <Tabs items={tabs} activeKey={activeTab} onChange={onTabChange} />;
+  return <Tabs items={tabs} activeKey={activeTab} onChange={onTabChange} className="cursor-pointer" />;
 };
 
 export default EmployeesTabs;

@@ -33,7 +33,7 @@ const HomeTraffic: FC<HomeTrafficProps> = ({ trafficOverviewData, branchComparis
             <select
               value={timeFilter}
               onChange={(e) => onTimeFilterChange(e.target.value)}
-              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none"
+              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none cursor-pointer"
             >
               <option value="thisMonth">{t('dashboard.thisMonth')}</option>
               <option value="lastMonth">{t('dashboard.lastMonth')}</option>

@@ -109,7 +109,7 @@ const PlansTab: React.FC<PlansTabProps> = ({ plans, invoices, onSelectPlan, onDo
             <button
               type="button"
               onClick={() => onSelectPlan(p)}
-              className={`w-full mt-4 rounded-xl py-2.5 text-xs font-bold transition ${
+              className={`w-full mt-4 rounded-xl py-2.5 text-xs font-bold transition cursor-pointer ${
                 p.isActive
                   ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20 cursor-default'
                   : 'bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] shadow-md'
@@ -186,7 +186,7 @@ const PlansTab: React.FC<PlansTabProps> = ({ plans, invoices, onSelectPlan, onDo
                       <button
                         type="button"
                         onClick={() => onDownloadInvoice(inv.id)}
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-semibold text-[var(--primary)] hover:bg-[var(--primary)]/10 transition"
+                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-semibold text-[var(--primary)] hover:bg-[var(--primary)]/10 transition cursor-pointer"
                       >
                         <Download className="h-3.5 w-3.5" />
                         <span>{t('settings.plans.downloadPdf')}</span>

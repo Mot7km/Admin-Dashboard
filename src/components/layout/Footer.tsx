@@ -36,7 +36,7 @@ const Footer = () => {
           href="https://www.mot7km.store"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-semibold text-[var(--primary)] hover:underline transition"
+          className="inline-flex items-center gap-1 font-semibold text-[var(--primary)] hover:underline transition cursor-pointer"
         >
           <span>{t('layout.officialWebsite')}</span>
           <ExternalLink className="h-3 w-3" />

@@ -10,7 +10,7 @@ type OrdersFiltersProps = {
 
 const OrdersFilters = ({ typeFilter, onChange, allLabel, dineInLabel, takeawayLabel }: OrdersFiltersProps) => (
   <SegmentedControl
-    className="w-full"
+    className="w-full [&_button]:cursor-pointer"
     options={[
       { value: 'all', label: allLabel },
       { value: 'dinein', label: dineInLabel },

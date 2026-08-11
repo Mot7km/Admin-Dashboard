@@ -20,14 +20,14 @@ const EmployeesHeader = ({ title, subtitle, onAddStaff, onOpenQr, addLabel, qrLa
       <div className="flex items-center gap-2">
         <button
           onClick={onAddStaff}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--surface)] border border-[var(--color-border)] px-3.5 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--surface)] border border-[var(--color-border)] px-3.5 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition cursor-pointer"
         >
           <Plus className="h-4 w-4 text-[var(--primary)]" />
           <span>{addLabel}</span>
         </button>
         <button
           onClick={onOpenQr}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
         >
           <QrCode className="h-4 w-4" />
           <span>{qrLabel}</span>

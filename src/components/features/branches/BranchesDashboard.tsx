@@ -70,19 +70,55 @@ const BranchesDashboard = () => {
           <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">{t('branches.subtitle')}</p>
         </div>
 
-        <button onClick={() => setShowAddBranchModal(true)} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition">
+        <button
+          onClick={() => setShowAddBranchModal(true)}
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
+        >
           <Plus className="h-4 w-4" />
           <span>{t('branches.addBtn')}</span>
         </button>
       </div>
 
       <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-2 overflow-x-auto hide-scrollbar">
-        <button onClick={() => setActiveTab('locations')} className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${activeTab === 'locations' ? 'bg-[var(--primary)] text-white shadow-md' : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'}`}> <Store className="h-4 w-4" /> <span>{t('branches.tabs.locations')}</span> </button>
-        <button onClick={() => setActiveTab('matrix')} className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${activeTab === 'matrix' ? 'bg-[var(--primary)] text-white shadow-md' : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'}`}> <ShieldCheck className="h-4 w-4" /> <span>{t('branches.tabs.availabilityMatrix')}</span> </button>
-        <button onClick={() => setActiveTab('hours')} className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${activeTab === 'hours' ? 'bg-[var(--primary)] text-white shadow-md' : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'}`}> <Clock className="h-4 w-4" /> <span>{t('branches.tabs.workingHours')}</span> </button>
+        <button
+          onClick={() => setActiveTab('locations')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
+            activeTab === 'locations'
+              ? 'bg-[var(--primary)] text-white shadow-md'
+              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+          }`}
+        >
+          <Store className="h-4 w-4" /> <span>{t('branches.tabs.locations')}</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('matrix')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
+            activeTab === 'matrix'
+              ? 'bg-[var(--primary)] text-white shadow-md'
+              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+          }`}
+        >
+          <ShieldCheck className="h-4 w-4" /> <span>{t('branches.tabs.availabilityMatrix')}</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('hours')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
+            activeTab === 'hours'
+              ? 'bg-[var(--primary)] text-white shadow-md'
+              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+          }`}
+        >
+          <Clock className="h-4 w-4" /> <span>{t('branches.tabs.workingHours')}</span>
+        </button>
       </div>
 
-      {activeTab === 'locations' && <BranchesLocationsTab branches={branches} onDeleteBranch={(id) => setDeleteBranchId(id)} onEditBranch={() => showToast(t('common.edit'), 'info')} />}
+      {activeTab === 'locations' && (
+        <BranchesLocationsTab
+          branches={branches}
+          onDeleteBranch={(id) => setDeleteBranchId(id)}
+          onEditBranch={() => showToast(t('common.edit'), 'info')}
+        />
+      )}
       {activeTab === 'matrix' && <BranchesMatrixTab matrix={matrix} onToggleMatrix={toggleMatrix} />}
       {activeTab === 'hours' && <BranchesHoursTab />}
 
@@ -98,7 +134,13 @@ const BranchesDashboard = () => {
         onSave={handleAddBranch}
       />
 
-      <ConfirmDialog isOpen={!!deleteBranchId} title={t('common.delete')} message="Are you sure you want to delete this branch?" onConfirm={handleConfirmDeleteBranch} onCancel={() => setDeleteBranchId(null)} />
+      <ConfirmDialog
+        isOpen={!!deleteBranchId}
+        title={t('common.delete')}
+        message="Are you sure you want to delete this branch?"
+        onConfirm={handleConfirmDeleteBranch}
+        onCancel={() => setDeleteBranchId(null)}
+      />
     </div>
   );
 };

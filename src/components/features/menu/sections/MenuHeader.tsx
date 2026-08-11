@@ -18,7 +18,7 @@ const MenuHeader = ({ title, subtitle, peakHourLabel, isPeakHour, onTogglePeak }
 
       <button
         onClick={onTogglePeak}
-        className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition shadow-sm ${
+        className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition shadow-sm cursor-pointer ${
           isPeakHour ? 'bg-amber-500 text-white ring-2 ring-amber-500/30' : 'border border-[var(--color-border)] bg-[var(--card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
         }`}
       >

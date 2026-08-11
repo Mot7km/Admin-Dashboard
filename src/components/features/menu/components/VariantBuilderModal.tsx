@@ -34,7 +34,10 @@ const VariantBuilderModal = ({
       <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
           <h3 className="font-bold text-base text-[var(--text-primary)]">{t('menu.variantsBuilder')}</h3>
-          <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+          <button
+            onClick={onClose}
+            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+          >
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -61,7 +64,10 @@ const VariantBuilderModal = ({
                 placeholder="e.g. Large ($16.00)"
                 className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-xs font-medium focus:outline-none"
               />
-              <button onClick={onAddVariant} className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow">
+              <button
+                onClick={onAddVariant}
+                className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow cursor-pointer"
+              >
                 + Add
               </button>
             </div>
@@ -85,14 +91,20 @@ const VariantBuilderModal = ({
                 placeholder="e.g. Extra Sauce (+$1.00)"
                 className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2 text-xs font-medium focus:outline-none"
               />
-              <button onClick={onAddExtra} className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow">
+              <button
+                onClick={onAddExtra}
+                className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-bold text-white shadow cursor-pointer"
+              >
                 + Add
               </button>
             </div>
           </div>
         </div>
         <div className="flex justify-end gap-2 pt-2 border-t border-[var(--color-border)]">
-          <button onClick={onClose} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
+          <button
+            onClick={onClose}
+            className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] cursor-pointer"
+          >
             {t('common.close')}
           </button>
         </div>

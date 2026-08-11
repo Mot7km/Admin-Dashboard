@@ -16,7 +16,7 @@ const SimulatorSection = ({ simulatorLang, onLanguageChange, products }: Simulat
         <span className="text-xs font-semibold text-[var(--text-muted)]">{t('menu.simulator.langLabel')}</span>
         <button
           onClick={() => onLanguageChange('ar')}
-          className={`px-3 py-1 text-xs font-bold rounded-lg ${
+          className={`px-3 py-1 text-xs font-bold rounded-lg cursor-pointer ${
             simulatorLang === 'ar' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card)] text-[var(--text-secondary)]'
           }`}
         >
@@ -24,7 +24,7 @@ const SimulatorSection = ({ simulatorLang, onLanguageChange, products }: Simulat
         </button>
         <button
           onClick={() => onLanguageChange('en')}
-          className={`px-3 py-1 text-xs font-bold rounded-lg ${
+          className={`px-3 py-1 text-xs font-bold rounded-lg cursor-pointer ${
             simulatorLang === 'en' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card)] text-[var(--text-secondary)]'
           }`}
         >

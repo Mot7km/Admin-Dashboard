@@ -13,7 +13,13 @@ type HomeLowerPanelsProps = {
   onProductFilterChange: (value: string) => void;
 };
 
-const HomeLowerPanels: FC<HomeLowerPanelsProps> = ({ topProducts, recentReviews, activityFeed, productFilter, onProductFilterChange }) => {
+const HomeLowerPanels: FC<HomeLowerPanelsProps> = ({
+  topProducts,
+  recentReviews,
+  activityFeed,
+  productFilter,
+  onProductFilterChange,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -27,7 +33,7 @@ const HomeLowerPanels: FC<HomeLowerPanelsProps> = ({ topProducts, recentReviews,
             <select
               value={productFilter}
               onChange={(e) => onProductFilterChange(e.target.value)}
-              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none"
+              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none cursor-pointer"
             >
               <option value="byViews">{t('dashboard.byViews')}</option>
               <option value="byRating">{t('dashboard.byRating')}</option>
@@ -119,7 +125,7 @@ const HomeLowerPanels: FC<HomeLowerPanelsProps> = ({ topProducts, recentReviews,
                 showToast('Night Offer Banner Activated!', 'success');
                 navigate('/menu?tab=sliders');
               }}
-              className="shrink-0 rounded-lg bg-[var(--primary)] px-2.5 py-1.5 text-[11px] font-bold text-white shadow hover:bg-[var(--primary-dark)] transition"
+              className="shrink-0 rounded-lg bg-[var(--primary)] px-2.5 py-1.5 text-[11px] font-bold text-white shadow hover:bg-[var(--primary-dark)] transition cursor-pointer"
             >
               {t('dashboard.activateOffer')}
             </button>
@@ -133,7 +139,7 @@ const HomeLowerPanels: FC<HomeLowerPanelsProps> = ({ topProducts, recentReviews,
             <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.recentReviews')}</h2>
             <button
               onClick={() => navigate('/menu')}
-              className="text-xs font-medium text-[var(--primary)] hover:underline bg-transparent border-0 p-0"
+              className="text-xs font-medium text-[var(--primary)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
             >
               {t('dashboard.viewAll')}
             </button>

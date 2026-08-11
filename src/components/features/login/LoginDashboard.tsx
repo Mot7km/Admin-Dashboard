@@ -52,7 +52,14 @@ const LoginDashboard = () => {
 
   return (
     <div className="min-h-screen w-screen bg-[var(--background)] text-[var(--text-primary)] flex flex-col justify-between overflow-x-hidden font-sans transition-colors duration-300">
-      <LoginHeader brand={t('layout.brand')} slogan={t('layout.slogan')} theme={theme} otherLanguage={t('layout.otherLanguage')} onToggleTheme={toggleTheme} onToggleLocale={toggleLocale} />
+      <LoginHeader
+        brand={t('layout.brand')}
+        slogan={t('layout.slogan')}
+        theme={theme}
+        otherLanguage={t('layout.otherLanguage')}
+        onToggleTheme={toggleTheme}
+        onToggleLocale={toggleLocale}
+      />
 
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">

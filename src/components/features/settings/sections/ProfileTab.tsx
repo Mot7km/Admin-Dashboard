@@ -148,7 +148,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             <select
               value={profileData.timezone}
               onChange={(e) => setProfileData({ ...profileData, timezone: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
             >
               <option value="Asia/Riyadh (UTC+3)">Asia/Riyadh (UTC+3)</option>
               <option value="Asia/Dubai (UTC+4)">Asia/Dubai (UTC+4)</option>
@@ -163,7 +163,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             <select
               value={profileData.currency}
               onChange={(e) => setProfileData({ ...profileData, currency: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
             >
               <option value="SAR — Saudi Riyal">SAR — Saudi Riyal (ر.س)</option>
               <option value="USD — US Dollar">USD — US Dollar ($)</option>
@@ -210,7 +210,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
                     updated[idx].isOpen = !updated[idx].isOpen;
                     setWorkingHours(updated);
                   }}
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-bold transition ${
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-bold transition cursor-pointer ${
                     item.isOpen
                       ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20'
                       : 'bg-rose-500/10 text-rose-500 ring-1 ring-rose-500/20'
@@ -307,7 +307,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
       <div className="flex justify-end">
         <button
           type="submit"
-          className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 font-bold text-white shadow-lg hover:bg-[var(--primary-dark)] transition"
+          className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 font-bold text-white shadow-lg hover:bg-[var(--primary-dark)] transition cursor-pointer"
         >
           <Save className="h-4 w-4" />
           <span>{t('settings.profile.saveProfile')}</span>

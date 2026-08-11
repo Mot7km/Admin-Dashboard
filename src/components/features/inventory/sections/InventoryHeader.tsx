@@ -18,11 +18,17 @@ const InventoryHeader = ({ title, subtitle, addIngredientLabel, exportPoLabel, o
       </div>
 
       <div className="flex items-center gap-2">
-        <button onClick={onAddIngredient} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--surface)] border border-[var(--color-border)] px-3.5 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition">
+        <button
+          onClick={onAddIngredient}
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--surface)] border border-[var(--color-border)] px-3.5 py-2.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition cursor-pointer"
+        >
           <Plus className="h-4 w-4 text-[var(--primary)]" />
           <span>{addIngredientLabel}</span>
         </button>
-        <button onClick={onExportPo} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition">
+        <button
+          onClick={onExportPo}
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
+        >
           <FileText className="h-4 w-4" />
           <span>{exportPoLabel}</span>
         </button>

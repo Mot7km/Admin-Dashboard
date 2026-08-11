@@ -42,7 +42,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       {displayAction && onAction && (
         <button
           onClick={onAction}
-          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition"
+          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
         >
           {displayAction}
         </button>

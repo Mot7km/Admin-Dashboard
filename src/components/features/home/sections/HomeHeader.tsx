@@ -1,5 +1,5 @@
+import React, { type FC } from 'react';
 import { Calendar, ChevronDown, Plus, Printer, Sparkles, Store, Volume2, VolumeX } from 'lucide-react';
-import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../../../../context/LanguageContext';
 import { useToast } from '../../../common/Toast';
@@ -30,7 +30,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ selectedBranch, isChimeMuted, onBranc
               <span>{t('dashboard.liveKitchen')}</span>
               <button
                 onClick={onToggleChime}
-                className="ml-1 text-slate-400 hover:text-emerald-400 transition"
+                className="ml-1 text-slate-400 hover:text-emerald-400 transition cursor-pointer"
                 title={isChimeMuted ? t('dashboard.soundChimeMute') : t('dashboard.soundChimeOn')}
                 aria-label="Toggle chime sound"
               >
@@ -60,7 +60,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ selectedBranch, isChimeMuted, onBranc
 
           <button
             onClick={() => showToast(t('dashboard.dateRange'), 'info')}
-            className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--primary)] hover:text-[var(--text-primary)]"
+            className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--primary)] hover:text-[var(--text-primary)] cursor-pointer"
           >
             <Calendar className="h-4 w-4 text-[var(--text-muted)]" />
             <span>{t('dashboard.dateRange')}</span>
@@ -72,21 +72,21 @@ const HomeHeader: FC<HomeHeaderProps> = ({ selectedBranch, isChimeMuted, onBranc
       <div className="flex items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar mobile-scroll-snap">
         <button
           onClick={() => navigate('/menu')}
-          className="flex items-center gap-2 shrink-0 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[var(--primary)]/20 hover:bg-[var(--primary-dark)] transition"
+          className="flex items-center gap-2 shrink-0 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md shadow-[var(--primary)]/20 hover:bg-[var(--primary-dark)] transition cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           <span>{t('dashboard.quickActions.addDish')}</span>
         </button>
         <button
           onClick={() => navigate('/menu')}
-          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition cursor-pointer"
         >
           <Sparkles className="h-4 w-4 text-amber-500" />
           <span>{t('dashboard.quickActions.addBanner')}</span>
         </button>
         <button
           onClick={() => navigate('/menu')}
-          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition"
+          className="flex items-center gap-2 shrink-0 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:bg-[var(--elevated)] transition cursor-pointer"
         >
           <Printer className="h-4 w-4 text-[var(--primary)]" />
           <span>{t('dashboard.quickActions.downloadQr')}</span>

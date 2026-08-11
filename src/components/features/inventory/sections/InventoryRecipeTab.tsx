@@ -12,7 +12,10 @@ const InventoryRecipeTab = ({ title, linkRecipeLabel, deductsHeader, onOpenRecip
     <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-bold text-[var(--text-primary)]">{title}</h2>
-        <button onClick={onOpenRecipe} className="flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] border border-[var(--color-border)] px-3 py-1.5 rounded-xl hover:bg-[var(--elevated)]">
+        <button
+          onClick={onOpenRecipe}
+          className="flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] border border-[var(--color-border)] px-3 py-1.5 rounded-xl hover:bg-[var(--elevated)] cursor-pointer"
+        >
           <Plus className="h-4 w-4" /> {linkRecipeLabel}
         </button>
       </div>

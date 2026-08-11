@@ -28,10 +28,16 @@ const BranchesLocationsTab = ({ branches, onDeleteBranch, onEditBranch }: Branch
               </div>
 
               <div className="flex items-center gap-1">
-                <button onClick={() => onEditBranch(branch)} className="p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+                <button
+                  onClick={() => onEditBranch(branch)}
+                  className="p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+                >
                   <Edit className="h-4 w-4" />
                 </button>
-                <button onClick={() => onDeleteBranch(branch.id)} className="p-1.5 text-[var(--text-muted)] hover:text-rose-500">
+                <button
+                  onClick={() => onDeleteBranch(branch.id)}
+                  className="p-1.5 text-[var(--text-muted)] hover:text-rose-500 cursor-pointer"
+                >
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>

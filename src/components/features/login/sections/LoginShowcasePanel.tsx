@@ -13,7 +13,18 @@ type LoginShowcaseProps = {
   kitchenBadge: string;
 };
 
-const LoginShowcasePanel = ({ badge, featureTitle, featureSub, qrViewsTitle, qrViewsGrowth, ratingTitle, ratingBadge, kitchenTitle, kitchenSub, kitchenBadge }: LoginShowcaseProps) => {
+const LoginShowcasePanel = ({
+  badge,
+  featureTitle,
+  featureSub,
+  qrViewsTitle,
+  qrViewsGrowth,
+  ratingTitle,
+  ratingBadge,
+  kitchenTitle,
+  kitchenSub,
+  kitchenBadge,
+}: LoginShowcaseProps) => {
   return (
     <div className="hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-center">
       <div className="relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-gradient-to-br from-[var(--surface)] via-[var(--card)] to-[var(--elevated)] p-8 sm:p-10 shadow-2xl space-y-8">

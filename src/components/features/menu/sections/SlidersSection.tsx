@@ -20,7 +20,7 @@ const SlidersSection = ({ sliders, onOpenAddSlider, onDeleteSlider }: SlidersSec
         </div>
         <button
           onClick={onOpenAddSlider}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           <span>{t('menu.sliders.addItem')}</span>
@@ -57,14 +57,14 @@ const SlidersSection = ({ sliders, onOpenAddSlider, onDeleteSlider }: SlidersSec
               </span>
               <div className="flex items-center gap-2">
                 <button
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)]"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)] cursor-pointer"
                   aria-label={t('common.edit')}
                 >
                   <Edit className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => onDeleteSlider(slide)}
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-rose-500 cursor-pointer"
                   aria-label={t('common.delete')}
                 >
                   <Trash2 className="h-4 w-4" />

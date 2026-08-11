@@ -18,7 +18,16 @@ type EmployeesStaffTabProps = {
   clockedOutLabel: string;
 };
 
-const EmployeesStaffTab = ({ employees, nameLabel, roleLabel, branchLabel, statusLabel, shiftLabel, clockedInLabel, clockedOutLabel }: EmployeesStaffTabProps) => {
+const EmployeesStaffTab = ({
+  employees,
+  nameLabel,
+  roleLabel,
+  branchLabel,
+  statusLabel,
+  shiftLabel,
+  clockedInLabel,
+  clockedOutLabel,
+}: EmployeesStaffTabProps) => {
   return (
     <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
       <div className="overflow-x-auto">
@@ -51,7 +60,11 @@ const EmployeesStaffTab = ({ employees, nameLabel, roleLabel, branchLabel, statu
                         : 'bg-slate-500/10 text-slate-400'
                     }`}
                   >
-                    <span className={`h-2 w-2 rounded-full ${employee.status === 'Clocked In' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        employee.status === 'Clocked In' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'
+                      }`}
+                    ></span>
                     {employee.status === 'Clocked In' ? clockedInLabel : clockedOutLabel}
                   </span>
                 </td>

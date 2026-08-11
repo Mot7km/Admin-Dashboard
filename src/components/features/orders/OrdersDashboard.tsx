@@ -44,7 +44,13 @@ const OrdersDashboard = () => {
     <div className="space-y-6 text-[var(--text-primary)]">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <OrdersHeader title={t('orders.title')} subtitle={t('orders.subtitle')} kdsBadge={t('orders.kdsBadge')} />
-        <OrdersFilters typeFilter={typeFilter} onChange={setTypeFilter} allLabel={t('orders.filterAll')} dineInLabel={t('orders.filterDineIn')} takeawayLabel={t('orders.filterTakeaway')} />
+        <OrdersFilters
+          typeFilter={typeFilter}
+          onChange={setTypeFilter}
+          allLabel={t('orders.filterAll')}
+          dineInLabel={t('orders.filterDineIn')}
+          takeawayLabel={t('orders.filterTakeaway')}
+        />
       </div>
 
       <OrdersKanbanBoard
@@ -54,8 +60,18 @@ const OrdersDashboard = () => {
         emptyTitle="common.noResults"
         delayedLabel={t('orders.delayed')}
         completeLabel="Order Complete"
-        titleMap={{ new: t('orders.kanban.new'), preparing: t('orders.kanban.preparing'), ready: t('orders.kanban.ready'), completed: t('orders.kanban.completed') }}
-        actionMap={{ new: t('orders.actions.markPreparing'), preparing: t('orders.actions.markReady'), ready: t('orders.actions.complete'), completed: '' }}
+        titleMap={{
+          new: t('orders.kanban.new'),
+          preparing: t('orders.kanban.preparing'),
+          ready: t('orders.kanban.ready'),
+          completed: t('orders.kanban.completed'),
+        }}
+        actionMap={{
+          new: t('orders.actions.markPreparing'),
+          preparing: t('orders.actions.markReady'),
+          ready: t('orders.actions.complete'),
+          completed: '',
+        }}
       />
     </div>
   );

@@ -25,13 +25,14 @@ const SegmentedControl = <Value extends string>({
         key={option.value}
         type="button"
         onClick={() => onChange(option.value)}
-        className={`flex items-center justify-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+        className={`flex items-center justify-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
           selectedValue === option.value
             ? 'bg-[var(--primary)] text-white'
             : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
         }`}
       >
         {option.icon}
+        <span>{option.label}</span>
       </button>
     ))}
   </div>

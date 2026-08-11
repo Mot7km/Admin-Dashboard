@@ -52,7 +52,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               {toast.type === 'info' && <Info className="h-4 w-4 text-blue-400 shrink-0" />}
               <span>{toast.message}</span>
             </div>
-            <button onClick={() => removeToast(toast.id)} className="text-slate-400 hover:text-white">
+            <button
+              onClick={() => removeToast(toast.id)}
+              className="text-slate-400 hover:text-white cursor-pointer"
+            >
               <X className="h-3.5 w-3.5" />
             </button>
           </div>

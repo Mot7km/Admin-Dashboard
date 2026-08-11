@@ -24,13 +24,13 @@ const QrSection = ({ onDownloadQr, onShareQr }: QrSectionProps) => {
         <div className="flex items-center gap-3">
           <button
             onClick={onDownloadQr}
-            className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[var(--primary-dark)] transition"
+            className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
           >
             <Download className="h-4 w-4" /> {t('menu.qr.downloadBtn')}
           </button>
           <button
             onClick={onShareQr}
-            className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+            className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
           >
             <Share2 className="h-4 w-4" /> {t('menu.qr.shareBtn')}
           </button>
@@ -45,9 +45,9 @@ const QrSection = ({ onDownloadQr, onShareQr }: QrSectionProps) => {
             <label className="text-xs font-semibold text-[var(--text-secondary)]">{t('menu.qr.themeColor')}</label>
             <div className="mt-2 flex items-center gap-3">
               <div className="h-8 w-8 rounded-full bg-[#1683C7] ring-2 ring-white cursor-pointer" />
-              <div className="h-8 w-8 rounded-full bg-[#0F766E] cursor-pointer" />
-              <div className="h-8 w-8 rounded-full bg-[#E11D48] cursor-pointer" />
-              <div className="h-8 w-8 rounded-full bg-[#D97706] cursor-pointer" />
+              <div className="h-8 w-8 rounded-full bg-[#0F766E] ring-2 ring-white cursor-pointer" />
+              <div className="h-8 w-8 rounded-full bg-[#E11D48] ring-2 ring-white cursor-pointer" />
+              <div className="h-8 w-8 rounded-full bg-[#D97706] ring-2 ring-white cursor-pointer" />
             </div>
           </div>
 

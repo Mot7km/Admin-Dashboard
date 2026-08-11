@@ -20,7 +20,7 @@ const SettingsTabs = ({ activeTab, onTabChange, profileLabel, plansLabel, integr
     { key: 'audit' as const, label: auditLabel, icon: ShieldCheck },
   ];
 
-  return <Tabs items={tabs} activeKey={activeTab} onChange={onTabChange} />;
+  return <Tabs items={tabs} activeKey={activeTab} onChange={onTabChange} className="[&_button]:cursor-pointer" />;
 };
 
 export default SettingsTabs;

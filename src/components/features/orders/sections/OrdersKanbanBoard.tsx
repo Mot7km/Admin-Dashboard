@@ -78,7 +78,7 @@ const OrdersKanbanBoard = ({ orders, locale, onMove, emptyTitle, delayedLabel, c
                     {col.nextAction && (
                       <button
                         onClick={() => onMove(ord.id, col.nextAction)}
-                        className="w-full mt-2 flex items-center justify-center gap-1.5 rounded-lg bg-[var(--primary)] py-2 text-xs font-bold text-white shadow hover:bg-[var(--primary-dark)] transition"
+                        className="w-full mt-2 flex items-center justify-center gap-1.5 rounded-lg bg-[var(--primary)] py-2 text-xs font-bold text-white shadow hover:bg-[var(--primary-dark)] transition cursor-pointer"
                       >
                         <span>{actionMap[col.id]}</span>
                         {locale === 'ar' ? <ArrowLeft className="h-3.5 w-3.5" /> : <ArrowRight className="h-3.5 w-3.5" />}

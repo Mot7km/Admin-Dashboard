@@ -20,7 +20,17 @@ type EmployeesPermissionsTabProps = {
   onTogglePermission: (idx: number, roleKey: 'manager' | 'cashier' | 'kitchen') => void;
 };
 
-const EmployeesPermissionsTab = ({ permissions, title, subtitle, featureLabel, ownerLabel, managerLabel, cashierLabel, kitchenLabel, onTogglePermission }: EmployeesPermissionsTabProps) => {
+const EmployeesPermissionsTab = ({
+  permissions,
+  title,
+  subtitle,
+  featureLabel,
+  ownerLabel,
+  managerLabel,
+  cashierLabel,
+  kitchenLabel,
+  onTogglePermission,
+}: EmployeesPermissionsTabProps) => {
   return (
     <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
       <div>
@@ -43,20 +53,43 @@ const EmployeesPermissionsTab = ({ permissions, title, subtitle, featureLabel, o
             {permissions.map((permission, idx) => (
               <tr key={idx} className="hover:bg-[var(--elevated)]/40 transition">
                 <td className="p-3 font-bold text-[var(--text-primary)]">{permission.page}</td>
-                <td className="p-3 text-center"><Check className="h-4 w-4 text-emerald-500 mx-auto" /></td>
                 <td className="p-3 text-center">
-                  <button onClick={() => onTogglePermission(idx, 'manager')} className="p-1 rounded hover:bg-[var(--elevated)]">
-                    {permission.manager ? <Check className="h-4 w-4 text-emerald-500 mx-auto" /> : <X className="h-4 w-4 text-rose-500 mx-auto" />}
+                  <Check className="h-4 w-4 text-emerald-500 mx-auto" />
+                </td>
+                <td className="p-3 text-center">
+                  <button
+                    onClick={() => onTogglePermission(idx, 'manager')}
+                    className="p-1 rounded hover:bg-[var(--elevated)] cursor-pointer"
+                  >
+                    {permission.manager ? (
+                      <Check className="h-4 w-4 text-emerald-500 mx-auto" />
+                    ) : (
+                      <X className="h-4 w-4 text-rose-500 mx-auto" />
+                    )}
                   </button>
                 </td>
                 <td className="p-3 text-center">
-                  <button onClick={() => onTogglePermission(idx, 'cashier')} className="p-1 rounded hover:bg-[var(--elevated)]">
-                    {permission.cashier ? <Check className="h-4 w-4 text-emerald-500 mx-auto" /> : <X className="h-4 w-4 text-rose-500 mx-auto" />}
+                  <button
+                    onClick={() => onTogglePermission(idx, 'cashier')}
+                    className="p-1 rounded hover:bg-[var(--elevated)] cursor-pointer"
+                  >
+                    {permission.cashier ? (
+                      <Check className="h-4 w-4 text-emerald-500 mx-auto" />
+                    ) : (
+                      <X className="h-4 w-4 text-rose-500 mx-auto" />
+                    )}
                   </button>
                 </td>
                 <td className="p-3 text-center">
-                  <button onClick={() => onTogglePermission(idx, 'kitchen')} className="p-1 rounded hover:bg-[var(--elevated)]">
-                    {permission.kitchen ? <Check className="h-4 w-4 text-emerald-500 mx-auto" /> : <X className="h-4 w-4 text-rose-500 mx-auto" />}
+                  <button
+                    onClick={() => onTogglePermission(idx, 'kitchen')}
+                    className="p-1 rounded hover:bg-[var(--elevated)] cursor-pointer"
+                  >
+                    {permission.kitchen ? (
+                      <Check className="h-4 w-4 text-emerald-500 mx-auto" />
+                    ) : (
+                      <X className="h-4 w-4 text-rose-500 mx-auto" />
+                    )}
                   </button>
                 </td>
               </tr>

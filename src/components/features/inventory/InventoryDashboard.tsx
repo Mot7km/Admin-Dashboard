@@ -108,19 +108,41 @@ const InventoryDashboard = () => {
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-sm text-[var(--text-primary)]">{t('inventory.linkRecipe')}</h3>
-              <button onClick={() => setShowRecipeModal(false)}><X className="h-5 w-5 text-[var(--text-muted)]" /></button>
+              <button
+                onClick={() => setShowRecipeModal(false)}
+                className="cursor-pointer"
+              >
+                <X className="h-5 w-5 text-[var(--text-muted)]" />
+              </button>
             </div>
             <div className="space-y-3 text-xs">
               <div>
                 <label className="font-semibold text-[var(--text-secondary)]">Select Dish</label>
-                <select value={selectedRecipeDish} onChange={(e) => setSelectedRecipeDish(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none">
+                <select
+                  value={selectedRecipeDish}
+                  onChange={(e) => setSelectedRecipeDish(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none cursor-pointer"
+                >
                   <option value="Smoked Truffle Burger">Smoked Truffle Burger</option>
                   <option value="Spanish Iced Latte">Spanish Iced Latte</option>
                   <option value="Neapolitan Margherita">Neapolitan Margherita</option>
                 </select>
               </div>
             </div>
-            <div className="flex justify-end gap-2 pt-2"><button onClick={() => setShowRecipeModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">{t('common.cancel')}</button><button onClick={() => setShowRecipeModal(false)} className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow">{t('common.save')}</button></div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => setShowRecipeModal(false)}
+                className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] cursor-pointer"
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                onClick={() => setShowRecipeModal(false)}
+                className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow cursor-pointer"
+              >
+                {t('common.save')}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -130,15 +152,69 @@ const InventoryDashboard = () => {
           <div className="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
               <h3 className="font-bold text-base text-[var(--text-primary)]">{t('inventory.addIngredient')}</h3>
-              <button onClick={() => setShowAddIngredientModal(false)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]"><X className="h-5 w-5" /></button>
+              <button
+                onClick={() => setShowAddIngredientModal(false)}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
             <div className="space-y-3 text-xs">
-              <div><label className="font-semibold text-[var(--text-secondary)]">Ingredient Name</label><input type="text" value={ingName} onChange={(e) => setIngName(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none" /></div>
-              <div><label className="font-semibold text-[var(--text-secondary)]">Category</label><select value={ingCategory} onChange={(e) => setIngCategory(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none"><option>Meat & Poultry</option><option>Sauces & Spices</option><option>Dairy & Coffee</option><option>Bakery</option></select></div>
-              <div><label className="font-semibold text-[var(--text-secondary)]">Supplier</label><input type="text" value={ingSupplier} onChange={(e) => setIngSupplier(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none" /></div>
-              <div><label className="font-semibold text-[var(--text-secondary)]">Current Stock</label><input type="text" value={ingStock} onChange={(e) => setIngStock(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none" /></div>
+              <div>
+                <label className="font-semibold text-[var(--text-secondary)]">Ingredient Name</label>
+                <input
+                  type="text"
+                  value={ingName}
+                  onChange={(e) => setIngName(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="font-semibold text-[var(--text-secondary)]">Category</label>
+                <select
+                  value={ingCategory}
+                  onChange={(e) => setIngCategory(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none cursor-pointer"
+                >
+                  <option>Meat & Poultry</option>
+                  <option>Sauces & Spices</option>
+                  <option>Dairy & Coffee</option>
+                  <option>Bakery</option>
+                </select>
+              </div>
+              <div>
+                <label className="font-semibold text-[var(--text-secondary)]">Supplier</label>
+                <input
+                  type="text"
+                  value={ingSupplier}
+                  onChange={(e) => setIngSupplier(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="font-semibold text-[var(--text-secondary)]">Current Stock</label>
+                <input
+                  type="text"
+                  value={ingStock}
+                  onChange={(e) => setIngStock(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 font-medium focus:outline-none"
+                />
+              </div>
             </div>
-            <div className="flex justify-end gap-2 pt-2"><button onClick={() => setShowAddIngredientModal(false)} className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">{t('common.cancel')}</button><button onClick={handleAddIngredient} className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow">{t('common.save')}</button></div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => setShowAddIngredientModal(false)}
+                className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)] cursor-pointer"
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                onClick={handleAddIngredient}
+                className="rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white shadow cursor-pointer"
+              >
+                {t('common.save')}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -51,7 +51,7 @@ const AuditTab: React.FC<AuditTabProps> = ({
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold focus:outline-none"
+            className="rounded-xl border border-[var(--color-border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold focus:outline-none cursor-pointer"
           >
             <option value="all">{t('settings.audit.filterActionType')}</option>
             <option value="price">{t('settings.audit.filterPrice')}</option>

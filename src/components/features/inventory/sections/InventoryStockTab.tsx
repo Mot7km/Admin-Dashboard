@@ -26,7 +26,20 @@ type InventoryStockTabProps = {
   restockLabel: string;
 };
 
-const InventoryStockTab = ({ ingredients, onRestock, titleLabel, lowStockLabel, ingredientLabel, categoryLabel, supplierLabel, stockGaugeLabel, currentStockLabel, actionsLabel, stockRemainingLabel, restockLabel }: InventoryStockTabProps) => {
+const InventoryStockTab = ({
+  ingredients,
+  onRestock,
+  titleLabel,
+  lowStockLabel,
+  ingredientLabel,
+  categoryLabel,
+  supplierLabel,
+  stockGaugeLabel,
+  currentStockLabel,
+  actionsLabel,
+  stockRemainingLabel,
+  restockLabel,
+}: InventoryStockTabProps) => {
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
@@ -67,10 +80,17 @@ const InventoryStockTab = ({ ingredients, onRestock, titleLabel, lowStockLabel, 
                     <td className="p-3 w-48">
                       <div className="space-y-1">
                         <div className="flex justify-between text-[10px] font-bold">
-                          <span className={isLow ? 'text-rose-500' : 'text-[var(--text-muted)]'}>{percentage}% {stockRemainingLabel}</span>
+                          <span className={isLow ? 'text-rose-500' : 'text-[var(--text-muted)]'}>
+                            {percentage}% {stockRemainingLabel}
+                          </span>
                         </div>
                         <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
-                          <div className={`h-full rounded-full transition-all duration-500 ${isLow ? 'bg-rose-500' : 'bg-emerald-500'}`} style={{ width: `${percentage}%` }} />
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              isLow ? 'bg-rose-500' : 'bg-emerald-500'
+                            }`}
+                            style={{ width: `${percentage}%` }}
+                          />
                         </div>
                       </div>
                     </td>
@@ -78,7 +98,10 @@ const InventoryStockTab = ({ ingredients, onRestock, titleLabel, lowStockLabel, 
                       {ing.currentStock} / {ing.maxStock} {ing.unit}
                     </td>
                     <td className="p-3 text-right">
-                      <button onClick={() => onRestock(ing.id)} className="inline-flex items-center gap-1 rounded-lg bg-[var(--primary)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition">
+                      <button
+                        onClick={() => onRestock(ing.id)}
+                        className="inline-flex items-center gap-1 rounded-lg bg-[var(--primary)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition cursor-pointer"
+                      >
                         <RefreshCw className="h-3 w-3" />
                         <span>{restockLabel}</span>
                       </button>

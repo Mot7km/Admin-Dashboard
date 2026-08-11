@@ -23,12 +23,20 @@ const LoginHeader = ({ brand, slogan, theme, otherLanguage, onToggleTheme, onTog
       </div>
 
       <div className="flex items-center gap-2">
-        <button onClick={onToggleTheme} aria-label="theme toggle" className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm hover:border-[var(--primary)] hover:text-[var(--text-primary)] transition">
+        <button
+          onClick={onToggleTheme}
+          aria-label="theme toggle"
+          className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm hover:border-[var(--primary)] hover:text-[var(--text-primary)] transition cursor-pointer"
+        >
           {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-600" />}
           <span className="hidden sm:inline">Theme</span>
         </button>
 
-        <button onClick={onToggleLocale} aria-label="language toggle" className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm hover:border-[var(--primary)] hover:text-[var(--text-primary)] transition">
+        <button
+          onClick={onToggleLocale}
+          aria-label="language toggle"
+          className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--card)] px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-sm hover:border-[var(--primary)] hover:text-[var(--text-primary)] transition cursor-pointer"
+        >
           <Globe className="h-4 w-4 text-[var(--primary)]" />
           <span>{otherLanguage}</span>
         </button>

@@ -50,7 +50,7 @@ const AppLayout = () => {
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--surface)]/90 px-4 py-3 backdrop-blur-md lg:hidden shrink-0">
         <button
           onClick={() => setMobileSidebarOpen(true)}
-          className="rounded-lg p-2 text-[var(--text-secondary)] hover:bg-[var(--elevated)]"
+          className="rounded-lg p-2 text-[var(--text-secondary)] hover:bg-[var(--elevated)] cursor-pointer"
           aria-label="Toggle mobile menu"
         >
           <MenuIcon className="h-5 w-5" />
@@ -68,7 +68,7 @@ const AppLayout = () => {
         <div className="flex items-center gap-1">
           <button
             onClick={() => showToast('2 New Notifications', 'info')}
-            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] relative"
+            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] relative cursor-pointer"
             aria-label="Notifications"
           >
             <Bell className="h-4 w-4" />
@@ -76,14 +76,14 @@ const AppLayout = () => {
           </button>
           <button
             onClick={toggleTheme}
-            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"
             aria-label={t('layout.theme')}
           >
             {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4" />}
           </button>
           <button
             onClick={toggleLocale}
-            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+            className="rounded-lg p-2 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"
             aria-label={t('layout.language')}
           >
             <Globe className="h-4 w-4 text-[var(--primary)]" />
@@ -94,7 +94,7 @@ const AppLayout = () => {
       {/* Mobile Sidebar Overlay */}
       {mobileSidebarOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden cursor-pointer"
           onClick={closeMobileSidebar}
         />
       )}
@@ -132,7 +132,7 @@ const AppLayout = () => {
           {/* Collapse Toggle Button (Desktop) */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden rounded-lg p-1.5 text-[var(--text-muted)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] lg:flex shrink-0"
+            className="hidden rounded-lg p-1.5 text-[var(--text-muted)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] lg:flex shrink-0 cursor-pointer"
             title={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
             aria-label={isCollapsed ? t('layout.expandSidebar') : t('layout.collapseSidebar')}
           >
@@ -145,7 +145,7 @@ const AppLayout = () => {
           {/* Close Mobile Sidebar */}
           <button
             onClick={closeMobileSidebar}
-            className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] lg:hidden"
+            className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] lg:hidden cursor-pointer"
             aria-label="Close menu"
           >
             <X className="h-5 w-5" />
@@ -163,7 +163,7 @@ const AppLayout = () => {
                 onClick={closeMobileSidebar}
                 title={isCollapsed ? label : undefined}
                 className={({ isActive }) =>
-                  `group relative flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  `group relative flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 cursor-pointer ${
                     isCollapsed ? 'justify-center px-0' : ''
                   } ${
                     isActive
@@ -211,7 +211,7 @@ const AppLayout = () => {
                     logout();
                     showToast('Logged out successfully', 'info');
                   }}
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-rose-500/10 hover:text-rose-500 transition"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-rose-500/10 hover:text-rose-500 transition cursor-pointer"
                   title="Logout"
                   aria-label="Logout"
                 >
@@ -226,7 +226,7 @@ const AppLayout = () => {
               <button
                 onClick={toggleTheme}
                 aria-label={t('layout.theme')}
-                className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+                className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 {theme === 'dark' ? <Sun className="h-3.5 w-3.5 text-amber-400" /> : <Moon className="h-3.5 w-3.5" />}
                 <span>{t('layout.theme')}</span>
@@ -234,7 +234,7 @@ const AppLayout = () => {
               <button
                 onClick={toggleLocale}
                 aria-label={t('layout.language')}
-                className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)]"
+                className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-[var(--text-secondary)] transition hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <Globe className="h-3.5 w-3.5 text-[var(--primary)]" />
                 <span>{t('layout.otherLanguage')}</span>

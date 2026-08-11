@@ -31,10 +31,28 @@ const BranchesMatrixTab = ({ matrix, onToggleMatrix }: BranchesMatrixTabProps) =
               <tr key={idx} className="hover:bg-[var(--elevated)]/40 transition">
                 <td className="p-3 font-bold text-[var(--text-primary)]">{t(item.dishKey)}</td>
                 <td className="p-3 text-center">
-                  <button onClick={() => onToggleMatrix(idx, 'mainBranch')} className={`p-2 rounded-xl border transition ${item.mainBranch ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-rose-500/10 text-rose-500 border-rose-500/30'}`}> {item.mainBranch ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />} </button>
+                  <button
+                    onClick={() => onToggleMatrix(idx, 'mainBranch')}
+                    className={`p-2 rounded-xl border transition cursor-pointer ${
+                      item.mainBranch
+                        ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30'
+                        : 'bg-rose-500/10 text-rose-500 border-rose-500/30'
+                    }`}
+                  >
+                    {item.mainBranch ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                  </button>
                 </td>
                 <td className="p-3 text-center">
-                  <button onClick={() => onToggleMatrix(idx, 'mallBranch')} className={`p-2 rounded-xl border transition ${item.mallBranch ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-rose-500/10 text-rose-500 border-rose-500/30'}`}> {item.mallBranch ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />} </button>
+                  <button
+                    onClick={() => onToggleMatrix(idx, 'mallBranch')}
+                    className={`p-2 rounded-xl border transition cursor-pointer ${
+                      item.mallBranch
+                        ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30'
+                        : 'bg-rose-500/10 text-rose-500 border-rose-500/30'
+                    }`}
+                  >
+                    {item.mallBranch ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                  </button>
                 </td>
               </tr>
             ))}
