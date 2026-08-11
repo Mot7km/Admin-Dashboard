@@ -170,3 +170,58 @@ html, body {
     overflow-x: hidden;
   }
 }
+
+/* ── Custom Scroller Design (matches theme) ── */
+/* For WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-radius: 9999px;
+  margin: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark mode overrides for WebKit */
+.dark ::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--surface);
+}
+
+.dark * {
+  scrollbar-color: var(--primary-light) var(--surface);
+}
+
+/* For Internet Explorer / Edge Legacy (optional) */
+* {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
