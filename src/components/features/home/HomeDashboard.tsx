@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useTranslation } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
 import { useToast } from '../../common/Toast';
 import HomeHeader from './sections/HomeHeader';
 import HomeStats from './sections/HomeStats';
-import HomeTraffic from './sections/HomeTraffic';
+import HomeTraffic from './sections/HomeCharts';
 import HomeLowerPanels from './sections/HomeLowerPanels';
 import {
   activityFeed,

@@ -303,7 +303,12 @@
       "kitchen": "Kitchen Staff"
     },
     "qrModalTitle": "Branch Tablet Clock-In QR Code",
-    "qrModalSub": "Scan this QR on branch tablet for employee attendance"
+    "qrModalSub": "Scan this QR on branch tablet for employee attendance",
+    "form": {
+      "name": "Employee Name",
+      "role": "Role",
+      "branch": "Branch"
+    }
   },
   "inventory": {
     "title": "Inventory & Recipe Ingredients",
@@ -326,6 +331,13 @@
     "stockRemaining": "Stock Remaining",
     "recipeTitle": "Automatic Dish Recipe Ingredient Deductions",
     "linkRecipe": "Link Recipe",
+    "recipeDishLabel": "Select Recipe Dish",
+    "form": {
+      "ingredientName": "Ingredient Name",
+      "category": "Category",
+      "supplier": "Supplier",
+      "currentStock": "Current Stock"
+    },
     "deductsHeader": "1x Smoked Truffle Burger automatically deducts:"
   },
   "settings": {

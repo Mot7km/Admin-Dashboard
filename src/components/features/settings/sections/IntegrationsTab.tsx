@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { Printer, Server, Send, Save, Bell, Key, Copy } from 'lucide-react';
 
 type PrinterConfig = {

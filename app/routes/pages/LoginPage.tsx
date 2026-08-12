@@ -1,4 +1,4 @@
-import LoginDashboard from '../components/features/login/LoginDashboard';
+import LoginDashboard from '../../../src/components/features/login/LoginDashboard';
 
 const LoginPage = () => {
   return <LoginDashboard />;

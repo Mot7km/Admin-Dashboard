@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import type { HomeStat } from '../home.types';
 
 type HomeStatsProps = {

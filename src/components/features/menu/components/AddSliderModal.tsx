@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 
 type AddSliderModalProps = {
   isOpen: boolean;

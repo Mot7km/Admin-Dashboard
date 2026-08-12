@@ -1,5 +1,5 @@
 import { Layers, Plus, EyeOff, Search, Utensils, Settings2, Eye, Trash2, Tag } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import EmptyState from '../../../common/EmptyState';
 import type { MenuCategory, MenuProduct } from '../menu.types';
 

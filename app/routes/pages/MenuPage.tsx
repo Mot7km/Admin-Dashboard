@@ -1,4 +1,4 @@
-import MenuDashboard from '../components/features/menu/MenuDashboard';
+import MenuDashboard from '../../../src/components/features/menu/MenuDashboard';
 
 const MenuPage = () => {
   return <MenuDashboard />;

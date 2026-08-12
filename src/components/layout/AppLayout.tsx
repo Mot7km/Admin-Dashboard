@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { useTheme } from '../../context/ThemeContext';
-import { useTranslation } from '../../context/LanguageContext';
+import { useTheme } from '../../../app/context/ThemeContext';
+import { useTranslation } from '../../../app/context/LanguageContext';
 import { useToast } from '../common/Toast';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../../app/context/AuthContext';
 import Footer from './Footer';
 import {
   Menu as MenuIcon,

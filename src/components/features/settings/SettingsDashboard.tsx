@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
 import { useToast } from '../../common/Toast';
 
 import SettingsHeader from './sections/SettingsHeader';

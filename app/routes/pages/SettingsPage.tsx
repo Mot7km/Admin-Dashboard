@@ -1,4 +1,4 @@
-import SettingsDashboard from '../components/features/settings/SettingsDashboard';
+import SettingsDashboard from '../../../src/components/features/settings/SettingsDashboard';
 
 const SettingsPage = () => {
   return <SettingsDashboard />;

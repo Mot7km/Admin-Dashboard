@@ -1,4 +1,4 @@
-import EmployeesDashboard from '../components/features/employees/EmployeesDashboard';
+import EmployeesDashboard from '../../../src/components/features/employees/EmployeesDashboard';
 
 const EmployeesPage = () => {
   return <EmployeesDashboard />;

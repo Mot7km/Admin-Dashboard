@@ -1,5 +1,5 @@
 import { X, Check } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import type { MenuProduct } from '../menu.types';
 
 type VariantBuilderModalProps = {

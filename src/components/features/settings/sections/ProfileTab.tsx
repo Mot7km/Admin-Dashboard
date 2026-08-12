@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { Store, Building2, Clock, Share2, Save, Phone, Mail } from 'lucide-react';
 import type { SettingsProfileData, WorkingHours } from '../settings.types';
 

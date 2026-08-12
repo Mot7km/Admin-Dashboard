@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { Check, CreditCard, FileText, CheckCircle2, Download } from 'lucide-react';
 
 type Plan = {

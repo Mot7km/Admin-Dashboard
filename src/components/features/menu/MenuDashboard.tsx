@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useTranslation } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
 import { useToast } from '../../common/Toast';
 import ConfirmDialog from '../../common/ConfirmDialog';
 

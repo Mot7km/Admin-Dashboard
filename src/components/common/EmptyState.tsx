@@ -1,7 +1,7 @@
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { Inbox } from 'lucide-react';
-import { useTranslation } from '../../context/LanguageContext';
+import { useTranslation } from '../../../app/context/LanguageContext';
 
 interface EmptyStateProps {
   icon?: LucideIcon;

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { useTranslation } from '../../../context/LanguageContext';
-import { useTheme } from '../../../context/ThemeContext';
+import { useAuth } from '../../../../app/context/AuthContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
+import { useTheme } from '../../../../app/context/ThemeContext';
 import { useToast } from '../../common/Toast';
 import LoginFooter from './sections/LoginFooter';
 import LoginFormPanel from './sections/LoginFormPanel';
 import LoginHeader from './sections/LoginHeader';
-import LoginShowcasePanel from './sections/LoginShowcasePanel';
+import LoginShowcasePanel from './components/LoginShowcasePanel';
 
 const LoginDashboard = () => {
   const { t, locale, toggleLocale } = useTranslation();

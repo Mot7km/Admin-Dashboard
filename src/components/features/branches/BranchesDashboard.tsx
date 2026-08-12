@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useTranslation } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
 import { useToast } from '../../common/Toast';
 import ConfirmDialog from '../../common/ConfirmDialog';
 import { Plus, Store, Clock, ShieldCheck } from 'lucide-react';
 import BranchesLocationsTab from './sections/BranchesLocationsTab';
 import BranchesMatrixTab from './sections/BranchesMatrixTab';
 import BranchesHoursTab from './sections/BranchesHoursTab';
-import AddBranchModal from './sections/AddBranchModal';
+import AddBranchModal from './components/AddBranchModal';
 import { initialBranches, initialMatrix } from './branches.constants';
 
 const BranchesDashboard = () => {

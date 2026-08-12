@@ -12,7 +12,7 @@ import {
   YAxis,
 } from 'recharts';
 import { ChevronDown } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 
 type HomeTrafficProps = {
   trafficOverviewData: Array<{ name: string; views: number }>;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertTriangle, X } from 'lucide-react';
-import { useTranslation } from '../../context/LanguageContext';
+import { useTranslation } from '../../../app/context/LanguageContext';
 
 interface ConfirmDialogProps {
   isOpen: boolean;

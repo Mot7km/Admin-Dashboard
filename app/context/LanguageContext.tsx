@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import en from '../locales/en.json'
-import ar from '../locales/ar.json'
+import en from '../../src/locales/en.json'
+import ar from '../../src/locales/ar.json'
 
 type Locale = 'en' | 'ar'
 type TranslationDictionary = Record<string, unknown>

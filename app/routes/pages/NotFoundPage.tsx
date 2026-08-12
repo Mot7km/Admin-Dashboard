@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTranslation } from '../context/LanguageContext';
+import { useTranslation } from '../../context/LanguageContext';
 import { Home, AlertTriangle, Compass } from 'lucide-react';
 
 const NotFoundPage = () => {

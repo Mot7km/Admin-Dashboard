@@ -1,4 +1,4 @@
-import BranchesDashboard from '../components/features/branches/BranchesDashboard';
+import BranchesDashboard from '../../../src/components/features/branches/BranchesDashboard';
 
 const BranchesPage = () => {
   return <BranchesDashboard />;

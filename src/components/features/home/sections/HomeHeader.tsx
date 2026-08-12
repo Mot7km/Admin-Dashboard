@@ -1,7 +1,7 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { Calendar, ChevronDown, Plus, Printer, Sparkles, Store, Volume2, VolumeX } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { useToast } from '../../../common/Toast';
 
 type HomeHeaderProps = {

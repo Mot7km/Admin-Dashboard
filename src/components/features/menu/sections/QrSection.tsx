@@ -1,5 +1,5 @@
 import { QrCode, Download, Share2 } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 
 type QrSectionProps = {
   onDownloadQr: () => void;

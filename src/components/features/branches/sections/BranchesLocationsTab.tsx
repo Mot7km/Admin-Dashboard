@@ -1,4 +1,4 @@
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { MapPin, Phone, Clock, Store, Edit, Trash2 } from 'lucide-react';
 import type { Branch } from '../branches.types';
 

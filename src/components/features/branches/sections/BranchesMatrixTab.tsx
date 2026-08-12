@@ -1,5 +1,5 @@
 import { Check, X } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import type { AvailabilityMatrixRow } from '../branches.types';
 
 type BranchesMatrixTabProps = {

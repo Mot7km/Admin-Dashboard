@@ -1,5 +1,5 @@
 import { Plus, Edit, Trash2 } from 'lucide-react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import type { MenuSlider } from '../menu.types';
 
 type SlidersSectionProps = {

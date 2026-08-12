@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { ShieldCheck, Search } from 'lucide-react';
 import type { AuditLog } from '../settings.types';
 

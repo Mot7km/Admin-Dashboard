@@ -1,4 +1,4 @@
-import InventoryDashboard from '../components/features/inventory/InventoryDashboard';
+import InventoryDashboard from '../../../src/components/features/inventory/InventoryDashboard';
 
 const InventoryPage = () => {
   return <InventoryDashboard />;

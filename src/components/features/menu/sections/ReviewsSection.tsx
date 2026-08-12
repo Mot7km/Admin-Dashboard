@@ -1,4 +1,4 @@
-import { useTranslation } from '../../../../context/LanguageContext';
+import { useTranslation } from '../../../../../app/context/LanguageContext';
 
 const ReviewsSection = () => {
   const { t } = useTranslation();

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useTranslation } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../../app/context/LanguageContext';
 import { useToast } from '../../common/Toast';
 import OrdersFilters from './sections/OrdersFilters';
 import OrdersHeader from './sections/OrdersHeader';
-import OrdersKanbanBoard from './sections/OrdersKanbanBoard';
+import OrdersKanbanBoard from './components/OrdersKanbanBoard';
 
 interface Order {
   id: string;
