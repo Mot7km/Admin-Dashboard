@@ -28,12 +28,24 @@ const getNestedValue = (dictionary: TranslationDictionary, key: string) => {
   }, dictionary) as string | undefined
 }
 
+const resolveInitialLocale = (): Locale => {
+  if (typeof window === 'undefined') return 'en'
+
+  const storedLocale = window.localStorage.getItem('app-locale')
+  if (storedLocale === 'en' || storedLocale === 'ar') {
+    return storedLocale
+  }
+
+  return navigator.language.toLowerCase().startsWith('ar') ? 'ar' : 'en'
+}
+
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocale] = useState<Locale>('en')
+  const [locale, setLocale] = useState<Locale>(resolveInitialLocale)
 
   useEffect(() => {
     document.documentElement.lang = locale
     document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
+    window.localStorage.setItem('app-locale', locale)
   }, [locale])
 
   const t = (key: string) => {
@@ -42,7 +54,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const toggleLocale = () => {
-    setLocale((current) => (current === 'en' ? 'ar' : 'en'))
+    setLocale((current) => {
+      const next = current === 'en' ? 'ar' : 'en'
+      window.localStorage.setItem('app-locale', next)
+      return next
+    })
   }
 
   const value = useMemo(
