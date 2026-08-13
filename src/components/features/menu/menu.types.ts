@@ -29,3 +29,29 @@ export type MenuSlider = {
   image: string;
   status: string;
 };
+
+export type Review = {
+  id: string;
+  productId: string;
+  userName: string;
+  date: string;
+  rating: number;
+  comment: string;
+};
+
+export type Product = {
+  id: string;
+  name: string;
+  categoryId: string;
+  imageUrl: string;
+  rating: number;
+  reviewCount: number;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  image: string;
+};
+
+export type ReviewStatus = 'idle' | 'deleting' | 'deleted';

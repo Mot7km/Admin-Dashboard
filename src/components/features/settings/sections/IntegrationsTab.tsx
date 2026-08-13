@@ -1,6 +1,9 @@
 import React from 'react';
 import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { Printer, Server, Send, Save, Bell, Key, Copy } from 'lucide-react';
+import Checkbox from '../../../ui/Checkbox';
+import Select from '../../../ui/Select';
+import type { SelectOption } from '../../../ui/Select';
 
 type PrinterConfig = {
   name: string;
@@ -43,13 +46,19 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // Options for paper width
+  const paperWidthOptions: SelectOption[] = [
+    { value: '80mm', label: '80mm (Standard POS Thermal)' },
+    { value: '58mm', label: '58mm (Compact Portable Thermal)' },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Thermal Printer Config */}
-      <form onSubmit={onSavePrinter} className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
+      {/* ─── Thermal Printer Config ───────────────────────────────────── */}
+      <form onSubmit={onSavePrinter} className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-6 shadow-lg space-y-4">
         <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
-          <Printer className="h-5 w-5 text-[var(--primary)]" />
-          <h2 className="text-base font-bold text-[var(--text-primary)]">
+          <Printer className="h-5 w-5 text-[var(--primary)] shrink-0" />
+          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">
             {t('settings.integrations.printerTitle')}
           </h2>
         </div>
@@ -86,14 +95,13 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
             <label className="text-xs font-semibold text-[var(--text-secondary)]">
               {t('settings.integrations.paperWidth')}
             </label>
-            <select
+            <Select
               value={printerConfig.paperWidth}
-              onChange={(e) => setPrinterConfig({ ...printerConfig, paperWidth: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
-            >
-              <option value="80mm">80mm (Standard POS Thermal)</option>
-              <option value="58mm">58mm (Compact Portable Thermal)</option>
-            </select>
+              onChange={(value) => setPrinterConfig({ ...printerConfig, paperWidth: value })}
+              options={paperWidthOptions}
+              placeholder="Select paper width"
+              className="mt-1.5"
+            />
           </div>
 
           <div className="sm:col-span-3">
@@ -109,7 +117,7 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <button
             type="button"
             onClick={onTestPrint}
@@ -129,71 +137,44 @@ const IntegrationsTab: React.FC<IntegrationsTabProps> = ({
         </div>
       </form>
 
-      {/* Notifications Preferences */}
-      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
+      {/* ─── Notifications Preferences ────────────────────────────────── */}
+      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-6 shadow-lg space-y-4">
         <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
-          <Bell className="h-5 w-5 text-[var(--primary)]" />
-          <h2 className="text-base font-bold text-[var(--text-primary)]">
+          <Bell className="h-5 w-5 text-[var(--primary)] shrink-0" />
+          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">
             {t('settings.integrations.notifTitle')}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="flex items-center justify-between p-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)]">
-            <span className="text-xs font-medium text-[var(--text-primary)]">
-              {t('settings.integrations.emailNotif')}
-            </span>
-            <input
-              type="checkbox"
-              checked={notifications.emailNotif}
-              onChange={(e) => setNotifications({ ...notifications, emailNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
-            />
-          </div>
-
-          <div className="flex items-center justify-between p-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)]">
-            <span className="text-xs font-medium text-[var(--text-primary)]">
-              {t('settings.integrations.smsNotif')}
-            </span>
-            <input
-              type="checkbox"
-              checked={notifications.smsNotif}
-              onChange={(e) => setNotifications({ ...notifications, smsNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
-            />
-          </div>
-
-          <div className="flex items-center justify-between p-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)]">
-            <span className="text-xs font-medium text-[var(--text-primary)]">
-              {t('settings.integrations.pushNotif')}
-            </span>
-            <input
-              type="checkbox"
-              checked={notifications.pushNotif}
-              onChange={(e) => setNotifications({ ...notifications, pushNotif: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
-            />
-          </div>
-
-          <div className="flex items-center justify-between p-3 rounded-xl border border-[var(--color-border)] bg-[var(--surface)]">
-            <span className="text-xs font-medium text-[var(--text-primary)]">
-              {t('settings.integrations.dailySummary')}
-            </span>
-            <input
-              type="checkbox"
-              checked={notifications.dailySummary}
-              onChange={(e) => setNotifications({ ...notifications, dailySummary: e.target.checked })}
-              className="h-4 w-4 rounded border-[var(--color-border)] text-[var(--primary)] focus:ring-[var(--primary)] cursor-pointer"
-            />
-          </div>
+        <div className="space-y-3">
+          <Checkbox
+            checked={notifications.emailNotif}
+            onChange={(checked) => setNotifications({ ...notifications, emailNotif: checked })}
+            label={t('settings.integrations.emailNotif')}
+          />
+          <Checkbox
+            checked={notifications.smsNotif}
+            onChange={(checked) => setNotifications({ ...notifications, smsNotif: checked })}
+            label={t('settings.integrations.smsNotif')}
+          />
+          <Checkbox
+            checked={notifications.pushNotif}
+            onChange={(checked) => setNotifications({ ...notifications, pushNotif: checked })}
+            label={t('settings.integrations.pushNotif')}
+          />
+          <Checkbox
+            checked={notifications.dailySummary}
+            onChange={(checked) => setNotifications({ ...notifications, dailySummary: checked })}
+            label={t('settings.integrations.dailySummary')}
+          />
         </div>
       </div>
 
-      {/* API Keys & Webhooks */}
-      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
+      {/* ─── API Keys & Webhooks ──────────────────────────────────────── */}
+      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-6 shadow-lg space-y-4">
         <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
-          <Key className="h-5 w-5 text-[var(--primary)]" />
-          <h2 className="text-base font-bold text-[var(--text-primary)]">
+          <Key className="h-5 w-5 text-[var(--primary)] shrink-0" />
+          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">
             {t('settings.integrations.apiTitle')}
           </h2>
         </div>

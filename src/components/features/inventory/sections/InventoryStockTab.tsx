@@ -42,25 +42,27 @@ const InventoryStockTab = ({
 }: InventoryStockTabProps) => {
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-[var(--text-primary)]">{titleLabel}</h2>
-          <span className="text-xs font-semibold text-rose-500 flex items-center gap-1">
-            <AlertTriangle className="h-4 w-4" />
+      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-6 shadow-lg space-y-4">
+        {/* Header */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">{titleLabel}</h2>
+          <span className="text-[10px] sm:text-xs font-semibold text-rose-500 flex items-center gap-1">
+            <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             {lowStockLabel}
           </span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+        {/* Table wrapper with horizontal scroll */}
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 pb-1">
+          <table className="w-full text-left text-[10px] sm:text-xs min-w-[600px]">
             <thead className="border-b border-[var(--color-border)] bg-[var(--surface)] font-semibold text-[var(--text-muted)]">
               <tr>
-                <th className="p-3">{ingredientLabel}</th>
-                <th className="p-3">{categoryLabel}</th>
-                <th className="p-3">{supplierLabel}</th>
-                <th className="p-3">{stockGaugeLabel}</th>
-                <th className="p-3">{currentStockLabel}</th>
-                <th className="p-3 text-right">{actionsLabel}</th>
+                <th className="p-2 sm:p-3">{ingredientLabel}</th>
+                <th className="p-2 sm:p-3 hidden sm:table-cell">{categoryLabel}</th>
+                <th className="p-2 sm:p-3 hidden md:table-cell">{supplierLabel}</th>
+                <th className="p-2 sm:p-3">{stockGaugeLabel}</th>
+                <th className="p-2 sm:p-3 hidden xs:table-cell">{currentStockLabel}</th>
+                <th className="p-2 sm:p-3 text-right">{actionsLabel}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--color-border)]">
@@ -70,21 +72,32 @@ const InventoryStockTab = ({
 
                 return (
                   <tr key={ing.id} className="hover:bg-[var(--elevated)]/40 transition">
-                    <td className="p-3 font-bold text-[var(--text-primary)]">{ing.name}</td>
-                    <td className="p-3 text-[var(--text-secondary)]">{ing.category}</td>
-                    <td className="p-3">
-                      <span className="rounded-md bg-[var(--surface)] border border-[var(--color-border)] px-2 py-0.5 font-medium text-[var(--text-muted)]">
+                    {/* Name */}
+                    <td className="p-2 sm:p-3 font-bold text-[var(--text-primary)] truncate max-w-[80px] sm:max-w-none">
+                      {ing.name}
+                    </td>
+
+                    {/* Category – hidden on mobile */}
+                    <td className="p-2 sm:p-3 text-[var(--text-secondary)] hidden sm:table-cell truncate max-w-[100px]">
+                      {ing.category}
+                    </td>
+
+                    {/* Supplier – hidden on tablet and smaller */}
+                    <td className="p-2 sm:p-3 hidden md:table-cell">
+                      <span className="rounded-md bg-[var(--surface)] border border-[var(--color-border)] px-1.5 sm:px-2 py-0.5 font-medium text-[var(--text-muted)] text-[9px] sm:text-xs">
                         {ing.supplier}
                       </span>
                     </td>
-                    <td className="p-3 w-48">
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-bold">
+
+                    {/* Stock gauge */}
+                    <td className="p-2 sm:p-3 w-32 sm:w-48">
+                      <div className="space-y-0.5">
+                        <div className="flex justify-between text-[8px] sm:text-[10px] font-bold">
                           <span className={isLow ? 'text-rose-500' : 'text-[var(--text-muted)]'}>
                             {percentage}% {stockRemainingLabel}
                           </span>
                         </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
+                        <div className="h-1.5 sm:h-2 w-full overflow-hidden rounded-full bg-[var(--elevated)]">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               isLow ? 'bg-rose-500' : 'bg-emerald-500'
@@ -94,15 +107,19 @@ const InventoryStockTab = ({
                         </div>
                       </div>
                     </td>
-                    <td className="p-3 font-bold text-[var(--text-primary)]">
+
+                    {/* Current stock – hidden on very small screens */}
+                    <td className="p-2 sm:p-3 font-bold text-[var(--text-primary)] hidden xs:table-cell whitespace-nowrap">
                       {ing.currentStock} / {ing.maxStock} {ing.unit}
                     </td>
-                    <td className="p-3 text-right">
+
+                    {/* Actions */}
+                    <td className="p-2 sm:p-3 text-right">
                       <button
                         onClick={() => onRestock(ing.id)}
-                        className="inline-flex items-center gap-1 rounded-lg bg-[var(--primary)]/10 px-2.5 py-1 text-[11px] font-bold text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition cursor-pointer"
+                        className="inline-flex items-center gap-1 rounded-lg bg-[var(--primary)]/10 px-2 sm:px-2.5 py-1 sm:py-1.5 text-[9px] sm:text-[11px] font-bold text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition cursor-pointer whitespace-nowrap"
                       >
-                        <RefreshCw className="h-3 w-3" />
+                        <RefreshCw className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                         <span>{restockLabel}</span>
                       </button>
                     </td>

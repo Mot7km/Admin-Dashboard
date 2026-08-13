@@ -1,6 +1,9 @@
 import React from 'react';
 import { useTranslation } from '../../../../../app/context/LanguageContext';
-import { Store, Building2, Clock, Share2, Save, Phone, Mail } from 'lucide-react';
+import { Store, Building2, Clock, Share2, Save, Phone, Mail, Globe, DollarSign } from 'lucide-react';
+import TimeRangePicker from '../../../ui/TimeRangeSlider';
+import Select from '../../../ui/Select';
+import type { SelectOption } from '../../../ui/Select';
 import type { SettingsProfileData, WorkingHours } from '../settings.types';
 
 type ProfileTabProps = {
@@ -19,6 +22,36 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   onSave,
 }) => {
   const { t } = useTranslation();
+
+  // Options for timezone select
+  const timezoneOptions: SelectOption[] = [
+    { value: 'Asia/Riyadh (UTC+3)', label: 'Asia/Riyadh (UTC+3)' },
+    { value: 'Asia/Dubai (UTC+4)', label: 'Asia/Dubai (UTC+4)' },
+    { value: 'Africa/Cairo (UTC+2)', label: 'Africa/Cairo (UTC+2)' },
+  ];
+
+  // Options for currency select
+  const currencyOptions: SelectOption[] = [
+    { value: 'SAR — Saudi Riyal', label: 'SAR — Saudi Riyal (ر.س)' },
+    { value: 'USD — US Dollar', label: 'USD — US Dollar ($)' },
+    { value: 'AED — UAE Dirham', label: 'AED — UAE Dirham (د.إ)' },
+    { value: 'EGP — Egyptian Pound', label: 'EGP — Egyptian Pound (ج.م)' },
+  ];
+
+  // Helper to update a single day's hours
+  const updateDayHours = (index: number, from: string, to: string) => {
+    const updated = [...workingHours];
+    updated[index].open = from;
+    updated[index].close = to;
+    setWorkingHours(updated);
+  };
+
+  // Helper to toggle open/closed
+  const toggleDayOpen = (index: number) => {
+    const updated = [...workingHours];
+    updated[index].isOpen = !updated[index].isOpen;
+    setWorkingHours(updated);
+  };
 
   return (
     <form onSubmit={onSave} className="space-y-6">
@@ -145,31 +178,28 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             <label className="text-xs font-semibold text-[var(--text-secondary)]">
               {t('settings.profile.timezone')}
             </label>
-            <select
+            <Select
               value={profileData.timezone}
-              onChange={(e) => setProfileData({ ...profileData, timezone: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
-            >
-              <option value="Asia/Riyadh (UTC+3)">Asia/Riyadh (UTC+3)</option>
-              <option value="Asia/Dubai (UTC+4)">Asia/Dubai (UTC+4)</option>
-              <option value="Africa/Cairo (UTC+2)">Africa/Cairo (UTC+2)</option>
-            </select>
+              onChange={(value) => setProfileData({ ...profileData, timezone: value })}
+              options={timezoneOptions}
+              placeholder="Select timezone"
+              leftIcon={<Globe className="h-4 w-4" />}
+              className="mt-1.5"
+            />
           </div>
 
           <div>
             <label className="text-xs font-semibold text-[var(--text-secondary)]">
               {t('settings.profile.currency')}
             </label>
-            <select
+            <Select
               value={profileData.currency}
-              onChange={(e) => setProfileData({ ...profileData, currency: e.target.value })}
-              className="mt-1.5 w-full rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-2.5 text-xs font-medium focus:border-[var(--primary)] focus:outline-none cursor-pointer"
-            >
-              <option value="SAR — Saudi Riyal">SAR — Saudi Riyal (ر.س)</option>
-              <option value="USD — US Dollar">USD — US Dollar ($)</option>
-              <option value="AED — UAE Dirham">AED — UAE Dirham (د.إ)</option>
-              <option value="EGP — Egyptian Pound">EGP — Egyptian Pound (ج.م)</option>
-            </select>
+              onChange={(value) => setProfileData({ ...profileData, currency: value })}
+              options={currencyOptions}
+              placeholder="Select currency"
+              leftIcon={<DollarSign className="h-4 w-4" />}
+              className="mt-1.5"
+            />
           </div>
 
           <div>
@@ -186,7 +216,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         </div>
       </div>
 
-      {/* Working Hours Schedule */}
+      {/* Working Hours Schedule – now using compact TimeRangePicker */}
       <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-6 shadow-lg space-y-4">
         <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
           <Clock className="h-5 w-5 text-[var(--primary)]" />
@@ -195,60 +225,47 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {workingHours.map((item, idx) => (
-            <div
-              key={item.day}
-              className="flex flex-col justify-between rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3 space-y-2"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[var(--text-primary)]">{item.day}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const updated = [...workingHours];
-                    updated[idx].isOpen = !updated[idx].isOpen;
-                    setWorkingHours(updated);
-                  }}
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-bold transition cursor-pointer ${
-                    item.isOpen
-                      ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20'
-                      : 'bg-rose-500/10 text-rose-500 ring-1 ring-rose-500/20'
-                  }`}
-                >
-                  {item.isOpen ? t('settings.profile.open') : t('settings.profile.closed')}
-                </button>
-              </div>
-
-              {item.isOpen ? (
-                <div className="flex items-center gap-1.5 text-xs">
-                  <input
-                    type="time"
-                    value={item.open}
-                    onChange={(e) => {
-                      const updated = [...workingHours];
-                      updated[idx].open = e.target.value;
-                      setWorkingHours(updated);
-                    }}
-                    className="rounded-lg border border-[var(--color-border)] bg-[var(--card)] px-1.5 py-1 text-[11px] font-medium"
-                  />
-                  <span className="text-[var(--text-muted)]">-</span>
-                  <input
-                    type="time"
-                    value={item.close}
-                    onChange={(e) => {
-                      const updated = [...workingHours];
-                      updated[idx].close = e.target.value;
-                      setWorkingHours(updated);
-                    }}
-                    className="rounded-lg border border-[var(--color-border)] bg-[var(--card)] px-1.5 py-1 text-[11px] font-medium"
-                  />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {workingHours.map((item, idx) => {
+            const isOpen = item.isOpen;
+            return (
+              <div
+                key={item.day}
+                className="flex flex-col justify-between rounded-xl border border-[var(--color-border)] bg-[var(--surface)] p-3 space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[var(--text-primary)]">
+                    {item.day}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleDayOpen(idx)}
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold transition cursor-pointer ${
+                      isOpen
+                        ? 'bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20'
+                        : 'bg-rose-500/10 text-rose-500 ring-1 ring-rose-500/20'
+                    }`}
+                  >
+                    {isOpen ? t('settings.profile.open') : t('settings.profile.closed')}
+                  </button>
                 </div>
-              ) : (
-                <span className="text-[11px] text-[var(--text-muted)] italic">Day Off / Closed</span>
-              )}
-            </div>
-          ))}
+
+                {isOpen ? (
+                  <TimeRangePicker
+                    from={item.open}
+                    to={item.close}
+                    onChange={(from: string, to: string) => updateDayHours(idx, from, to)}
+                    compact
+                    disabled={!isOpen}
+                  />
+                ) : (
+                  <span className="text-[11px] text-[var(--text-muted)] italic">
+                    Day Off / Closed
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

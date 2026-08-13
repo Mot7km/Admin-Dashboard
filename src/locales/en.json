@@ -91,9 +91,9 @@
     "soundChimeOn": "Chime On",
     "soundChimeMute": "Chime Muted",
     "quickActions": {
-      "addDish": "+ Add Special Dish",
-      "addBanner": "+ Offer Banner",
-      "downloadQr": "🖨️ Branch QR"
+      "addDish": "Add Special Dish",
+      "addBanner": "Add Offer Banner",
+      "downloadQr": "Branch QR"
     },
     "liveKitchen": "12 Active Kitchen Orders",
     "stats": {

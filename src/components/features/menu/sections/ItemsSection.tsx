@@ -1,12 +1,14 @@
-import { Layers, Plus, EyeOff, Search, Utensils, Settings2, Eye, Trash2, Tag } from 'lucide-react';
+import { Layers, Plus, EyeOff, Search, Utensils, Settings2, Eye, Trash2, Tag, LayoutGrid, List, Pencil } from 'lucide-react';
 import { useTranslation } from '../../../../../app/context/LanguageContext';
 import EmptyState from '../../../common/EmptyState';
+import SegmentedControl from '../../../ui/SegmentedControl';
 import type { MenuCategory, MenuProduct } from '../menu.types';
 
 type ItemsSectionProps = {
   categories: MenuCategory[];
   products: MenuProduct[];
   viewMode: 'grid' | 'table';
+  onViewModeChange: (mode: 'grid' | 'table') => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onOpenAddCategory: () => void;
@@ -15,12 +17,15 @@ type ItemsSectionProps = {
   onToggleProductStatus: (id: string) => void;
   onOpenVariantBuilder: (product: MenuProduct) => void;
   onDeleteProduct: (product: MenuProduct) => void;
+  onEditCategory: (id: string) => void;
+  onEditProduct: (product: MenuProduct) => void;
 };
 
 const ItemsSection = ({
   categories,
   products,
   viewMode,
+  onViewModeChange,
   searchQuery,
   onSearchChange,
   onOpenAddCategory,
@@ -29,12 +34,14 @@ const ItemsSection = ({
   onToggleProductStatus,
   onOpenVariantBuilder,
   onDeleteProduct,
+  onEditCategory,
+  onEditProduct,
 }: ItemsSectionProps) => {
   const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
-      {/* Categories Bar */}
+      {/* ─── Categories Bar ───────────────────────────────────────────── */}
       <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-4 sm:p-5 shadow-lg space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -47,7 +54,6 @@ const ItemsSection = ({
           >
             <Plus className="h-4 w-4" />
             <span className="hidden sm:inline">{t('menu.categories.add')}</span>
-            <span className="sm:hidden">+</span>
           </button>
         </div>
 
@@ -61,6 +67,7 @@ const ItemsSection = ({
                   : 'border-[var(--color-border)] bg-[var(--surface)] hover:border-[var(--primary)]/40'
               }`}
             >
+              {/* ─── Image ───────────────────────────────────────────── */}
               <div
                 className={`relative h-14 w-14 sm:h-16 sm:w-16 shrink-0 rounded-full overflow-hidden ring-2 transition-all duration-300 ${
                   cat.isSoldOut
@@ -80,6 +87,7 @@ const ItemsSection = ({
                 )}
               </div>
 
+              {/* ─── Name ─────────────────────────────────────────────── */}
               <div className="text-center min-w-0 w-full">
                 <p className={`text-xs sm:text-sm font-bold truncate ${cat.isSoldOut ? 'text-rose-500' : 'text-[var(--text-primary)]'}`}>
                   {cat.nameKey.includes('.') ? t(cat.nameKey) : cat.nameKey}
@@ -89,36 +97,65 @@ const ItemsSection = ({
                 </p>
               </div>
 
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onToggleCategorySoldOut(cat.id);
-                }}
-                className={`text-[10px] font-bold px-2 py-0.5 rounded-lg transition cursor-pointer ${
-                  cat.isSoldOut
-                    ? 'bg-rose-500 text-white hover:bg-rose-600'
-                    : 'bg-[var(--elevated)] text-[var(--text-muted)] hover:text-rose-500 hover:bg-rose-500/10'
-                }`}
-                title="Toggle Bulk Category Out-of-Stock"
-              >
-                {cat.isSoldOut ? t('menu.categories.bulkSoldOut') : t('menu.categories.bulkActive')}
-              </button>
+              {/* ─── Actions: Edit + Toggle Sold Out ────────────────── */}
+              <div className="flex items-center gap-1.5 mt-1">
+                {/* Edit Category – pill with icon + label */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEditCategory(cat.id);
+                  }}
+                  className="flex items-center gap-1 rounded-full bg-[var(--surface)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-secondary)] border border-[var(--color-border)] transition hover:border-[var(--primary)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/5 cursor-pointer"
+                  aria-label={t('common.edit') || 'Edit category'}
+                >
+                  <Pencil className="h-3 w-3" />
+                  <span className="hidden xs:inline">{t('common.edit')}</span>
+                </button>
+
+                {/* Toggle Sold Out */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleCategorySoldOut(cat.id);
+                  }}
+                  className={`text-[10px] font-bold px-2.5 py-1 rounded-full transition cursor-pointer ${
+                    cat.isSoldOut
+                      ? 'bg-rose-500 text-white hover:bg-rose-600'
+                      : 'bg-[var(--elevated)] text-[var(--text-muted)] hover:text-rose-500 hover:bg-rose-500/10'
+                  }`}
+                  title={cat.isSoldOut ? 'Mark as available' : 'Mark as sold out'}
+                >
+                  {cat.isSoldOut ? t('menu.categories.bulkSoldOut') : t('menu.categories.bulkActive')}
+                </button>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Products Header & Actions */}
+      {/* ─── Products ────────────────────────────────────────────────── */}
       <div className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-base font-bold text-[var(--text-primary)]">{t('menu.products.title')}</h2>
-          <button
-            onClick={onOpenAddProduct}
-            className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
-          >
-            <Plus className="h-4 w-4" />
-            <span>{t('menu.products.add')}</span>
-          </button>
+
+          <div className="flex items-center gap-2 justify-center sm:justify-center md:justify-baseline">
+            <button
+              onClick={onOpenAddProduct}
+              className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              <span>{t('menu.products.add')}</span>
+            </button>
+
+            <SegmentedControl
+              options={[
+                { value: 'grid', label: t('menu.viewGrid'), icon: <LayoutGrid className="h-3.5 w-3.5" /> },
+                { value: 'table', label: t('menu.viewTable'), icon: <List className="h-3.5 w-3.5" /> },
+              ]}
+              selectedValue={viewMode}
+              onChange={(mode) => onViewModeChange(mode)}
+            />
+          </div>
         </div>
 
         <div className="relative">
@@ -132,7 +169,7 @@ const ItemsSection = ({
           />
         </div>
 
-        {/* Empty State Check */}
+        {/* ─── Empty State ──────────────────────────────────────────── */}
         {products.length === 0 ? (
           <EmptyState
             icon={Utensils}
@@ -141,7 +178,7 @@ const ItemsSection = ({
             onAction={onOpenAddProduct}
           />
         ) : viewMode === 'grid' ? (
-          /* Grid View Mode */
+          /* ─── Grid View ─────────────────────────────────────────── */
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((item) => (
               <div
@@ -188,6 +225,15 @@ const ItemsSection = ({
                   </button>
 
                   <div className="flex items-center gap-1 pt-2">
+                    {/* Edit Product */}
+                    <button
+                      onClick={() => onEditProduct(item)}
+                      className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)] cursor-pointer"
+                      title={t('common.edit')}
+                      aria-label={t('common.edit')}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
                     <button
                       onClick={() => onToggleProductStatus(item.id)}
                       className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"
@@ -210,7 +256,7 @@ const ItemsSection = ({
             ))}
           </div>
         ) : (
-          /* Table View Mode */
+          /* ─── Table View ─────────────────────────────────────────── */
           <div className="overflow-x-auto rounded-2xl border border-[var(--color-border)] bg-[var(--card)] shadow-lg">
             <table className="w-full text-left text-xs min-w-[600px]">
               <thead className="border-b border-[var(--color-border)] bg-[var(--surface)] font-semibold text-[var(--text-muted)]">
@@ -252,6 +298,15 @@ const ItemsSection = ({
                     </td>
                     <td className="p-3 text-right">
                       <div className="flex items-center justify-end gap-1">
+                        {/* Edit Product */}
+                        <button
+                          onClick={() => onEditProduct(item)}
+                          className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--primary)] cursor-pointer"
+                          title={t('common.edit')}
+                          aria-label={t('common.edit')}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
                         <button
                           onClick={() => onToggleProductStatus(item.id)}
                           className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--elevated)] hover:text-[var(--text-primary)] cursor-pointer"

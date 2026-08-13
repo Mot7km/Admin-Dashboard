@@ -42,37 +42,43 @@ const OrdersDashboard = () => {
 
   return (
     <div className="space-y-6 text-[var(--text-primary)]">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* ─── Header + Filters ────────────────────────────────────── */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <OrdersHeader title={t('orders.title')} subtitle={t('orders.subtitle')} kdsBadge={t('orders.kdsBadge')} />
-        <OrdersFilters
-          typeFilter={typeFilter}
-          onChange={setTypeFilter}
-          allLabel={t('orders.filterAll')}
-          dineInLabel={t('orders.filterDineIn')}
-          takeawayLabel={t('orders.filterTakeaway')}
-        />
+        <div className="w-full sm:w-auto sm:min-w-[200px] md:min-w-[260px]">
+          <OrdersFilters
+            typeFilter={typeFilter}
+            onChange={setTypeFilter}
+            allLabel={t('orders.filterAll')}
+            dineInLabel={t('orders.filterDineIn')}
+            takeawayLabel={t('orders.filterTakeaway')}
+          />
+        </div>
       </div>
 
-      <OrdersKanbanBoard
-        orders={filteredOrders}
-        locale={locale}
-        onMove={moveOrder}
-        emptyTitle="common.noResults"
-        delayedLabel={t('orders.delayed')}
-        completeLabel="Order Complete"
-        titleMap={{
-          new: t('orders.kanban.new'),
-          preparing: t('orders.kanban.preparing'),
-          ready: t('orders.kanban.ready'),
-          completed: t('orders.kanban.completed'),
-        }}
-        actionMap={{
-          new: t('orders.actions.markPreparing'),
-          preparing: t('orders.actions.markReady'),
-          ready: t('orders.actions.complete'),
-          completed: '',
-        }}
-      />
+      {/* ─── Kanban Board ────────────────────────────────────────── */}
+      <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0">
+        <OrdersKanbanBoard
+          orders={filteredOrders}
+          locale={locale}
+          onMove={moveOrder}
+          emptyTitle="common.noResults"
+          delayedLabel={t('orders.delayed')}
+          completeLabel="Order Complete"
+          titleMap={{
+            new: t('orders.kanban.new'),
+            preparing: t('orders.kanban.preparing'),
+            ready: t('orders.kanban.ready'),
+            completed: t('orders.kanban.completed'),
+          }}
+          actionMap={{
+            new: t('orders.actions.markPreparing'),
+            preparing: t('orders.actions.markReady'),
+            ready: t('orders.actions.complete'),
+            completed: '',
+          }}
+        />
+      </div>
     </div>
   );
 };

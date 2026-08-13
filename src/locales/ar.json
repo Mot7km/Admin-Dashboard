@@ -91,9 +91,9 @@
     "soundChimeOn": "التنبيه الصوتي مفعّل",
     "soundChimeMute": "التنبيه الصوتي مكتوم",
     "quickActions": {
-      "addDish": "+ إضافة وجبة خاصة",
-      "addBanner": "+ بنر عرض",
-      "downloadQr": "🖨️ QR الفرع"
+      "addDish": "إضافة وجبة خاصة",
+      "addBanner": "إضافة بنر عرض",
+      "downloadQr": "QR الفرع"
     },
     "liveKitchen": "١٢ طلباً جاري تحضيره بالمطبخ",
     "stats": {

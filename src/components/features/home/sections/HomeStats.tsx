@@ -15,9 +15,10 @@ const HomeStats: FC<HomeStatsProps> = ({ stats }) => {
       {stats.map((stat) => (
         <div
           key={stat.titleKey}
-          className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-3.5 sm:p-5 shadow-lg transition-all duration-300 hover:border-[var(--primary)]/40 hover:-translate-y-0.5"
+          className="group relative flex flex-col justify-between overflow-visible rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-3.5 sm:p-5 shadow-lg transition-all duration-300 hover:border-[var(--primary)]/40 hover:-translate-y-0.5 hover:z-20"
+          style={{ isolation: 'isolate' }}
         >
-          <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${stat.haloColor} opacity-70 transition-opacity group-hover:opacity-100`} />
+          {/* Card content – unchanged */}
 
           <div className="relative z-10">
             <div className="flex items-center justify-between text-xs font-medium text-[var(--text-muted)]">
@@ -36,9 +37,13 @@ const HomeStats: FC<HomeStatsProps> = ({ stats }) => {
             </div>
           </div>
 
+          {/* Chart container */}
           <div className="relative z-10 mt-4 h-14 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={stat.data} margin={{ top: 4, right: 4, left: 4, bottom: 2 }}>
+              <AreaChart
+                data={stat.data}
+                margin={{ top: 24, right: 4, left: 4, bottom: 2 }}
+              >
                 <defs>
                   <linearGradient id={`grad-${stat.titleKey}`} x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.4} />
@@ -50,14 +55,31 @@ const HomeStats: FC<HomeStatsProps> = ({ stats }) => {
                     backgroundColor: 'var(--surface)',
                     borderColor: 'var(--color-border)',
                     borderRadius: '8px',
-                    padding: '4px 8px',
-                    fontSize: '11px',
+                    padding: '4px 10px',
+                    fontSize: '10px',
                     fontWeight: '600',
                     color: 'var(--text-primary)',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    maxWidth: '160px',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    lineHeight: '1.4',
+                    pointerEvents: 'none',
                   }}
-                  labelStyle={{ color: 'var(--text-muted)', fontSize: '10px' }}
+                  labelStyle={{
+                    color: 'var(--text-muted)',
+                    fontSize: '9px',
+                    fontWeight: '500',
+                    marginBottom: '2px',
+                  }}
                   formatter={(val: unknown) => [stat.formatVal(Number(val)), t(stat.titleKey)]}
+                  // Allow repositioning to the other side when space is tight
+                  allowEscapeViewBox={{ x: true, y: true }}
+                  wrapperStyle={{
+                    pointerEvents: 'none',
+                    zIndex: 100,
+                  }}
+                  position={{ y: -8 }}
                 />
                 <Area
                   type="monotone"

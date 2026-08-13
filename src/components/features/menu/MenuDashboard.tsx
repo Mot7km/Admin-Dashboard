@@ -15,7 +15,6 @@ import ItemsSection from './sections/ItemsSection';
 import SlidersSection from './sections/SlidersSection';
 import QrSection from './sections/QrSection';
 import ReviewsSection from './sections/ReviewsSection';
-import SimulatorSection from './sections/SimulatorSection';
 
 // Modals
 import AddCategoryModal from './components/AddCategoryModal';
@@ -49,7 +48,6 @@ const MenuDashboard = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [isPeakHourMode, setIsPeakHourMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [simulatorLang, setSimulatorLang] = useState<'ar' | 'en'>('ar');
 
   // Modals Visibility
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
@@ -93,6 +91,16 @@ const MenuDashboard = () => {
       prev.map((p) => (p.id === prodId ? { ...p, status: p.status === 'Active' ? 'Sold Out' : 'Active' } : p))
     );
     showToast(t('common.success'), 'info');
+  };
+
+  const handleEditCategory = (catId: string) => {
+    const category = categories.find((c) => c.id === catId);
+    if (!category) return;
+    showToast(`${t('common.edit')}: ${category.nameKey.includes('.') ? t(category.nameKey) : category.nameKey}`, 'info');
+  };
+
+  const handleEditProduct = (product: MenuProduct) => {
+    showToast(`${t('common.edit')}: ${product.nameKey.includes('.') ? t(product.nameKey) : product.nameKey}`, 'info');
   };
 
   const handleOpenVariantBuilder = (dish: MenuProduct) => {
@@ -209,12 +217,7 @@ const MenuDashboard = () => {
         itemLabel={t('menu.tabs.categoriesAndProducts')}
         slidersLabel={t('menu.tabs.slidersAndBanners')}
         qrLabel={t('menu.tabs.qrControl')}
-        simulatorLabel={t('menu.tabs.simulator')}
         reviewsLabel={t('menu.tabs.reviews')}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-        viewGridLabel={t('menu.viewGrid')}
-        viewTableLabel={t('menu.viewTable')}
       />
 
       {/* Main Tab Sections */}
@@ -223,6 +226,7 @@ const MenuDashboard = () => {
           categories={categories}
           products={filteredProducts}
           viewMode={viewMode}
+          onViewModeChange={setViewMode}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           onOpenAddCategory={() => setShowAddCategoryModal(true)}
@@ -233,6 +237,8 @@ const MenuDashboard = () => {
           onDeleteProduct={(p) =>
             setDeleteItem({ id: p.id, type: 'product', name: p.nameKey.includes('.') ? t(p.nameKey) : p.nameKey })
           }
+          onEditCategory={handleEditCategory}
+          onEditProduct={handleEditProduct}
         />
       )}
 
@@ -254,14 +260,6 @@ const MenuDashboard = () => {
       )}
 
       {activeTab === 'reviews' && <ReviewsSection />}
-
-      {activeTab === 'simulator' && (
-        <SimulatorSection
-          simulatorLang={simulatorLang}
-          onLanguageChange={setSimulatorLang}
-          products={products}
-        />
-      )}
 
       {/* Modals */}
       <AddCategoryModal

@@ -64,54 +64,66 @@ const BranchesDashboard = () => {
 
   return (
     <div className="space-y-6 text-[var(--text-primary)]">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] sm:text-3xl">{t('branches.title')}</h1>
-          <p className="mt-1 text-xs text-[var(--text-muted)] sm:text-sm">{t('branches.subtitle')}</p>
+      {/* ─── Header ────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl font-bold tracking-tight text-[var(--text-primary)] sm:text-2xl lg:text-3xl break-words">
+            {t('branches.title')}
+          </h1>
+          <p className="mt-0.5 text-xs text-[var(--text-muted)] sm:text-sm break-words">
+            {t('branches.subtitle')}
+          </p>
         </div>
 
         <button
           onClick={() => setShowAddBranchModal(true)}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[var(--primary-dark)] transition cursor-pointer"
+          className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-4 py-2.5 text-xs font-bold text-white shadow-md transition hover:bg-[var(--primary-dark)] cursor-pointer"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4 shrink-0" />
           <span>{t('branches.addBtn')}</span>
         </button>
       </div>
 
-      <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-2 overflow-x-auto hide-scrollbar">
-        <button
-          onClick={() => setActiveTab('locations')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
-            activeTab === 'locations'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <Store className="h-4 w-4" /> <span>{t('branches.tabs.locations')}</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('matrix')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
-            activeTab === 'matrix'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <ShieldCheck className="h-4 w-4" /> <span>{t('branches.tabs.availabilityMatrix')}</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('hours')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition cursor-pointer ${
-            activeTab === 'hours'
-              ? 'bg-[var(--primary)] text-white shadow-md'
-              : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
-          }`}
-        >
-          <Clock className="h-4 w-4" /> <span>{t('branches.tabs.workingHours')}</span>
-        </button>
+      {/* ─── Tabs ──────────────────────────────────────────────────── */}
+      <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 pb-1 hide-scrollbar">
+        <div className="flex items-center gap-1.5 sm:gap-2 border-b border-[var(--color-border)] pb-2 min-w-max">
+          <button
+            onClick={() => setActiveTab('locations')}
+            className={`flex items-center gap-1.5 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[10px] sm:text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+              activeTab === 'locations'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <Store className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span>{t('branches.tabs.locations')}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('matrix')}
+            className={`flex items-center gap-1.5 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[10px] sm:text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+              activeTab === 'matrix'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span>{t('branches.tabs.availabilityMatrix')}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('hours')}
+            className={`flex items-center gap-1.5 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-[10px] sm:text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+              activeTab === 'hours'
+                ? 'bg-[var(--primary)] text-white shadow-md'
+                : 'bg-[var(--card)] text-[var(--text-secondary)] hover:bg-[var(--elevated)]'
+            }`}
+          >
+            <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span>{t('branches.tabs.workingHours')}</span>
+          </button>
+        </div>
       </div>
 
+      {/* ─── Tab Content ───────────────────────────────────────────── */}
       {activeTab === 'locations' && (
         <BranchesLocationsTab
           branches={branches}
@@ -122,6 +134,7 @@ const BranchesDashboard = () => {
       {activeTab === 'matrix' && <BranchesMatrixTab matrix={matrix} onToggleMatrix={toggleMatrix} />}
       {activeTab === 'hours' && <BranchesHoursTab />}
 
+      {/* ─── Modals ────────────────────────────────────────────────── */}
       <AddBranchModal
         open={showAddBranchModal}
         branchName={branchName}

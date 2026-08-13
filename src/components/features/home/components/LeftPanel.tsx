@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import { ChevronDown, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../../../../../app/context/LanguageContext';
 import { useToast } from '../../../common/Toast';
+import Select from '../../../ui/Select'; // adjust path
 import type { HomeProduct } from '../home.types';
 
 type LeftPanelProps = {
@@ -27,6 +28,12 @@ const LeftPanel: FC<LeftPanelProps> = ({
     { key: 'catSides', percentage: 12, color: 'bg-sky-500' },
   ];
 
+  // Options for the custom Select
+  const filterOptions = [
+    { value: 'byViews', label: t('dashboard.byViews') },
+    { value: 'byRating', label: t('dashboard.byRating') },
+  ];
+
   return (
     <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-6">
       {/* Top Products */}
@@ -35,17 +42,13 @@ const LeftPanel: FC<LeftPanelProps> = ({
           <h2 className="text-base font-semibold text-[var(--text-primary)]">
             {t('dashboard.topProducts')}
           </h2>
-          <div className="relative">
-            <select
-              value={productFilter}
-              onChange={(e) => onProductFilterChange(e.target.value)}
-              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none cursor-pointer"
-            >
-              <option value="byViews">{t('dashboard.byViews')}</option>
-              <option value="byRating">{t('dashboard.byRating')}</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
-          </div>
+          {/* 🔥 Custom Select instead of native dropdown */}
+          <Select
+            value={productFilter}
+            onChange={onProductFilterChange}
+            options={filterOptions}
+            className="w-auto min-w-[120px]"
+          />
         </div>
 
         <div className="mt-4 flex-1 space-y-4">

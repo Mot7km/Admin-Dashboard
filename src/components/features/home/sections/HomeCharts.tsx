@@ -11,36 +11,53 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { ChevronDown } from 'lucide-react';
 import { useTranslation } from '../../../../../app/context/LanguageContext';
+import Select from '../../../ui/Select'; // adjust path to your Select component
 
 type HomeTrafficProps = {
   trafficOverviewData: Array<{ name: string; views: number }>;
-  branchComparisonData: Array<{ name: string; mainBranchSales: number; mallBranchSales: number; mainBranchViews: number; mallBranchViews: number }>;
+  branchComparisonData: Array<{
+    name: string;
+    mainBranchSales: number;
+    mallBranchSales: number;
+    mainBranchViews: number;
+    mallBranchViews: number;
+  }>;
   timeFilter: string;
   onTimeFilterChange: (value: string) => void;
 };
 
-const HomeTraffic: FC<HomeTrafficProps> = ({ trafficOverviewData, branchComparisonData, timeFilter, onTimeFilterChange }) => {
+const HomeTraffic: FC<HomeTrafficProps> = ({
+  trafficOverviewData,
+  branchComparisonData,
+  timeFilter,
+  onTimeFilterChange,
+}) => {
   const { t } = useTranslation();
+
+  // Options for the custom Select
+  const timeFilterOptions = [
+    { value: 'thisMonth', label: t('dashboard.thisMonth') },
+    { value: 'lastMonth', label: t('dashboard.lastMonth') },
+    { value: 'thisYear', label: t('dashboard.thisYear') },
+  ];
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      {/* Traffic Overview Card */}
       <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-7 xl:col-span-7">
         <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
-          <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.trafficOverview')}</h2>
-          <div className="relative">
-            <select
-              value={timeFilter}
-              onChange={(e) => onTimeFilterChange(e.target.value)}
-              className="appearance-none rounded-lg border border-[var(--color-border)] bg-[var(--surface)] py-1.5 pl-3 pr-8 text-xs font-medium text-[var(--text-secondary)] focus:border-[var(--primary)] focus:outline-none cursor-pointer"
-            >
-              <option value="thisMonth">{t('dashboard.thisMonth')}</option>
-              <option value="lastMonth">{t('dashboard.lastMonth')}</option>
-              <option value="thisYear">{t('dashboard.thisYear')}</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
-          </div>
+          <h2 className="text-base font-semibold text-[var(--text-primary)]">
+            {t('dashboard.trafficOverview')}
+          </h2>
+          {/* 🔥 Custom Select instead of native dropdown */}
+          <Select
+            value={timeFilter}
+            onChange={onTimeFilterChange}
+            options={timeFilterOptions}
+            className="w-auto min-w-[120px]"
+            // Optionally you can remove the rightIcon if you want a simpler look
+          />
         </div>
 
         <div className="mt-4 h-48 sm:h-64 w-full">
@@ -64,7 +81,10 @@ const HomeTraffic: FC<HomeTrafficProps> = ({ trafficOverviewData, branchComparis
                   fontSize: '12px',
                   boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
                 }}
-                formatter={(value: unknown) => [`${Number(value || 0).toLocaleString()} Views`, t('dashboard.trafficOverview')]}
+                formatter={(value: unknown) => [
+                  `${Number(value || 0).toLocaleString()} Views`,
+                  t('dashboard.trafficOverview'),
+                ]}
               />
               <Area
                 type="monotone"
@@ -81,10 +101,13 @@ const HomeTraffic: FC<HomeTrafficProps> = ({ trafficOverviewData, branchComparis
         </div>
       </div>
 
+      {/* Branch Comparison Card */}
       <div className="flex flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--card)] p-5 shadow-lg lg:col-span-5 xl:col-span-5">
         <div className="flex items-center justify-between pb-4 border-b border-[var(--color-border)]">
           <div>
-            <h2 className="text-base font-semibold text-[var(--text-primary)]">{t('dashboard.branchComparison')}</h2>
+            <h2 className="text-base font-semibold text-[var(--text-primary)]">
+              {t('dashboard.branchComparison')}
+            </h2>
             <p className="text-[11px] text-[var(--text-muted)]">{t('dashboard.salesVsViews')}</p>
           </div>
         </div>
@@ -105,8 +128,18 @@ const HomeTraffic: FC<HomeTrafficProps> = ({ trafficOverviewData, branchComparis
                 }}
               />
               <Legend wrapperStyle={{ fontSize: '11px', color: 'var(--text-muted)' }} />
-              <Bar dataKey="mainBranchSales" name={t('dashboard.mainBranchSales')} fill="#1683C7" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="mallBranchSales" name={t('dashboard.mallBranchSales')} fill="#0F766E" radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="mainBranchSales"
+                name={t('dashboard.mainBranchSales')}
+                fill="#1683C7"
+                radius={[4, 4, 0, 0]}
+              />
+              <Bar
+                dataKey="mallBranchSales"
+                name={t('dashboard.mallBranchSales')}
+                fill="#0F766E"
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

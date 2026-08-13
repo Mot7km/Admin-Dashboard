@@ -29,7 +29,7 @@ const HomeDashboard = () => {
   };
 
   return (
-    <div className="space-y-6 text-[var(--text-primary)]">
+    <div className="space-y-6 text-[var(--text-primary)] overflow-x-clip">
       <HomeHeader
         selectedBranch={selectedBranch}
         isChimeMuted={isChimeMuted}
